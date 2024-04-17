@@ -45,3 +45,6 @@ nav:
     - Кодогенераторы/hasql-v1.md
   - Туториалы.md
   - Поддержка.md
+
+not_in_nav: |
+  index.md
