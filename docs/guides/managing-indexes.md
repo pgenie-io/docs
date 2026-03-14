@@ -1,6 +1,6 @@
 # Managing Indexes
 
-pGenie can analyze your queries for sequential scan patterns and suggest PostgreSQL indexes that could improve performance.
+pGenie can analyze your queries and existing database indexes to keep your index set lean and effective. It both suggests new indexes to cover sequential scans and identifies existing indexes that are no longer used by any query and can be safely removed.
 
 ---
 
@@ -16,44 +16,52 @@ pGenie will:
 
 1. Start a temporary PostgreSQL Docker container.
 2. Apply all migrations in `migrations/`.
-3. Run `EXPLAIN` on each query in `queries/`.
-4. Identify queries that produce sequential scans on large tables where an index could help.
-5. Print suggested `CREATE INDEX` statements.
+3. Query the database catalog to read all existing non-primary indexes.
+4. Run `EXPLAIN` on each query in `queries/` to detect sequential scans.
+5. Compare the set of existing indexes against the observed query needs.
+6. Print a ready-to-use SQL migration to stdout that drops redundant or unused indexes and creates missing ones.
 
 ---
 
 ## Interpreting the Output
 
-The command outputs suggested index definitions for any queries where a sequential scan was detected on a predicate column. For example:
+The command outputs a SQL migration combining all recommended changes. For example:
 
+```sql
+-- Auto-generated migration to optimize indexes
+
+-- Drop redundant/excessive indexes
+-- album_recording_idx on (recording) is not used by observed query needs
+DROP INDEX "public"."album_recording_idx";
+
+-- Create missing indexes
+CREATE INDEX ON album (format);
+
+CREATE INDEX ON album (name);
 ```
-Suggested indexes:
 
-  CREATE INDEX ON album (name);
-  CREATE INDEX ON album (format);
-```
+Each section explains what is being done and why:
 
-These are suggestions based on the query patterns in your `queries/` directory. Review them and decide which to add.
+- **Drop redundant/excessive indexes** — indexes that are not used by any observed query on the same table, exact duplicates of another index, or composite indexes whose trailing columns are never needed.
+- **Create missing indexes** — new indexes for columns that appear in `WHERE` clauses but have no covering index, causing sequential scans.
 
 ---
 
-## Adding Suggested Indexes
+## Writing the Migration to a File
 
-To apply a suggestion, add a migration:
+To have pGenie write the migration directly to a numbered file in `migrations/` instead of just printing it, pass `--write-file`:
 
-```sql
--- migrations/5.sql
-
-CREATE INDEX ON album (name);
-CREATE INDEX ON album (format);
+```bash
+pgn manage-indexes --write-file
 ```
 
-After adding the migration, run `pgn generate` (or `pgn manage-indexes` again) to verify the index is recognized.
+pGenie will determine the next available migration number (e.g. `5.sql`) and write the migration there automatically. This requires that all existing migration files follow the `N.sql` naming convention.
 
 ---
 
 ## Notes
 
-- Index suggestions are heuristic. Always review them in the context of your actual data distribution and access patterns.
-- `pgn manage-indexes` does not modify your project files - it only prints suggestions.
+- Index management is heuristic. pGenie reasons from the observed query patterns in your `queries/` directory — it cannot know about queries issued by other clients or future access patterns. Always review the suggested migration before applying it.
+- `pgn manage-indexes` on its own only prints the migration to stdout and does not modify any project files. Use `--write-file` to persist it.
 - The command uses the same ephemeral Docker container approach as `pgn generate`, so Docker must be running.
+- If you want to keep a redundant index for any reason (e.g. it is used by external tools), you can pass `--allow-redundant-indexes` to emit warnings instead of drop statements for those cases.
