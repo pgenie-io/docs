@@ -27,7 +27,7 @@ pGenie is written in Haskell and built with [Cabal](https://www.haskell.org/caba
 
 ### Prerequisites
 
-- **GHC** and **Cabal** — Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
+- **GHC** and **Cabal** - Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
 
     ```bash
     curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
@@ -94,7 +94,7 @@ pGenie is written in Haskell and built with [Cabal](https://www.haskell.org/caba
 
 The very first time you run `pgn generate`, pGenie performs initial setup that can take **2–3 minutes**:
 
-1. **PostgreSQL Docker image download** — pGenie pulls the PostgreSQL image it needs. This is a one-time download.
-2. **Code generator caching** — Dhall generator programs are downloaded from their URLs and their bytecode is cached locally.
+1. **PostgreSQL Docker image download** - pGenie pulls the PostgreSQL image it needs. This is a one-time download.
+2. **Code generator caching** - Dhall generator programs are downloaded from their URLs and their bytecode is cached locally.
 
 You may notice pGenie appears to pause at the "Loading" stage during this first run. This is normal. Subsequent runs complete in a few seconds.

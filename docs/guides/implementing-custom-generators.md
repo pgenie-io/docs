@@ -46,11 +46,11 @@ Where:
 
 The `Sdk.ProjectModel` type contains:
 
-- `space` — the project's namespace
-- `name` — the project's name
-- `version` — the project's version
-- `queries` — a list of query descriptors, each containing the query name, parameters, and result columns with their full type information
-- `schema` — type declarations (enumerations, composite types) from the schema
+- `space` - the project's namespace
+- `name` - the project's name
+- `version` - the project's version
+- `queries` - a list of query descriptors, each containing the query name, parameters, and result columns with their full type information
+- `schema` - type declarations (enumerations, composite types) from the schema
 
 ---
 
@@ -89,4 +89,4 @@ Browse the source at [github.com/pgenie-io/haskell-hasql.gen](https://github.com
 
 - **Use Dhall's type system**: define explicit types for your templates and intermediate data structures. Dhall's type checker will catch mistakes early.
 - **Keep templates small**: break large templates into composable functions. Dhall's import system makes this straightforward.
-- **Test with the demo project**: use the [pgenie-io/demo](https://github.com/pgenie-io/demo) project as a test fixture for your generator—it exercises enumerations, composite types, arrays, and various query patterns.
+- **Test with the demo project**: use the [pgenie-io/demo](https://github.com/pgenie-io/demo) project as a test fixture for your generator - it exercises enumerations, composite types, arrays, and various query patterns.

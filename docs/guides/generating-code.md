@@ -49,7 +49,7 @@ my-project/
 
 ## Validation Only
 
-If you do not configure any `artifacts` in `project1.pgn.yaml`, pGenie will still analyze your schema and queries and report any errors—without generating any code. This is useful as a CI step to catch schema/query mismatches early:
+If you do not configure any `artifacts` in `project1.pgn.yaml`, pGenie will still analyze your schema and queries and report any errors - without generating any code. This is useful as a CI step to catch schema/query mismatches early:
 
 ```yaml
 space: my_space
@@ -81,7 +81,7 @@ Whether to commit the `artifacts/` directory to version control is a matter of p
 - **Commit artifacts** if you want the generated library available without running pGenie (e.g. for consumers who don't have pGenie installed).
 - **Exclude artifacts** (via `.gitignore`) if you prefer to generate them on demand or in CI.
 
-Signature files (`*.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should **always** be committed—they record the type contracts of your queries and ensure reproducible generation.
+Signature files (`*.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should **always** be committed - they record the type contracts of your queries and ensure reproducible generation.
 
 ---
 

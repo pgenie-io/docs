@@ -55,5 +55,5 @@ After adding the migration, run `pgn generate` (or `pgn manage-indexes` again) t
 ## Notes
 
 - Index suggestions are heuristic. Always review them in the context of your actual data distribution and access patterns.
-- `pgn manage-indexes` does not modify your project files—it only prints suggestions.
+- `pgn manage-indexes` does not modify your project files - it only prints suggestions.
 - The command uses the same ephemeral Docker container approach as `pgn generate`, so Docker must be running.

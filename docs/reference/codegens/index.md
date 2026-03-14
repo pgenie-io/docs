@@ -35,4 +35,4 @@ See the per-generator pages in this section for a brief overview of each generat
 
 ## Writing Your Own Generator
 
-Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs—no special permissions or registration required. See [Implementing Custom Generators](../../guides/implementing-custom-generators.md) for a guide.
+Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs - no special permissions or registration required. See [Implementing Custom Generators](../../guides/implementing-custom-generators.md) for a guide.

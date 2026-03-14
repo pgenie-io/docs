@@ -2,7 +2,7 @@
 
 This is a complete walkthrough of pGenie's core features, inspired by the [Learn X in Y minutes](https://learnxinyminutes.com/) series. By the end you'll have set up a project, written migrations and queries, configured a generator, and generated a type-safe client library.
 
-We'll build a simple **music catalogue** project — the same one used in the [pGenie demo](https://github.com/pgenie-io/demo).
+We'll build a simple **music catalogue** project - the same one used in the [pGenie demo](https://github.com/pgenie-io/demo).
 
 ---
 
@@ -13,7 +13,7 @@ We'll build a simple **music catalogue** project — the same one used in the [p
 
 ---
 
-## Step 1 — Create a Project Directory
+## Step 1 - Create a Project Directory
 
 ```bash
 mkdir music-catalogue
@@ -22,7 +22,7 @@ cd music-catalogue
 
 ---
 
-## Step 2 — Write the Project File
+## Step 2 - Write the Project File
 
 Create `project1.pgn.yaml`:
 
@@ -45,7 +45,7 @@ artifacts:
 
 ---
 
-## Step 3 — Write Migrations
+## Step 3 - Write Migrations
 
 Migrations define your PostgreSQL schema. Create the `migrations/` directory and add your first migration:
 
@@ -53,7 +53,7 @@ Migrations define your PostgreSQL schema. Create the `migrations/` directory and
 mkdir migrations
 ```
 
-**`migrations/1.sql`** — Initial schema:
+**`migrations/1.sql`** - Initial schema:
 
 ```sql
 create table "genre" (
@@ -85,7 +85,7 @@ create table "album_artist" (
 );
 ```
 
-**`migrations/2.sql`** — Evolve the schema: change album `id` to `int8`:
+**`migrations/2.sql`** - Evolve the schema: change album `id` to `int8`:
 
 ```sql
 alter table album alter column id type int8;
@@ -93,7 +93,7 @@ alter table album_genre alter column album type int8;
 alter table album_artist alter column album type int8;
 ```
 
-**`migrations/3.sql`** — Add custom types and columns:
+**`migrations/3.sql`** - Add custom types and columns:
 
 ```sql
 -- Custom enum type
@@ -122,7 +122,7 @@ Key points:
 
 ---
 
-## Step 4 — Write Queries
+## Step 4 - Write Queries
 
 Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) becomes the function name in generated code.
 
@@ -130,7 +130,7 @@ Queries are parameterized SQL statements. Each query lives in its own file insid
 mkdir queries
 ```
 
-**`queries/insert_album.sql`** — Insert a new album and return its generated ID:
+**`queries/insert_album.sql`** - Insert a new album and return its generated ID:
 
 ```sql
 insert into album (name, released, format, recording)
@@ -138,7 +138,7 @@ values ($name, $released, $format, $recording)
 returning id
 ```
 
-**`queries/select_album_by_name.sql`** — Find albums by name (nullable parameter):
+**`queries/select_album_by_name.sql`** - Find albums by name (nullable parameter):
 
 ```sql
 select id, name, released, format, recording
@@ -146,7 +146,7 @@ from album
 where name = $name
 ```
 
-**`queries/select_album_by_format.sql`** — Filter by enum column:
+**`queries/select_album_by_format.sql`** - Filter by enum column:
 
 ```sql
 select id, name, released, format, recording
@@ -154,7 +154,7 @@ from album
 where format = $format
 ```
 
-**`queries/update_album_released.sql`** — Update a column, no result:
+**`queries/update_album_released.sql`** - Update a column, no result:
 
 ```sql
 update album
@@ -164,13 +164,13 @@ where id = $id
 
 Key points:
 
-- **Parameters** use `$snake_case` syntax — types are inferred from the schema.
-- **Filenames** use `snake_case` — these become function/method names in generated code.
+- **Parameters** use `$snake_case` syntax - types are inferred from the schema.
+- **Filenames** use `snake_case` - these become function/method names in generated code.
 - Any query type is supported: `SELECT`, `INSERT … RETURNING`, `UPDATE`, `DELETE`, etc.
 
 ---
 
-## Step 5 — Generate Code
+## Step 5 - Generate Code
 
 ```bash
 pgn generate
@@ -190,7 +190,7 @@ What happened:
 
 ---
 
-## Step 6 — Inspect the Results
+## Step 6 - Inspect the Results
 
 Your project directory now looks like:
 
@@ -246,10 +246,10 @@ result:
 
 This is the resolved type contract for the query. Notice:
 
-- `$name` is nullable (`not_null: false`) because pGenie cannot statically prove the parameter is non-null from the query context alone—there is no `NOT NULL` constraint explicitly applied to the parameter in the SQL.
+- `$name` is nullable (`not_null: false`) because pGenie cannot statically prove the parameter is non-null from the query context alone - there is no `NOT NULL` constraint explicitly applied to the parameter in the SQL.
 - `id` and `name` columns are `not_null: true` because they are defined with `NOT NULL` in the schema.
 - `released`, `format`, and `recording` are nullable because they were defined as `null` columns.
-- `format` has type `album_format` and `recording` has type `recording_info` — the custom types you defined.
+- `format` has type `album_format` and `recording` has type `recording_info` - the custom types you defined.
 
 Commit signature files to version control. They make type changes visible in pull request reviews.
 
@@ -261,11 +261,11 @@ Open `freeze1.pgn.yaml`:
 https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
 ```
 
-This pins the generator to a specific content hash. Commit this file too — it ensures anyone running `pgn generate` on this project will get identical output.
+This pins the generator to a specific content hash. Commit this file too - it ensures anyone running `pgn generate` on this project will get identical output.
 
 ---
 
-## Step 7 — Add a Migration
+## Step 7 - Add a Migration
 
 Suppose you want to track individual album tracks:
 
@@ -291,7 +291,7 @@ Run `pgn generate` again. pGenie will:
 
 ---
 
-## Step 8 — Validate Only (no generators)
+## Step 8 - Validate Only (no generators)
 
 To check your schema and queries without running any generators, set `artifacts` to an empty map:
 
@@ -303,7 +303,7 @@ Then run `pgn generate`. This is useful as a lightweight CI check.
 
 ---
 
-## Step 9 — Manage Indexes
+## Step 9 - Manage Indexes
 
 Run the index manager to detect sequential scans:
 
