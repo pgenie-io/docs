@@ -128,7 +128,7 @@ Key points:
 
 ## Step 4 - Write Queries
 
-Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) becomes the function name in generated code.
+Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) determines the name in generated code.
 
 ```bash
 mkdir queries
@@ -169,7 +169,7 @@ where id = $id
 Key points:
 
 - **Parameters** use `$snake_case` syntax - types are inferred from the schema.
-- **Filenames** use `snake_case` - these become function/method names in generated code.
+- **Filenames** use `snake_case` - these become function/method/class/data-type names in the generated code.
 - Any query type is supported: `SELECT`, `INSERT … RETURNING`, `UPDATE`, `DELETE`, etc.
 
 ---
@@ -181,7 +181,7 @@ pgn generate
 ```
 
 !!! note "First run"
-    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes **2–3 minutes**. Subsequent runs complete in a few seconds.
+    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes upto **3 minutes**. Subsequent runs complete in a few seconds.
 
 What happened:
 

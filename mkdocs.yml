@@ -32,7 +32,7 @@ theme:
     - navigation.expand
     - navigation.path
     - navigation.indexes
-    - navigation.tabs
+    - navigation.tabs.sticky
     - toc.follow
     - content.footnote.tooltips
 
