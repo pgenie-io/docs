@@ -1,27 +1,45 @@
-site_name: Документация dbFirst
+site_name: pGenie Docs
 
-site_url: https://dbfirst.ru
+site_url: https://pgenie.io/docs/
+
+repo_url: https://github.com/pgenie-io/pgenie
+repo_name: pgenie-io/pgenie
 
 copyright: |
-  &copy; 2023-2024 dbFirst.ru
+  &copy; 2025 pGenie
 
 theme:
   name: material
   palette:
-    primary: black
-  
+    - scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
   features:
+    - content.code.copy
     - content.code.select
     - navigation.footer
     - navigation.tracking
     - navigation.expand
     - navigation.path
     - navigation.indexes
+    - navigation.tabs
     - toc.follow
     - content.footnote.tooltips
 
 markdown_extensions:
   - footnotes
+  - admonition
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -35,16 +53,25 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
       permalink: true
+  - tables
 
 nav:
-  - Установка.md
-  - Структура проекта.md
-  - Кодогенераторы:
-    - Кодогенераторы/index.md
-    - Кодогенераторы/jdbc-v1.md
-    - Кодогенераторы/hasql-v1.md
-  - Туториалы.md
-  - Поддержка.md
-
-not_in_nav: |
-  index.md
+  - Home: index.md
+  - How It Works: how-it-works.md
+  - Guides:
+    - Installation: guides/installation.md
+    - Writing Migrations: guides/writing-migrations.md
+    - Writing Queries: guides/writing-queries.md
+    - Configuring Generators: guides/configuring-generators.md
+    - Generating Code: guides/generating-code.md
+    - Managing Indexes: guides/managing-indexes.md
+    - Implementing Custom Generators: guides/implementing-custom-generators.md
+  - Reference:
+    - Project Structure: reference/project-structure.md
+    - Project File: reference/project-file.md
+    - Query Signature File: reference/query-signature-file.md
+    - Codegens:
+      - reference/codegens/index.md
+      - hasql: reference/codegens/hasql.md
+  - Tutorials:
+    - Learn pGenie in Y Minutes: tutorials/learn-pgenie-in-y-minutes.md
