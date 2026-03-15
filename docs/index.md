@@ -29,19 +29,10 @@ pGenie takes a different path: **write plain SQL, get type-safe code**. There is
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
 | Write plain SQL | ✅ | ❌ | Partial | ✅ |
-| Compile-time type safety | ✅ | Partial | Partial | ❌ |
-| No runtime abstraction layer | ✅ | ❌ | ❌ | ✅ |
-| Detects errors at generation time | ✅ | ❌ | ❌ | ❌ |
-| Works with arbitrary SQL | ✅ | ❌ | ❌ | ✅ |
-| Extensible code generation | ✅ | ❌ | ❌ | N/A |
-
-### vs. sqlc
-
-[sqlc](https://sqlc.dev/) is the closest conceptual peer to pGenie. Both parse SQL and generate typed client code. The key differences are:
-
-- pGenie uses a **real PostgreSQL instance** (via Docker) to analyze queries, which means it supports the full PostgreSQL type system - including composite types, custom enumerations, and complex expressions - without maintaining a bespoke SQL parser.
-- pGenie's code generators are **user-extensible Dhall programs** distributed as URLs, not compiled plugins.
-- pGenie currently targets Haskell; sqlc targets Go, Kotlin, and Python.
+| Compile-time error detection | ✅ | Partial | Partial | ❌ |
+| Multi-language integration | ✅ | ❌ | ❌ | ❌ |
+| Schema compatibility checks | ✅ | Partial | Partial | ❌ |
+| Automatic index management | ✅ | Partial | Partial | ❌ |
 
 ---
 

@@ -49,10 +49,10 @@ Each section explains what is being done and why:
 
 ## Writing the Migration to a File
 
-To have pGenie write the migration directly to a numbered file in `migrations/` instead of just printing it, pass `--write-file`:
+To have pGenie write the migration directly to a numbered file in `migrations/` instead of just printing it, pass `--add-migration`:
 
 ```bash
-pgn manage-indexes --write-file
+pgn manage-indexes --add-migration
 ```
 
 pGenie will determine the next available migration number (e.g. `5.sql`) and write the migration there automatically. This requires that all existing migration files follow the `N.sql` naming convention.
@@ -62,6 +62,6 @@ pGenie will determine the next available migration number (e.g. `5.sql`) and wri
 ## Notes
 
 - Index management is heuristic. pGenie reasons from the observed query patterns in your `queries/` directory — it cannot know about queries issued by other clients or future access patterns. Always review the suggested migration before applying it.
-- `pgn manage-indexes` on its own only prints the migration to stdout and does not modify any project files. Use `--write-file` to persist it.
+- `pgn manage-indexes` on its own only prints the migration to stdout and does not modify any project files. Use `--add-migration` to persist it.
 - The command uses the same ephemeral Docker container approach as `pgn generate`, so Docker must be running.
 - If you want to keep a redundant index for any reason (e.g. it is used by external tools), you can pass `--allow-redundant-indexes` to emit warnings instead of drop statements for those cases.

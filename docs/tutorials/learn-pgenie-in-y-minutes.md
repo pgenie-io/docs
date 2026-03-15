@@ -400,7 +400,7 @@ This is the two-sided nature of `pgn manage-indexes`: as the application evolves
 To write this migration directly to `migrations/5.sql`, run:
 
 ```bash
-pgn manage-indexes --write-file
+pgn manage-indexes --add-migration
 ```
 
 pGenie determines the next available migration number automatically and writes the file. You can then commit it as part of your normal workflow.

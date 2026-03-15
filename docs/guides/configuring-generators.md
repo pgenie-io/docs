@@ -50,18 +50,14 @@ Commit `freeze1.pgn.yaml` to version control. On subsequent runs, pGenie verifie
 To upgrade to a new version:
 
 1. Update the URL in `project1.pgn.yaml` to point to the new version tag.
-2. Delete the corresponding line from `freeze1.pgn.yaml` (or delete the whole freeze file).
+2. (Optional) Delete the corresponding line from `freeze1.pgn.yaml` (or delete the whole freeze file).
 3. Run `pgn generate`. The new generator will be fetched and a new hash recorded in `freeze1.pgn.yaml`.
 
 ---
 
 ## Available Generators
 
-| Generator | Language / Library | Repository |
-|---|---|---|
-| `haskell-hasql.gen` | Haskell (hasql) | [pgenie-io/haskell-hasql.gen](https://github.com/pgenie-io/haskell-hasql.gen) |
-
-See the [Codegens reference](../reference/codegens/index.md) for details on each generator.
+See the [Codegens reference](../reference/codegens/index.md) for the list and details on each generator.
 
 ---
 

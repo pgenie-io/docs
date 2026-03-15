@@ -47,33 +47,6 @@ my-project/
 
 ---
 
-## Validation Only
-
-If you do not configure any `artifacts` in `project1.pgn.yaml`, pGenie will still analyze your schema and queries and report any errors - without generating any code. This is useful as a CI step to catch schema/query mismatches early:
-
-```yaml
-space: my_space
-name: my_project
-version: 1.0.0
-
-artifacts: {}
-```
-
----
-
-## Continuous Integration
-
-Add pGenie as a CI check to catch schema drift and query errors before they reach production. A minimal GitHub Actions step:
-
-```yaml
-- name: Validate schema and queries
-  run: pgn generate
-```
-
-Make sure Docker is available in your CI runner (most hosted runners include Docker by default).
-
----
-
 ## Committing Generated Artifacts
 
 Whether to commit the `artifacts/` directory to version control is a matter of preference:

@@ -28,7 +28,7 @@ Each query file contains a single SQL statement. The filename (without extension
 
 - Use **snake_case** (e.g. `select_album_by_name.sql`).
 - Filenames must end in `.sql` or `.psql`.
-- pGenie translates the name to the convention of each target language. For example, `select_album_by_name` becomes `selectAlbumByName` in Haskell (camelCase).
+- pGenie translates the name to the convention of each target language. For example, `select_album_by_name` becomes `SelectAlbumByName` in Haskell (PascalCase).
 
 ---
 
@@ -53,7 +53,7 @@ returning id
 ```
 
 - A parameter may be used more than once in the same query.
-- Types and nullability are inferred automatically by pGenie from the database schema and query context.
+- Types and nullability are inferred automatically by pGenie from the database schema, query context and [signature files](../reference/query-signature-file.md).
 - Parameter names are mapped to appropriate types in each generated language.
 
 ---
@@ -74,17 +74,7 @@ where id = $id
 
 ## Supported Query Types
 
-pGenie supports the full range of PostgreSQL query types:
-
-| Query type | Supported |
-|---|---|
-| `SELECT` | ✅ |
-| `INSERT … RETURNING` | ✅ |
-| `UPDATE … RETURNING` | ✅ |
-| `DELETE … RETURNING` | ✅ |
-| `INSERT` (no returning) | ✅ |
-| `UPDATE` (no returning) | ✅ |
-| `DELETE` (no returning) | ✅ |
+Since pGenie uses Postgres itself for analysis, it supports the full range of PostgreSQL query types including CTEs, window functions and subqueries. No exceptions or limitations. If it runs in Postgres, pGenie can analyze it.
 
 ---
 
