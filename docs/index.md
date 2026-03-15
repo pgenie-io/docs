@@ -26,16 +26,30 @@ pGenie takes a different path: **write plain SQL, get type-safe code**. There is
 
 ## How pGenie Compares
 
+The table below highlights the most important differentiators. "Partial" means the feature exists but comes with significant caveats (e.g. limited type coverage, annotation-heavy setup, or no enforcement at build time).
+
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
-| Write plain SQL | ✅ | ❌ | Partial | ✅ |
-| Compile-time error detection | ✅ | Partial | Partial | ❌ |
-| Multi-language integration | ✅ | ❌ | ❌ | ❌ |
-| Schema compatibility checks | ✅ | Partial | Partial | ❌ |
-| Automatic index management | ✅ | Partial | Partial | ❌ |
+| SQL is the source of truth | ✅ | ❌ | ❌ | ✅ |
+| Static type safety — no annotations | ✅ | ❌ | ❌ | ❌ |
+| Verified against real PostgreSQL | ✅ | ❌ | ❌ | ❌ |
+| Build fails on schema/query mismatch | ✅ | ❌ | ❌ | ❌ |
+| Multi-language output from one project | ✅ | ❌ | ❌ | ❌ |
+| Zero runtime abstraction overhead | ✅ | ❌ | Partial | ✅ |
+| Automatic index management | ✅ | Partial | ❌ | ❌ |
+
+### Key differentiators
+
+**SQL is the source of truth.** You write standard PostgreSQL SQL — no ORM model classes, no DSL. The generated code follows exactly what the database schema and your SQL say.
+
+**Type safety without annotations.** Parameter types and result-column types are inferred by preparing each statement against a real PostgreSQL instance. There is nothing to annotate and nothing to keep in sync manually.
+
+**Build-time schema drift protection.** Every query is validated against the current schema at generation time. If a migration changes a column type that a query uses, pGenie fails the build and tells you exactly what changed — before the mismatch can reach production.
+
+**Multi-language from one project.** A single `pgn generate` run can produce typed client libraries for multiple languages simultaneously. Each target language gets idiomatic code from its own [Dhall](https://dhall-lang.org/) generator, and anyone can write a new generator without touching pGenie itself.
 
 ---
 
 ## Getting Started
 
-Install pGenie by following the [Installation guide](guides/installation.md), then work through the [Tutorials](tutorials/learn-pgenie-in-y-minutes.md) for a hands-on introduction.
+Install pGenie by following the [Installation guide](guides/installation/index.md), then work through the [Tutorials](tutorials/learn-pgenie-in-y-minutes.md) for a hands-on introduction.

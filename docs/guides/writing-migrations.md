@@ -45,7 +45,7 @@ Accepted file extensions are `.sql` and `.psql`. Files with any other extension 
 
 ## Execution Order
 
-Migration files are applied to the database in **lexicographic (alphabetical) sort order** of their filenames. It is your responsibility to name files so that this order matches the intended execution sequence.
+Migration files are applied to the database in **natural sort order** of their filenames. Natural sorting handles embedded numbers intuitively: `migration-10.sql` is applied *after* `migration-9.sql`, not before it. It is your responsibility to name files so that this order matches the intended execution sequence.
 
 Common naming strategies:
 
@@ -55,8 +55,8 @@ Common naming strategies:
 | Zero-padded integers | `001.sql`, `002.sql`, `010.sql` |
 | Timestamps | `20240101_initial.sql`, `20240215_add_format.sql` |
 
-!!! warning
-    Simple integers without zero-padding sort lexicographically, so `10.sql` comes *before* `2.sql`. Use zero-padded numbers if you expect more than 9 migrations.
+!!! note
+    Because pGenie uses natural sorting, `10.sql` is correctly applied *after* `9.sql`. Zero-padding is still a good practice for readability and compatibility with tools that do not implement natural sorting.
 
 ---
 

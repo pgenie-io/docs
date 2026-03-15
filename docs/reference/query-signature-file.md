@@ -10,9 +10,12 @@ Signature files serve several purposes:
 
 1. **Reproducible generation**: pGenie can re-run code generators using cached signatures without re-connecting to PostgreSQL, as long as the query SQL and schema have not changed.
 2. **Type contract visibility**: Signatures are human-readable YAML and appear in pull request diffs, making schema-driven type changes visible to reviewers.
-3. **Schema drift detection**: If a migration changes a column type used by a query, the signature file will be updated when pGenie is next run, and the diff will highlight the change.
+3. **Schema drift detection**: If a migration changes a column type used by a query, pGenie will compare the freshly-resolved signature against the committed sig file and fail the build if they differ, forcing an explicit acknowledgement of the breaking change.
 
 Signature files should be **committed to version control**.
+
+!!! note "Signature files are not automatically updated"
+    pGenie writes a signature file the **first time** a query is analysed. On subsequent runs it **reads** the existing file and validates the current schema against it. It never silently overwrites your signature files. To regenerate a signature file from scratch, delete it and re-run `pgn generate`.
 
 ---
 

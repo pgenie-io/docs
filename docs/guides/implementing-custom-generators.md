@@ -75,7 +75,7 @@ Browse the source at [github.com/pgenie-io/haskell-hasql.gen](https://github.com
 ## Distributing Your Generator
 
 1. Host your generator files at a stable URL (e.g. a GitHub repository with tagged releases).
-2. Tag each release (e.g. `v1.0.0`) so users can pin the URL.
+2. Tag each release (e.g. `v1.0.0`) so users can pin the URL. You can also reference a specific commit hash instead of a tag — both are equally reproducible, but a named tag is usually more convenient for users.
 3. Users reference your generator in their `project1.pgn.yaml`:
 
     ```yaml
@@ -89,4 +89,4 @@ Browse the source at [github.com/pgenie-io/haskell-hasql.gen](https://github.com
 
 - **Use Dhall's type system**: define explicit types for your templates and intermediate data structures. Dhall's type checker will catch mistakes early.
 - **Keep templates small**: break large templates into composable functions. Dhall's import system makes this straightforward.
-- **Test with the demo project**: use the [pgenie-io/demo](https://github.com/pgenie-io/demo) project as a test fixture for your generator - it exercises enumerations, composite types, arrays, and various query patterns.
+- **Test with ready-made fixtures**: the [pgenie/gen-sdk](https://github.com/pgenie/gen-sdk) repository contains ready-made Dhall test fixtures that exercise enumerations, composite types, arrays, and various query patterns. Reuse these fixtures to test your generator without needing to set up your own project from scratch.

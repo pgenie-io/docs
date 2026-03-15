@@ -23,13 +23,13 @@ my-project/
 
 ## `migrations/`
 
-Contains SQL migration files that define your database schema. Files are applied to a temporary PostgreSQL instance in **lexicographic sort order** by filename. See [Writing Migrations](../guides/writing-migrations.md) for details.
+Contains SQL migration files that define your database schema. Files are applied to a temporary PostgreSQL instance in **natural sort order** by filename (so `10.sql` correctly follows `9.sql`). See [Writing Migrations](../guides/writing-migrations.md) for details.
 
 ---
 
 ## `queries/`
 
-Contains parameterized SQL query files (one query per file). After analysis, pGenie writes a `.sig1.pgn.yaml` signature file alongside each `.sql` file. See [Writing Queries](../guides/writing-queries.md) and the [Query Signature File](query-signature-file.md) reference for details.
+Contains parameterized SQL query files (one query per file). After the first analysis, pGenie writes a `.sig1.pgn.yaml` signature file alongside each `.sql` file. On subsequent runs pGenie validates the existing signature against the live schema rather than overwriting it. See [Writing Queries](../guides/writing-queries.md) and the [Query Signature File](query-signature-file.md) reference for details.
 
 ---
 

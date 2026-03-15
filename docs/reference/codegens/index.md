@@ -14,22 +14,23 @@ Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducibl
 
 ## Available Generators
 
-| Generator | Language | Library | Repository |
-|---|---|---|---|
-| `haskell-hasql.gen` | Haskell | [hasql](https://hackage.haskell.org/package/hasql) | [pgenie-io/haskell-hasql.gen](https://github.com/pgenie-io/haskell-hasql.gen) |
+### `haskell-hasql.gen`
 
----
+| | |
+|---|---|
+| **Language** | Haskell |
+| **Library** | [hasql](https://hackage.haskell.org/package/hasql) |
+| **Repository** | [pgenie-io/haskell-hasql.gen](https://github.com/pgenie-io/haskell-hasql.gen) |
 
-## Generator Documentation
+Generates a Haskell library that exposes each SQL query as a typed [`Statement`](https://hackage.haskell.org/package/hasql/docs/Hasql-Statement.html) value. Output includes a ready-to-use Cabal package, one module per query, and data types for your custom PostgreSQL enumerations and composite types. Nullability is faithfully represented using `Maybe`.
 
-Each generator is distributed independently and carries its own documentation. Visit the generator's repository for:
+For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [haskell-hasql.gen repository](https://github.com/pgenie-io/haskell-hasql.gen).
 
-- Full usage instructions
-- Supported PostgreSQL types and their language-specific mappings
-- Configuration options
-- Generated output examples
-
-See the per-generator pages in this section for a brief overview of each generator available in the pGenie ecosystem.
+```yaml
+# project1.pgn.yaml
+artifacts:
+  hasql: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+```
 
 ---
 

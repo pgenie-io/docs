@@ -59,19 +59,23 @@ nav:
   - Home: index.md
   - How It Works: how-it-works.md
   - Guides:
-    - Installation: guides/installation.md
+    - Installation:
+      - guides/installation/index.md
+      - macOS: guides/installation/macos.md
+      - Linux: guides/installation/linux.md
+      - Windows: guides/installation/windows.md
+      - From Source: guides/installation/from-source.md
     - Writing Migrations: guides/writing-migrations.md
     - Writing Queries: guides/writing-queries.md
     - Configuring Generators: guides/configuring-generators.md
     - Generating Code: guides/generating-code.md
     - Managing Indexes: guides/managing-indexes.md
+    - Using pGenie in CI/CD: guides/cicd.md
     - Implementing Custom Generators: guides/implementing-custom-generators.md
   - Reference:
     - Project Structure: reference/project-structure.md
     - Project File: reference/project-file.md
     - Query Signature File: reference/query-signature-file.md
-    - Codegens:
-      - reference/codegens/index.md
-      - hasql: reference/codegens/hasql.md
+    - Codegens: reference/codegens/index.md
   - Tutorials:
     - Learn pGenie in Y Minutes: tutorials/learn-pgenie-in-y-minutes.md
