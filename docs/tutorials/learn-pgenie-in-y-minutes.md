@@ -112,6 +112,10 @@ create type recording_info as (
 alter table album
   add column format    album_format   null,
   add column recording recording_info null;
+
+-- Index added in anticipation of filtering by recording studio;
+-- we will revisit this later.
+create index album_recording_idx on album (recording);
 ```
 
 Key points:
@@ -124,7 +128,7 @@ Key points:
 
 ## Step 4 - Write Queries
 
-Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) becomes the function name in generated code.
+Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) determines the name in generated code.
 
 ```bash
 mkdir queries
@@ -165,7 +169,7 @@ where id = $id
 Key points:
 
 - **Parameters** use `$snake_case` syntax - types are inferred from the schema.
-- **Filenames** use `snake_case` - these become function/method names in generated code.
+- **Filenames** use `snake_case` - these become function/method/class/data-type names in the generated code.
 - Any query type is supported: `SELECT`, `INSERT … RETURNING`, `UPDATE`, `DELETE`, etc.
 
 ---
@@ -177,7 +181,7 @@ pgn generate
 ```
 
 !!! note "First run"
-    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes **2–3 minutes**. Subsequent runs complete in a few seconds.
+    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes upto **3 minutes**. Subsequent runs complete in a few seconds.
 
 What happened:
 
@@ -265,7 +269,47 @@ This pins the generator to a specific content hash. Commit this file too - it en
 
 ---
 
-## Step 7 - Add a Migration
+## Step 7 - Refine a Query Signature
+
+Open `queries/update_album_released.sig1.pgn.yaml`. It will look something like:
+
+```yaml
+parameters:
+  id:
+    type: int8
+    not_null: false
+  released:
+    type: date
+    not_null: false
+result:
+  cardinality: zero_or_one
+  columns: {}
+```
+
+Notice that `$id` is inferred as nullable (`not_null: false`). pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `id`, so it defaults to nullable. However, we know that an `UPDATE … WHERE id = $id` with a `NULL` id is meaningless - we always intend to pass a concrete album ID.
+
+Edit the file and change `id.not_null` to `true`:
+
+```yaml
+parameters:
+  id:
+    type: int8
+    not_null: true   # ← changed
+  released:
+    type: date
+    not_null: false
+result:
+  cardinality: zero_or_one
+  columns: {}
+```
+
+Run `pgn generate` again. The generator will now produce a **non-nullable** parameter type for `$id` in the generated code.
+
+**Why this matters:** The signature file is the source of truth for the query's type contract - not the SQL alone, and not the database schema alone. By committing this change, you are documenting an explicit contract that callers must supply a non-null `id`. Code generators, reviewers, and future maintainers all see this intent clearly.
+
+---
+
+## Step 8 - Add a Migration
 
 Suppose you want to track individual album tracks:
 
@@ -285,33 +329,84 @@ alter table album
 Run `pgn generate` again. pGenie will:
 
 - Re-apply all migrations (including the new one) to a fresh container.
-- Re-analyze all queries.
-- Update signature files where the schema change affects a query's result.
+- Re-analyze all queries against the updated schema.
+- **Check that each query's actual signature still matches its signature file.** If a migration changes the type of a column referenced by a query, pGenie will detect that the existing signature file no longer matches and will **fail the build**, forcing you to either update the signature file to reflect the new reality or fix the migration.
 - Re-run the generator with the updated schema.
 
+**Why the build fails instead of silently updating:** Signature files are the declared source of truth for each query's type contract. An automatic silent update would mean a schema change could alter the generated API without any explicit acknowledgment. By requiring you to update the signature file manually, pGenie makes every type-level change visible and intentional in your version history. This design makes schema drift impossible — any database change that affects a query's parameter or result types will cause a build failure until the signature file is updated to reflect the new reality.
+
+!!! note
+    In this particular example, adding the `tracks` column does not affect the result of `select_album_by_name` unless that query's SQL selects `tracks` explicitly. If you add a `SELECT *` style query, its signature will need updating whenever the schema changes.
+
 ---
 
-## Step 8 - Validate Only (no generators)
+## Step 9 - Validate Only (CI Check)
 
-To check your schema and queries without running any generators, set `artifacts` to an empty map:
+To check your schema and queries without running any generators and without producing any generated code, use the `analyse` command:
 
-```yaml
-artifacts: {}
+```bash
+pgn analyse
 ```
 
-Then run `pgn generate`. This is useful as a lightweight CI check.
+`pgn analyse` is a lightweight CI check. It spins up the same ephemeral PostgreSQL container, applies all migrations, and validates every query against the live schema - but it stops there and produces no artifacts. This makes it ideal for pull request CI pipelines where you only need to confirm that the schema and queries are consistent.
+
+!!! tip
+    If `pgn analyse` passes, your schema and queries are self-consistent. If it fails, you have a mismatch between a migration, a query, and/or a signature file that must be resolved before the build can proceed.
 
 ---
 
-## Step 9 - Manage Indexes
+## Step 10 - Manage Indexes
 
-Run the index manager to detect sequential scans:
+You may have noticed that both `pgn analyse` and `pgn generate` print warning messages like the following:
+
+```
+Warning: Sequential scan detected in query 'update_album_released': table 'album' scanned without index on (id)
+Suggestion: Run 'manage-indexes' to generate index migration
+Details:
+  query: update_album_released
+  table: album
+```
+
+These warnings tell you that one or more queries are performing full-table sequential scans because the relevant columns have no index. pGenie is suggesting you run `manage-indexes` to address this.
+
+Run the index manager now:
 
 ```bash
 pgn manage-indexes
 ```
 
-If any queries produce sequential scans, pGenie will suggest index definitions you can add as a new migration.
+You will see output like:
+
+```sql
+-- Auto-generated migration to optimize indexes
+
+-- Drop redundant/excessive indexes
+-- album_recording_idx on (recording) is not used by observed query needs
+DROP INDEX "public"."album_recording_idx";
+
+-- Create missing indexes
+CREATE INDEX ON album (format);
+
+CREATE INDEX ON album (name);
+```
+
+There are two types of changes here:
+
+- **Drop `album_recording_idx`** — This index was created in migration 3 with the idea that queries might filter by recording studio. In practice, none of the queries in `queries/` filter on the `recording` column, so the index is unused overhead. pGenie proposes removing it to keep the schema clean and avoid unnecessary write overhead.
+- **Create indexes on `format` and `name`** — The queries `select_album_by_format` and `select_album_by_name` filter by these columns respectively, triggering the sequential-scan warnings. Adding these indexes will eliminate the sequential scans.
+
+This is the two-sided nature of `pgn manage-indexes`: as the application evolves and query patterns change, it not only suggests new indexes to cover new access patterns but also identifies indexes that have become redundant or unused, helping you keep the database schema clean and performant over time.
+
+To write this migration directly to `migrations/5.sql`, run:
+
+```bash
+pgn manage-indexes --write-file
+```
+
+pGenie determines the next available migration number automatically and writes the file. You can then commit it as part of your normal workflow.
+
+!!! warning "Review before committing"
+    Index management is a complex topic and pGenie's suggestions are heuristic — they are based solely on the query patterns in your `queries/` directory. Always review the generated migration before applying it. You may need to manually adjust or omit suggestions depending on your actual data distribution, write throughput, and access patterns that pGenie cannot observe (for example, queries issued by external tools or administrative scripts).
 
 ---
 
@@ -321,9 +416,11 @@ If any queries produce sequential scans, pGenie will suggest index definitions y
 - Migrations are plain SQL applied in sort order.
 - Queries use `$snake_case` parameter syntax; types are inferred from the schema.
 - `pgn generate` analyzes queries against a real PostgreSQL instance and generates typed client code.
-- Signature files (`.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should be committed.
-- Adding a migration and re-running `pgn generate` updates all signatures and artifacts automatically.
-- `pgn manage-indexes` suggests indexes based on query patterns.
+- Signature files (`.sig1.pgn.yaml`) are the source of truth for each query's type contract. You can edit them by hand (e.g. to tighten nullability) and pGenie will use your edits in subsequent code generation runs.
+- If a migration changes a column type that a query references, pGenie will fail the build until the signature file is updated, making schema drift impossible.
+- The freeze file (`freeze1.pgn.yaml`) pins generator hashes for reproducible builds. Both should be committed to version control.
+- `pgn analyse` validates schema and queries without running generators — useful as a lightweight CI check.
+- `pgn manage-indexes` suggests both new indexes for sequential scans and DROP statements for indexes that are no longer used by any query, keeping the database schema clean as the application evolves.
 
 ---
 

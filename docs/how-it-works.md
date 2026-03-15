@@ -69,7 +69,12 @@ Signature files (`.sig1.pgn.yaml`) are an important part of pGenie's design:
 
 ## Index Analysis
 
-The `pgn manage-indexes` command analyzes your queries for sequential scan patterns and suggests PostgreSQL indexes that could improve performance. It connects to the same ephemeral container used during generation and uses `EXPLAIN` output to detect full-table scans on large predicates.
+The `pgn manage-indexes` command keeps your index set lean and correct as the application evolves. It connects to the same ephemeral container used during generation, inspects all existing non-primary indexes from the catalog, and runs `EXPLAIN` on every query to detect sequential scans. It then produces a SQL migration that:
+
+- **Drops** indexes that are no longer used by any observed query (unused), are exact duplicates of another index (redundant), or have composite trailing columns that no query needs (excessive).
+- **Creates** new indexes for columns that appear in `WHERE` clauses but have no covering index.
+
+This two-sided analysis means you never accumulate stale indexes that slow down writes without benefiting any read query.
 
 ---
 
