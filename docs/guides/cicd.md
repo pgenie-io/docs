@@ -35,10 +35,10 @@ jobs:
 
       - name: Install pGenie
         run: |
-          # Replace with the actual download URL for the latest Linux binary
-          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64 -o pgn
-          chmod +x pgn
-          sudo mv pgn /usr/local/bin/pgn
+          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64.tar.gz \
+            -o pgn-linux-x86_64.tar.gz
+          tar -xzf pgn-linux-x86_64.tar.gz
+          sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
 
       - name: Analyse schema and queries
         run: pgn analyse
@@ -91,9 +91,10 @@ jobs:
 
       - name: Install pGenie
         run: |
-          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64 -o pgn
-          chmod +x pgn
-          sudo mv pgn /usr/local/bin/pgn
+          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64.tar.gz \
+            -o pgn-linux-x86_64.tar.gz
+          tar -xzf pgn-linux-x86_64.tar.gz
+          sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
 
       - name: Generate code
         run: pgn generate

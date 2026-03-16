@@ -271,47 +271,57 @@ This pins the generator to a specific content hash. Commit this file too - it en
 
 ## Step 7 - Refine a Query Signature
 
-Open `queries/update_album_released.sig1.pgn.yaml`. It will look something like:
+Open `queries/select_album_by_name.sig1.pgn.yaml`. It will look like:
 
 ```yaml
 parameters:
-  id:
-    type: int8
-    not_null: false
-  released:
-    type: date
+  name:
+    type: text
     not_null: false
 result:
-  cardinality: zero_or_one
-  columns: {}
+  cardinality: many
+  columns:
+    id:
+      type: int8
+      not_null: true
+    name:
+      type: text
+      not_null: true
+    released:
+      type: date
+      not_null: false
+    format:
+      type: album_format
+      not_null: false
+    recording:
+      type: recording_info
+      not_null: false
 ```
 
-Notice that `$id` is inferred as nullable (`not_null: false`). pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `id`, so it defaults to nullable. However, we know that an `UPDATE … WHERE id = $id` with a `NULL` id is meaningless - we always intend to pass a concrete album ID.
+Notice that `$name` is inferred as nullable (`not_null: false`). pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `name`. However, in practice we always search for a concrete album name — passing `NULL` would be meaningless.
 
-Edit the file and change `id.not_null` to `true`:
+Edit the file and change `name.not_null` to `true`:
 
 ```yaml
 parameters:
-  id:
-    type: int8
+  name:
+    type: text
     not_null: true   # ← changed
-  released:
-    type: date
-    not_null: false
 result:
-  cardinality: zero_or_one
-  columns: {}
+  cardinality: many
+  columns:
+    ...
 ```
 
-Run `pgn generate` again. pGenie will **reuse your edited signature file** — it reads the file as the authoritative contract for this query and generates a **non-nullable** parameter type for `$id`.
+Run `pgn generate` again. pGenie will **reuse your edited signature file** and generate a **non-nullable** parameter type for `$name` in the output library.
 
-**Why this matters:** pGenie never silently overwrites a signature file. Once a sig file exists, pGenie validates the current schema against it rather than replacing it. By committing your edit, you are documenting an explicit contract that callers must supply a non-null `id`. Code generators, reviewers, and future maintainers all see this intent clearly.
+**Why this matters:** pGenie never silently overwrites a signature file. Once a sig file exists, pGenie always re-resolves the signature from the database and validates it against your committed file. By changing `not_null` to `true`, you are documenting an explicit contract that callers must supply a non-null `name`. Code generators, reviewers, and future maintainers all see this intent clearly in version control.
 
 ---
 
 ## Step 8 - Add a Non-Breaking Migration
 
-Suppose you want to track individual album tracks:
+Suppose you want to track individual album tracks and disc information:
 
 **`migrations/4.sql`**:
 
@@ -323,7 +333,8 @@ create type track_info as (
 );
 
 alter table album
-  add column tracks track_info[] null;
+  add column tracks track_info[] null,
+  add column disc   text         null;
 ```
 
 Run `pgn generate` again. pGenie will:
@@ -333,50 +344,51 @@ Run `pgn generate` again. pGenie will:
 - **Compare each query's freshly-resolved signature against the existing sig file.** If they match, generation proceeds; if they differ, the build fails.
 - Re-run the generator with the updated schema.
 
-**In this case the build succeeds.** The new `tracks` column is `null`, which means adding it doesn't change the result type of any existing query — our queries don't select `tracks` explicitly. The existing signature files remain valid, so pGenie reuses them unchanged (including the hand-edited `not_null: true` for `$id` from the previous step).
+**In this case the build succeeds.** Both new columns are nullable, so adding them doesn't break any existing query — including `insert_album`, which inserts into `album` without mentioning `tracks` or `disc`. Because those columns are nullable, PostgreSQL accepts the insert with `NULL` in those positions. The existing signature files remain valid.
+
+This is the key insight about non-breaking schema changes: **a nullable column can always be added without breaking existing queries**, regardless of whether those queries reference it.
 
 !!! note
     If you had added a `SELECT *` style query, its signature would need updating whenever new columns are added to the schema, because the result columns would change.
 
 ---
 
-## Step 8b - Detect a Breaking Migration
+## Step 9 - Detect a Breaking Migration
 
-Now suppose you want to make the `tracks` column mandatory:
+Now suppose you want to make the `disc` column mandatory:
 
 **`migrations/5.sql`**:
 
 ```sql
 alter table album
-  alter column tracks set not null;
+  alter column disc set not null;
 ```
 
 Run `pgn generate` again. This time the build **fails** with an error like:
 
 ```
-Error: Signature mismatch for query 'insert_album'
-  Parameter or result type conflict:
-    column 'tracks': signature says not_null=false, database says not_null=true
+Error: null value in column "disc" of relation "album" violates not-null constraint
+Stage: Analysing > Queries > insert_album > Inferring
 ```
 
-**Why this error appears:** Migration `5.sql` changes the `tracks` column from nullable to non-null. If any existing query inserts into or selects from `album` and its signature file records `tracks` as nullable, pGenie detects the discrepancy and halts — it will not silently regenerate code that changes the API contract of your queries.
+**Why this error appears:** During analysis, pGenie probes the nullability of each query parameter by attempting to run the query with `NULL` supplied to each parameter in turn. After migration `5.sql`, the `disc` column is `NOT NULL` with no default. When pGenie tries to infer the type of `insert_album`, it attempts to insert a row into `album` and the database rejects it because `disc` is not provided and cannot be `NULL`.
 
-This is pGenie's schema drift protection in action. It saves you from accidentally committing a breaking database change without updating the queries and signature files that depend on it.
+This is pGenie's schema drift protection in action. `insert_album` doesn't mention `disc`, yet the new NOT NULL constraint breaks it at the database level. pGenie catches this before you can accidentally generate and ship a library that would fail at runtime.
 
 **How to proceed safely:**
 
 The safest deployment strategy for this kind of change is:
 
-1. **Deploy migration `4.sql` now** — adding a nullable `tracks` column is non-breaking. Existing app code continues to work without any changes.
-2. **Update your queries** to populate and read `tracks` as needed, then run `pgn generate`. Update the affected signature files to reflect the new `not_null: true` contract.
+1. **Deploy migration `4.sql` now** — adding nullable `tracks` and `disc` columns is non-breaking. Existing app code continues to work without any changes.
+2. **Update your queries** to populate `disc` (and optionally `tracks`) as needed, then run `pgn generate`. Update the affected signature files to reflect the new contracts.
 3. **Release updated SDKs** to all consuming applications and ensure they are deployed.
-4. **Only then deploy migration `5.sql`** — by this point every application has been updated to handle the non-null column, so the constraint change is safe.
+4. **Only then deploy migration `5.sql`** — by this point every application has been updated to supply a value for `disc`, so the NOT NULL constraint is safe.
 
-This two-phase approach is the standard pattern for zero-downtime schema migrations. pGenie's build failure on step 2 (before you've updated the sig files) is your safety net: it prevents you from generating and releasing SDKs that silently accept a schema they are no longer compatible with.
+This two-phase approach is the standard pattern for zero-downtime schema migrations. pGenie's build failure is your safety net: it prevents you from generating and releasing SDKs that are silently incompatible with the new schema.
 
 ---
 
-## Step 9 - Validate Only (CI Check)
+## Step 10 - Validate Only (CI Check)
 
 To check your schema and queries without running any generators and without producing any generated code, use the `analyse` command:
 
@@ -391,7 +403,7 @@ pgn analyse
 
 ---
 
-## Step 10 - Manage Indexes
+## Step 11 - Manage Indexes
 
 You may have noticed that both `pgn analyse` and `pgn generate` print warning messages like the following:
 
@@ -452,10 +464,10 @@ pGenie determines the next available migration number automatically and writes t
 - Migrations are plain SQL applied in natural sort order.
 - Queries use `$snake_case` parameter syntax; types are inferred from the schema.
 - `pgn generate` analyzes queries against a real PostgreSQL instance and generates typed client code.
-- Signature files (`.sig1.pgn.yaml`) are **written once** by pGenie and then owned by you. Edit them by hand to tighten constraints (e.g. nullability). pGenie never silently overwrites them.
+- Signature files (`.sig1.pgn.yaml`) are **written once** by pGenie and then owned by you. On every subsequent run pGenie re-resolves the signature from the database and validates it against your committed file. Edit them by hand to tighten constraints (e.g. nullability). pGenie never silently overwrites them.
 - If a migration changes a column type that a query references, pGenie will fail the build until you update the signature file, making schema drift impossible.
-- Non-breaking migrations (adding nullable columns) do not invalidate existing signature files.
-- Breaking migrations (e.g. adding a NOT NULL constraint) will fail the build, giving you a chance to update queries, regenerate SDKs, and deploy safely.
+- Non-breaking migrations (adding nullable columns) do not invalidate existing signature files and do not break queries that don't mention those columns.
+- Breaking migrations (e.g. adding a NOT NULL column without a default) will fail the build during analysis, giving you a chance to update queries, regenerate SDKs, and deploy safely.
 - The freeze file (`freeze1.pgn.yaml`) pins generator hashes for reproducible builds. Both sig files and the freeze file should be committed to version control.
 - `pgn analyse` validates schema and queries without running generators — useful as a lightweight CI check.
 - `pgn manage-indexes` suggests both new indexes for sequential scans and DROP statements for indexes that are no longer used by any query, keeping the database schema clean as the application evolves.

@@ -3,8 +3,8 @@
 This section explains how to install pGenie on your system. Choose the method that best suits your platform:
 
 - **[macOS](macos.md)** — Pre-built binary or from source
-- **[Linux](linux.md)** — From source
-- **[Windows](windows.md)** — From source
+- **[Linux](linux.md)** — Pre-built binary or from source
+- **[Windows](windows.md)** — Pre-built binary or from source
 - **[From Source](from-source.md)** — Build with Stack or Cabal on any platform
 
 ---

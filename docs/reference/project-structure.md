@@ -41,7 +41,7 @@ The project configuration file. It specifies the project's namespace, name, vers
 
 ## `freeze1.pgn.yaml`
 
-Auto-generated lock file that records the content hash of each generator URL. Ensures reproducible code generation. Commit this file to version control. See [How pGenie Works](../how-it-works.md) for details.
+Auto-generated lock file that records the content hash of each generator URL. Ensures reproducible code generation. Commit this file to version control. See the [Freeze File](freeze-file.md) reference for details.
 
 ---
 

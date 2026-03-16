@@ -8,15 +8,39 @@ There are two ways to install pGenie on macOS: downloading a pre-built binary or
 
 Pre-built binaries for macOS (Intel and Apple Silicon) are available on the [pGenie releases page](https://github.com/pgenie-io/pgenie/releases).
 
-1. Download the latest binary for your architecture from the releases page and unpack it.
-
-2. Move the binary to a directory on your `PATH`:
+1. Download the latest archive for your architecture from the releases page:
 
     ```bash
-    sudo mv pgn /usr/local/bin/pgn
+    # Apple Silicon (M1/M2/M3)
+    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-macos-arm64.tar.gz \
+      -o pgn-macos-arm64.tar.gz
+
+    # Intel
+    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-macos-x86_64.tar.gz \
+      -o pgn-macos-x86_64.tar.gz
     ```
 
-3. Verify the installation:
+2. Extract the binary:
+
+    ```bash
+    # Apple Silicon
+    tar -xzf pgn-macos-arm64.tar.gz
+
+    # Intel
+    tar -xzf pgn-macos-x86_64.tar.gz
+    ```
+
+3. Move the binary to a directory on your `PATH`:
+
+    ```bash
+    # Apple Silicon
+    sudo mv pgn-macos-arm64 /usr/local/bin/pgn
+
+    # Intel
+    sudo mv pgn-macos-x86_64 /usr/local/bin/pgn
+    ```
+
+4. Verify the installation:
 
     ```bash
     pgn --help

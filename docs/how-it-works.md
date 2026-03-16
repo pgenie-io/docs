@@ -53,8 +53,7 @@ The generated files are written to `artifacts/<generator-name>/`.
 Signature files (`.sig1.pgn.yaml`) are an important part of pGenie's design:
 
 - They provide a **stable, human-readable** record of each query's type signature that can be reviewed in pull requests.
-- They allow code generation to be **reproduced without re-running analysis** - if the signature file is present and the query SQL has not changed, generation can proceed from the cached signature.
-- They make **schema drift impossible**: if a migration changes the type of a column referenced by a query, pGenie will detect that the existing signature file no longer matches the query's actual signature and will fail the build, forcing you to either update the signature file or fix the migration.
+- They make **schema drift impossible**: on every run, pGenie re-resolves the query signature from the live database and compares it against the committed sig file. If a migration changes the type of a column referenced by a query, pGenie detects the mismatch and fails the build, forcing you to either update the signature file or fix the migration.
 
 **Lifecycle of a signature file:**
 

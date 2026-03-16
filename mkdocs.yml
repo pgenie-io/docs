@@ -72,10 +72,17 @@ nav:
     - Managing Indexes: guides/managing-indexes.md
     - Using pGenie in CI/CD: guides/cicd.md
     - Implementing Custom Generators: guides/implementing-custom-generators.md
+    - Integrating with Migration Tools:
+      - guides/migration-tools/index.md
+      - Flyway: guides/migration-tools/flyway.md
+      - Liquibase: guides/migration-tools/liquibase.md
+      - Sqitch: guides/migration-tools/sqitch.md
   - Reference:
     - Project Structure: reference/project-structure.md
     - Project File: reference/project-file.md
     - Query Signature File: reference/query-signature-file.md
+    - Freeze File: reference/freeze-file.md
     - Codegens: reference/codegens.md
   - Tutorials:
     - Learn pGenie in Y Minutes: tutorials/learn-pgenie-in-y-minutes.md
+  - Support: support.md

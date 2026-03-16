@@ -125,7 +125,7 @@ result:
       not_null: false
 ```
 
-Signature files should be **committed to version control**. They serve as a stable, reviewable record of each query's type contract and enable reproducible code generation. See [Query Signature File Reference](../reference/query-signature-file.md) for the full format.
+Signature files should be **committed to version control**. They serve as a stable, reviewable record of each query's type contract. See [Query Signature File Reference](../reference/query-signature-file.md) for the full format.
 
 ---
 

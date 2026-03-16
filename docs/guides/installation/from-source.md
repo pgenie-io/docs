@@ -4,21 +4,21 @@ pGenie is written in Haskell. You can build it with either **Stack** or **Cabal*
 
 ---
 
-## Prerequisites
-
-Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-```
-
-Follow the prompts. GHCup will offer to install GHC, Cabal, and Stack. Install whichever build tool you prefer (or both).
-
----
-
 ## Option 1 — Stack
 
-[Stack](https://docs.haskellstack.org/) manages the compiler and dependencies for you, making it a good choice if you are new to Haskell.
+[Stack](https://docs.haskellstack.org/) manages the compiler and dependencies entirely on its own, making it the fastest path to building pGenie from source. No separate toolchain installation is required.
+
+### Install Stack
+
+Run the official one-line installer:
+
+```bash
+curl -sSL https://get.haskellstack.org/ | sh
+```
+
+For platform-specific instructions and alternative install methods, see the [official Stack installation guide](https://docs.haskellstack.org/en/stable/#how-to-install-stack).
+
+### Build and install pGenie
 
 1. Clone the repository:
 
@@ -33,7 +33,7 @@ Follow the prompts. GHCup will offer to install GHC, Cabal, and Stack. Install w
     stack install
     ```
 
-    Stack will download the required GHC version if necessary, compile pGenie, and install the `pgn` binary into `~/.local/bin/`.
+    Stack will download the required GHC version automatically if needed, compile pGenie, and install the `pgn` binary into `~/.local/bin/`.
 
 3. Ensure `~/.local/bin` is on your `PATH`. Add the following to your shell profile (`.bashrc`, `.zshrc`, etc.):
 
@@ -51,7 +51,19 @@ Follow the prompts. GHCup will offer to install GHC, Cabal, and Stack. Install w
 
 ## Option 2 — Cabal
 
-[Cabal](https://www.haskell.org/cabal/) is the standard Haskell build tool and is included with GHCup by default.
+[Cabal](https://www.haskell.org/cabal/) is the standard Haskell build tool. It requires a GHC compiler to be installed separately, which you can obtain via [GHCup](https://www.haskell.org/ghcup/).
+
+### Prerequisites
+
+Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+```
+
+Follow the prompts. GHCup will install GHC and Cabal.
+
+### Build and install pGenie
 
 1. Clone the repository:
 
