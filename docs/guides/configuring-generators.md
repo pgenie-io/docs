@@ -57,7 +57,7 @@ To upgrade to a new version:
 
 ## Available Generators
 
-See the [Codegens reference](../reference/codegens/index.md) for the list and details on each generator.
+See the [Codegens reference](../reference/codegens.md) for the list and details on each generator.
 
 ---
 

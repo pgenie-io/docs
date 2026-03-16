@@ -8,7 +8,7 @@ Code generators are the plugins that turn pGenie's analysis output into idiomati
 
 Each generator is a [Dhall](https://dhall-lang.org/) program hosted at a URL. pGenie downloads the generator, evaluates it with the project model (schema + queries + configuration), and writes the resulting files to `artifacts/<name>/`.
 
-Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducible output. See [Configuring Generators](../../guides/configuring-generators.md) for setup instructions.
+Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducible output. See [Configuring Generators](../guides/configuring-generators.md) for setup instructions.
 
 ---
 
@@ -36,4 +36,4 @@ artifacts:
 
 ## Writing Your Own Generator
 
-Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs - no special permissions or registration required. See [Implementing Custom Generators](../../guides/implementing-custom-generators.md) for a guide.
+Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs - no special permissions or registration required. See [Implementing Custom Generators](../guides/implementing-custom-generators.md) for a guide.

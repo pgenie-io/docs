@@ -478,5 +478,5 @@ pGenie determines the next available migration number automatically and writes t
 
 - Read the [Reference](../reference/project-structure.md) for detailed documentation on every file format.
 - Browse the [demo project](https://github.com/pgenie-io/demo) for a complete working example with generated output.
-- Check out the [Codegens reference](../reference/codegens/index.md) for available generators.
+- Check out the [Codegens reference](../reference/codegens.md) for available generators.
 - Write your own generator by following the [Implementing Custom Generators](../guides/implementing-custom-generators.md) guide.
