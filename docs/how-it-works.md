@@ -73,6 +73,8 @@ pGenie never silently overwrites an existing signature file.
 - When the freeze file exists, pGenie will verify that each downloaded generator matches its recorded hash, ensuring reproducible generation across machines and over time.
 - When you want to upgrade a generator, delete the relevant entry from the freeze file (or delete the whole file) and run `pgn generate` - the new generator will be fetched and a new hash recorded.
 
+See the [Freeze File](reference/freeze-file.md) reference for the full format and lifecycle.
+
 ---
 
 ## Index Analysis

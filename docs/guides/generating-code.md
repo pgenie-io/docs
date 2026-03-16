@@ -54,7 +54,7 @@ Whether to commit the `artifacts/` directory to version control is a matter of p
 - **Commit artifacts** if you want the generated library available without running pGenie (e.g. for consumers who don't have pGenie installed).
 - **Exclude artifacts** (via `.gitignore`) if you prefer to generate them in CI and distribute as uploaded packages (e.g., via a package registry or by attaching to a release via [GitHub Actions](https://github.com/actions/upload-artifact)).
 
-Signature files (`*.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should **always** be committed - they record the type contracts of your queries and ensure reproducible generation.
+Signature files (`*.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should **always** be committed - they record the type contracts of your queries and pin the generator versions for reproducible builds.
 
 ---
 

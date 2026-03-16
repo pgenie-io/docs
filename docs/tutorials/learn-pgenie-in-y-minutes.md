@@ -265,7 +265,7 @@ Open `freeze1.pgn.yaml`:
 https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
 ```
 
-This pins the generator to a specific content hash. Commit this file too - it ensures anyone running `pgn generate` on this project will get identical output.
+This pins the generator to a specific content hash. Commit this file too - it ensures anyone running `pgn generate` on this project will get identical output. See the [Freeze File](../reference/freeze-file.md) reference for details.
 
 ---
 
