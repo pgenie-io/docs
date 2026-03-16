@@ -371,15 +371,15 @@ Error: null value in column "disc" of relation "album" violates not-null constra
 Stage: Analysing > Queries > insert_album > Inferring
 ```
 
-**Why this error appears:** During analysis, pGenie probes the nullability of each query parameter by attempting to run the query with `NULL` supplied to each parameter in turn. After migration `5.sql`, the `disc` column is `NOT NULL` with no default. When pGenie tries to infer the type of `insert_album`, it attempts to insert a row into `album` and the database rejects it because `disc` is not provided and cannot be `NULL`.
+**Why this error appears:** When pGenie tries to infer the types of `insert_album`, it attempts to insert a row into `album` and the database rejects it because `disc` is not provided and cannot be `NULL`.
 
-This is pGenie's schema drift protection in action. `insert_album` doesn't mention `disc`, yet the new NOT NULL constraint breaks it at the database level. pGenie catches this before you can accidentally generate and ship a library that would fail at runtime.
+This is pGenie's schema drift protection in action. `insert_album` doesn't mention `disc`, yet the new NOT NULL constraint breaks it at the database level. pGenie catches this before you can accidentally deploy a migration that silently breaks your running applications.
 
 **How to proceed safely:**
 
 The safest deployment strategy for this kind of change is:
 
-1. **Deploy migration `4.sql` now** — adding nullable `tracks` and `disc` columns is non-breaking. Existing app code continues to work without any changes.
+1. **Deploy migration `4.sql` now** — adding nullable `tracks` and `disc` columns is non-breaking and is validated by pGenie. Existing app code continues to work without any changes.
 2. **Update your queries** to populate `disc` (and optionally `tracks`) as needed, then run `pgn generate`. Update the affected signature files to reflect the new contracts.
 3. **Release updated SDKs** to all consuming applications and ensure they are deployed.
 4. **Only then deploy migration `5.sql`** — by this point every application has been updated to supply a value for `disc`, so the NOT NULL constraint is safe.
