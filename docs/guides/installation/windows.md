@@ -36,9 +36,93 @@ A pre-built binary for Windows (x86-64) is available on the [pGenie releases pag
 
 ## Option 2 — From Source
 
-Building from source gives you full control. See the [From Source](from-source.md) guide for detailed instructions on building with Stack or Cabal.
+Building from source gives you full control.
 
-The `~/.cabal/bin` directory is typically `%APPDATA%\cabal\bin` (or `%APPDATA%\stack\bin` for Stack); add it to your `PATH` via the System Properties dialog or your PowerShell profile.
+### Stack
+
+[Stack](https://docs.haskellstack.org/) manages the compiler and dependencies entirely on its own, making it the fastest path to building pGenie from source. No separate toolchain installation is required.
+
+#### Install Stack
+
+Download and run the Stack installer for Windows from the [official Stack installation guide](https://docs.haskellstack.org/en/stable/#how-to-install-stack), or use [Scoop](https://scoop.sh/):
+
+```powershell
+scoop install stack
+```
+
+#### Build and install pGenie
+
+1. Clone the repository:
+
+    ```powershell
+    git clone https://github.com/pgenie-io/pgenie.git
+    cd pgenie
+    ```
+
+2. Install the `pgn` executable:
+
+    ```powershell
+    stack install
+    ```
+
+    Stack will download the required GHC version automatically if needed, compile pGenie, and install the `pgn` binary into `%APPDATA%\stack\bin`.
+
+3. Ensure `%APPDATA%\stack\bin` is on your `PATH`. Add it via the System Properties dialog or your PowerShell profile:
+
+    ```powershell
+    [System.Environment]::SetEnvironmentVariable(
+      "Path",
+      "$([System.Environment]::GetEnvironmentVariable('Path','User'));$env:APPDATA\stack\bin",
+      "User"
+    )
+    ```
+
+4. Verify the installation (open a new terminal after updating `PATH`):
+
+    ```powershell
+    pgn --help
+    ```
+
+### Cabal
+
+[Cabal](https://www.haskell.org/cabal/) is the standard Haskell build tool. It requires a GHC compiler to be installed separately, which you can obtain via [GHCup](https://www.haskell.org/ghcup/).
+
+#### Prerequisites
+
+Download and run the GHCup installer for Windows from [get-ghcup.haskell.org](https://www.haskell.org/ghcup/). The installer will set up GHC and Cabal.
+
+#### Build and install pGenie
+
+1. Clone the repository:
+
+    ```powershell
+    git clone https://github.com/pgenie-io/pgenie.git
+    cd pgenie
+    ```
+
+2. Install the `pgn` executable:
+
+    ```powershell
+    cabal install
+    ```
+
+    Cabal will compile pGenie and install the `pgn` binary into `%APPDATA%\cabal\bin`.
+
+3. Ensure `%APPDATA%\cabal\bin` is on your `PATH`. Add it via the System Properties dialog or your PowerShell profile:
+
+    ```powershell
+    [System.Environment]::SetEnvironmentVariable(
+      "Path",
+      "$([System.Environment]::GetEnvironmentVariable('Path','User'));$env:APPDATA\cabal\bin",
+      "User"
+    )
+    ```
+
+4. Verify the installation (open a new terminal after updating `PATH`):
+
+    ```powershell
+    pgn --help
+    ```
 
 ---
 
