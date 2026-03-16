@@ -33,7 +33,7 @@ Each generator produces a separate subdirectory under `artifacts/`.
 
 ## Pinning Generator Versions
 
-Always reference a specific **tagged version** of a generator URL (e.g. `/v0.1.0/` in the URL above) rather than a mutable branch like `main`. This ensures your generated code is reproducible.
+Always reference a specific **tagged version** of a generator URL (e.g. `/v0.1.0/` in the URL above) rather than a mutable branch like `main`. This ensures your generated code is reproducible. You can also reference a specific commit hash instead of a tag — this is equally reproducible, but a named tag is usually more convenient for users.
 
 After the first run, pGenie records the content hash of each generator in `freeze1.pgn.yaml`:
 
@@ -63,11 +63,22 @@ See the [Codegens reference](../reference/codegens/index.md) for the list and de
 
 ## Generator Configuration
 
-Some generators accept optional configuration. The configuration schema is defined by the generator itself. Refer to the individual generator's documentation for details.
+Generators may accept configuration. The configuration schema is defined by the generator itself. Refer to the individual generator's documentation for details.
 
-The hasql generator currently requires no additional configuration:
+The short form (a bare URL) is equivalent to the long form with an empty `config`:
 
 ```yaml
+# Short form (URL only)
 artifacts:
   hasql: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
 ```
+
+```yaml
+# Equivalent long form
+artifacts:
+  hasql:
+    gen: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+    config:
+```
+
+Use the long form when you need to supply additional configuration values that the generator accepts.

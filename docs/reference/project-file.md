@@ -60,14 +60,31 @@ Individual generators may transform this version to comply with their ecosystem'
 
 ### `artifacts`
 
-**Type:** map of string → URL  
+**Type:** map of string → generator entry  
 **Required:** yes (but may be empty)
 
-A map from output directory names to generator entry-point URLs. Each generator is a Dhall program hosted at a URL.
+A map from output directory names to generator configurations. Each value can be:
+
+- A **URL string** pointing directly to the generator's entry-point Dhall file (short form):
+
+    ```yaml
+    artifacts:
+      hasql: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+    ```
+
+- An **object** with `gen` and `config` fields, for generators that accept configuration (long form):
+
+    ```yaml
+    artifacts:
+      hasql:
+        gen: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+        config:
+    ```
+
+The short form (bare URL) is equivalent to the long form with an empty `config`.
 
 - Keys become subdirectory names under `artifacts/`.
-- Values must be URLs pointing to a `Gen.dhall` entry point.
-- Use tagged URLs (e.g. `.../v0.1.0/gen/Gen.dhall`) to ensure reproducibility.
+- Generator URLs should reference a specific tagged version (e.g. `.../v0.1.0/gen/Gen.dhall`) to ensure reproducibility.
 
 If the map is empty (`artifacts: {}`), pGenie validates your schema and queries without generating any code.
 
