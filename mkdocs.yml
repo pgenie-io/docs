@@ -10,6 +10,8 @@ copyright: |
 
 theme:
   name: material
+  logo: logo-icon.svg
+  favicon: logo-icon.svg
   palette:
     - scheme: slate
       primary: black
