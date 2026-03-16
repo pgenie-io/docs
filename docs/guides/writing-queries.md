@@ -96,7 +96,7 @@ Here `$format` is of type `album_format` (a custom enum), and `recording` in the
 
 ## Signature Files
 
-After each successful analysis run, pGenie writes a **signature file** alongside each query file:
+After each successful run, pGenie writes a **signature file** alongside each query file if one doesn't already exist:
 
 ```
 queries/
@@ -104,7 +104,7 @@ queries/
 ├── select_album_by_name.sig1.pgn.yaml   ← generated
 ```
 
-The signature file records the resolved parameter types, result column types, and cardinality. Example:
+The signature file records the resolved parameter types, result column types, and result set cardinality. Example:
 
 ```yaml
 parameters:
@@ -125,7 +125,7 @@ result:
       not_null: false
 ```
 
-Signature files should be **committed to version control**. They serve as a stable, reviewable record of each query's type contract and enable reproducible code generation. See [Query Signature File](../reference/query-signature-file.md) for the full format.
+Signature files should be **committed to version control**. They serve as a stable, reviewable record of each query's type contract and enable reproducible code generation. See [Query Signature File Reference](../reference/query-signature-file.md) for the full format.
 
 ---
 
@@ -133,4 +133,4 @@ Signature files should be **committed to version control**. They serve as a stab
 
 - **One query per file**: each `.sql` file should contain exactly one statement.
 - **Use `RETURNING`** on write queries when you need the generated IDs or affected column values.
-- **Descriptive names matter**: the filename is used as the function name in generated code, so prefer `select_active_users_by_organization` over `q1`.
+- **Descriptive names matter**: the filename determines associated names in the generated code, so prefer `select_active_users_by_organization` over `q1`.

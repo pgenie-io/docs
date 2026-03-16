@@ -31,7 +31,7 @@ For each `.sql` file in `queries/`, pGenie:
 1. Prepares the statement against the live PostgreSQL instance using the extended query protocol. PostgreSQL's `DescribeStatement` message returns the OIDs of all parameter types and result columns.
 2. Resolves each OID to a full type description - including composite type fields, enumeration labels, and array element types - by querying the system catalog (`pg_type`, `pg_attribute`, etc.).
 3. Determines parameter nullability by consulting the schema and running the query with `NULL` supplied to each parameter and analysing the errors.
-4. Compares the freshly-resolved signature against the existing **signature file** (`.sig1.pgn.yaml`) alongside the `.sql` file, if one exists. If the signatures match (or no sig file exists yet), generation continues; if they differ, the build fails, forcing you to acknowledge the change. When no signature file exists, pGenie writes one with the resolved types. Signature files are intended to be committed alongside your SQL and edited by hand when you want to tighten constraints such as parameter nullability. To force pGenie to regenerate a signature file from scratch, delete it and re-run `pgn generate`.
+4. Compares the freshly-resolved signature against the existing **signature file** (`.sig1.pgn.yaml`) alongside the `.sql` file, if one exists. If the signatures are compatible (or no sig file exists yet), generation continues; if they differ, the build fails, forcing you to acknowledge the change. When no signature file exists, pGenie writes one with the inferred types. Signature files are intended to be committed alongside your SQL and edited by hand when you want to tighten constraints such as parameter nullability. To force pGenie to regenerate a signature file from scratch, delete it and re-run `pgn generate`.
 
 ### 4. Code generation
 
@@ -54,7 +54,7 @@ Signature files (`.sig1.pgn.yaml`) are an important part of pGenie's design:
 
 - They provide a **stable, human-readable** record of each query's type signature that can be reviewed in pull requests.
 - They allow code generation to be **reproduced without re-running analysis** - if the signature file is present and the query SQL has not changed, generation can proceed from the cached signature.
-- They make schema drift impossible: if a migration changes the type of a column referenced by a query, pGenie will detect that the existing signature file no longer matches the query's actual signature and will fail the build, forcing you to either update the signature file or fix the migration.
+- They make **schema drift impossible**: if a migration changes the type of a column referenced by a query, pGenie will detect that the existing signature file no longer matches the query's actual signature and will fail the build, forcing you to either update the signature file or fix the migration.
 
 **Lifecycle of a signature file:**
 
@@ -69,7 +69,7 @@ pGenie never silently overwrites an existing signature file.
 
 ## The Freeze File
 
-`freeze1.pgn.yaml` pins the content hash of every generator URL referenced in `project1.pgn.yaml`. It is analogous to `package-lock.json`, `Cargo.toml`, or `cabal.project.freeze`.
+`freeze1.pgn.yaml` pins the content hash of every generator URL referenced in `project1.pgn.yaml`. It is analogous to `package-lock.json`, `Cargo.lock`, or `cabal.project.freeze`.
 
 - When the freeze file exists, pGenie will verify that each downloaded generator matches its recorded hash, ensuring reproducible generation across machines and over time.
 - When you want to upgrade a generator, delete the relevant entry from the freeze file (or delete the whole file) and run `pgn generate` - the new generator will be fetched and a new hash recorded.

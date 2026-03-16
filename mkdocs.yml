@@ -76,6 +76,6 @@ nav:
     - Project Structure: reference/project-structure.md
     - Project File: reference/project-file.md
     - Query Signature File: reference/query-signature-file.md
-    - Codegens: reference/codegens/index.md
+    - Codegens: reference/codegens.md
   - Tutorials:
     - Learn pGenie in Y Minutes: tutorials/learn-pgenie-in-y-minutes.md

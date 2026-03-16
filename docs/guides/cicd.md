@@ -13,7 +13,7 @@ In CI you want to verify that:
 3. No signature file has drifted from the current schema (i.e. no uncommitted type changes).
 4. (Optionally) no query performs a sequential scan.
 
-Use `pgn analyse` rather than `pgn generate` in CI — it runs the full analysis without invoking any code generators, making it faster and avoiding the need for generator credentials or artifacts in CI.
+Use `pgn analyse` rather than `pgn generate` in CI — it runs the full analysis without invoking any code generators.
 
 ### GitHub Actions workflow
 

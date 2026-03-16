@@ -8,12 +8,11 @@ There are two ways to install pGenie on macOS: downloading a pre-built binary or
 
 Pre-built binaries for macOS (Intel and Apple Silicon) are available on the [pGenie releases page](https://github.com/pgenie-io/pgenie/releases).
 
-1. Download the latest binary for your architecture from the releases page.
+1. Download the latest binary for your architecture from the releases page and unpack it.
 
-2. Make it executable and move it to a directory on your `PATH`:
+2. Move the binary to a directory on your `PATH`:
 
     ```bash
-    chmod +x pgn
     sudo mv pgn /usr/local/bin/pgn
     ```
 
@@ -48,8 +47,6 @@ If you prefer to verify the binary yourself before running it, see the [From Sou
 ## Option 2 — From Source
 
 Building from source gives you full control and avoids the Gatekeeper warning. See the [From Source](from-source.md) guide for detailed instructions.
-
-GHCup (the Haskell toolchain installer) works on both Intel and Apple Silicon Macs.
 
 ---
 

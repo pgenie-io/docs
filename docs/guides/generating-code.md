@@ -31,7 +31,7 @@ After a successful run, your project directory will look like this:
 ```
 my-project/
 ├── project1.pgn.yaml
-├── freeze1.pgn.yaml          ← created after first run
+├── freeze1.pgn.yaml          ← created and updated on first use of a generator
 ├── migrations/
 │   ├── 1.sql
 │   └── 2.sql
@@ -52,7 +52,7 @@ my-project/
 Whether to commit the `artifacts/` directory to version control is a matter of preference:
 
 - **Commit artifacts** if you want the generated library available without running pGenie (e.g. for consumers who don't have pGenie installed).
-- **Exclude artifacts** (via `.gitignore`) if you prefer to generate them on demand or in CI.
+- **Exclude artifacts** (via `.gitignore`) if you prefer to generate them in CI and distribute as uploaded packages (e.g., via a package registry or by attaching to a release via [GitHub Actions](https://github.com/actions/upload-artifact)).
 
 Signature files (`*.sig1.pgn.yaml`) and the freeze file (`freeze1.pgn.yaml`) should **always** be committed - they record the type contracts of your queries and ensure reproducible generation.
 
@@ -67,8 +67,7 @@ Signature files (`.sig1.pgn.yaml`) record the resolved type contract for each qu
 | Event | What pGenie does |
 |---|---|
 | First run (no sig file) | Writes the sig file with the types resolved from the database |
-| Subsequent run (sig file present, schema unchanged) | Reads the sig file; generation proceeds without re-analysis |
-| Subsequent run (sig file present, schema changed) | Compares freshly-resolved types against the sig file; **fails the build** if they differ |
+| Subsequent run (sig file present) | Compares resolved types against the sig file; **fails the build** if they differ |
 | Sig file deleted | Treated as "first run" — pGenie regenerates it |
 
 pGenie **never silently overwrites** an existing signature file.

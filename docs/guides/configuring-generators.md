@@ -63,7 +63,7 @@ See the [Codegens reference](../reference/codegens/index.md) for the list and de
 
 ## Generator Configuration
 
-Some generators accept optional configuration. The configuration schema is defined by the generator itself. Refer to the individual generator's documentation for details.
+Generators may accept configuration. The configuration schema is defined by the generator itself. Refer to the individual generator's documentation for details.
 
 The short form (a bare URL) is equivalent to the long form with an empty `config`:
 
