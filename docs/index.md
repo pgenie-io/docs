@@ -28,9 +28,9 @@ pGenie takes a different path: **write plain SQL, get type-safe code**. There is
 
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
-| Write plain SQL | ✅ | ❌ | Partial | ✅ |
+| Write plain SQL | ✅ | ❌ | ❌ | ✅ |
 | Compile-time error detection | ✅ | Partial | Partial | ❌ |
-| Multi-language integration | ✅ | ❌ | ❌ | ❌ |
+| Multi-language integration | ✅ | ❌ | ❌ | ✅ |
 | Schema compatibility checks | ✅ | Partial | Partial | ❌ |
 | Automatic index management | ✅ | Partial | Partial | ❌ |
 
