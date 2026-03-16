@@ -66,7 +66,6 @@ nav:
       - macOS: guides/installation/macos.md
       - Linux: guides/installation/linux.md
       - Windows: guides/installation/windows.md
-      - From Source: guides/installation/from-source.md
     - Writing Migrations: guides/writing-migrations.md
     - Writing Queries: guides/writing-queries.md
     - Configuring Generators: guides/configuring-generators.md
