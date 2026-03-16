@@ -6,7 +6,7 @@ repo_url: https://github.com/pgenie-io/pgenie
 repo_name: pgenie-io/pgenie
 
 copyright: |
-  &copy; 2025 pGenie
+  &copy; 2026 codemine.io
 
 theme:
   name: material
