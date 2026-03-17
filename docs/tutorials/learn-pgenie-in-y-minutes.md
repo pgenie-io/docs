@@ -271,34 +271,7 @@ This pins the generator to a specific content hash. Commit this file too - it en
 
 ## Step 7 - Refine a Query Signature
 
-Open `queries/select_album_by_name.sig1.pgn.yaml`. It will look like:
-
-```yaml
-parameters:
-  name:
-    type: text
-    not_null: false
-result:
-  cardinality: many
-  columns:
-    id:
-      type: int8
-      not_null: true
-    name:
-      type: text
-      not_null: true
-    released:
-      type: date
-      not_null: false
-    format:
-      type: album_format
-      not_null: false
-    recording:
-      type: recording_info
-      not_null: false
-```
-
-Notice that `$name` is inferred as nullable (`not_null: false`). pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `name`. However, in practice we always search for a concrete album name — passing `NULL` would be meaningless.
+Open `queries/select_album_by_name.sig1.pgn.yaml` again. Remember that the `$name` parameter was inferred as nullable (`not_null: false`)? pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `name`. However, in practice we always search for a concrete album name — passing `NULL` would be meaningless.
 
 Edit the file and change `name.not_null` to `true`:
 

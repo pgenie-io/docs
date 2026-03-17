@@ -151,45 +151,43 @@ Each column entry has the same fields as a parameter (`type`, `not_null`, and op
 
 The `type` field uses PostgreSQL's internal type names for primitive types:
 
-| PostgreSQL type | `type` value |
-|---|---|
-| `boolean` | `bool` |
-| `"char"` | `char` |
-| `smallint` | `int2` |
-| `integer` | `int4` |
-| `bigint` | `int8` |
-| `real` | `float4` |
-| `double precision` | `float8` |
-| `numeric` | `numeric` |
-| `money` | `money` |
-| `text` | `text` |
-| `bytea` | `bytea` |
-| `date` | `date` |
-| `time` | `time` |
-| `time with time zone` | `timetz` |
-| `timestamp` | `timestamp` |
-| `timestamp with time zone` | `timestamptz` |
-| `interval` | `interval` |
-| `uuid` | `uuid` |
-| `json` | `json` |
-| `jsonb` | `jsonb` |
-| `xml` | `xml` |
-| `inet` | `inet` |
-| `cidr` | `cidr` |
-| `macaddr` | `macaddr` |
-| `macaddr8` | `macaddr8` |
-| `int4range` | `int4range` |
-| `int8range` | `int8range` |
-| `numrange` | `numrange` |
-| `tsrange` | `tsrange` |
-| `tstzrange` | `tstzrange` |
-| `daterange` | `daterange` |
-| `int4multirange` | `int4multirange` |
-| `int8multirange` | `int8multirange` |
-| `nummultirange` | `nummultirange` |
-| `tsmultirange` | `tsmultirange` |
-| `tstzmultirange` | `tstzmultirange` |
-| `datemultirange` | `datemultirange` |
+- `bool`
+- `char`
+- `int2`
+- `int4`
+- `int8`
+- `float4`
+- `float8`
+- `numeric`
+- `money`
+- `text`
+- `bytea`
+- `date`
+- `time`
+- `timetz`
+- `timestamp`
+- `timestamptz`
+- `interval`
+- `uuid`
+- `json`
+- `jsonb`
+- `xml`
+- `inet`
+- `cidr`
+- `macaddr`
+- `macaddr8`
+- `int4range`
+- `int8range`
+- `numrange`
+- `tsrange`
+- `tstzrange`
+- `daterange`
+- `int4multirange`
+- `int8multirange`
+- `nummultirange`
+- `tsmultirange`
+- `tstzmultirange`
+- `datemultirange`
 
 Custom enumerations and composite types use their declared names (e.g. `album_format`, `recording_info`).
 
