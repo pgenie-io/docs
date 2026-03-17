@@ -81,6 +81,7 @@ nav:
       - Generating Code: guides/generating-code.md
       - Managing Indexes: guides/managing-indexes.md
       - Using pGenie in CI/CD: guides/cicd.md
+      - Using pGenie with AI: guides/using-with-ai.md
       - Implementing Custom Generators: guides/implementing-custom-generators.md
       - Integrating with Migration Tools:
           - guides/migration-tools/index.md
