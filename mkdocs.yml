@@ -37,7 +37,6 @@ theme:
     - content.code.select
     - navigation.footer
     - navigation.tracking
-    - navigation.expand
     - navigation.path
     - navigation.indexes
     - navigation.tabs.sticky
