@@ -1,10 +1,32 @@
 # Installing pGenie on macOS
 
-There are two ways to install pGenie on macOS: downloading a pre-built binary or building from source.
+There are three ways to install pGenie on macOS: using Homebrew, downloading a pre-built binary manually, or building from source.
 
 ---
 
-## Option 1 — Pre-built Binary
+## Option 1 — Homebrew (Recommended)
+
+The [Homebrew](https://brew.sh/) tap provides two installation modes.
+
+### Install pre-built binary (fastest)
+
+```bash
+brew install pgenie-io/tap/pgn
+```
+
+This installs a pre-built binary for your Mac architecture (Apple Silicon or Intel) with no additional dependencies.
+
+### Build from source via Homebrew
+
+```bash
+brew install --HEAD pgenie-io/tap/pgn
+```
+
+This builds from the latest `master` branch and can take several minutes during the first build.
+
+---
+
+## Option 2 — Pre-built Binary (Manual)
 
 Pre-built binaries for macOS (Intel and Apple Silicon) are available on the [pGenie releases page](https://github.com/pgenie-io/pgenie/releases).
 
@@ -40,35 +62,25 @@ Pre-built binaries for macOS (Intel and Apple Silicon) are available on the [pGe
     sudo mv pgn-macos-x86_64 /usr/local/bin/pgn
     ```
 
-4. Verify the installation:
+4. Remove the macOS quarantine attribute from the installed binary:
+
+    ```bash
+    xattr -dr com.apple.quarantine /usr/local/bin/pgn
+    ```
+
+    This removes the Gatekeeper quarantine metadata so macOS can execute the binary without blocking it on first run.
+
+    Alternative GUI method: in Finder, right-click (or Control-click) `pgn`, choose **Open**, then confirm.
+
+5. Verify the installation:
 
     ```bash
     pgn --help
     ```
 
-### Gatekeeper warning
-
-On first launch, macOS may show a dialog:
-
-> **"pgn" can't be opened because Apple cannot check it for malicious software.**
-
-**Why this appears:** macOS Gatekeeper requires applications to be notarized by Apple. Pre-built binaries distributed outside the Mac App Store or without Apple notarization trigger this warning. The warning is a security feature of macOS, not evidence that the binary is malicious. You can inspect the source code at [github.com/pgenie-io/pgenie](https://github.com/pgenie-io/pgenie) and build from source if you prefer not to trust the binary distribution.
-
-**To bypass the warning:**
-
-- Right-click (or Control-click) the `pgn` binary in Finder and choose **Open**, then confirm in the dialog that appears. After doing this once, macOS remembers the exception.
-
-  *Or*, run the following in your terminal to remove the quarantine attribute:
-
-  ```bash
-  xattr -dr com.apple.quarantine /usr/local/bin/pgn
-  ```
-
-If you prefer to verify the binary yourself before running it, build from source (see below).
-
 ---
 
-## Option 2 — From Source
+## Option 3 — From Source
 
 Building from source gives you full control and avoids the Gatekeeper warning.
 
@@ -76,26 +88,24 @@ Building from source gives you full control and avoids the Gatekeeper warning.
 
 [Stack](https://docs.haskellstack.org/) manages the compiler and dependencies entirely on its own, making it the fastest path to building pGenie from source. No separate toolchain installation is required.
 
-#### Install Stack
+1. Install Stack
 
-Run the official one-line installer:
+    Run the official one-line installer:
 
-```bash
-curl -sSL https://get.haskellstack.org/ | sh
-```
+    ```bash
+    curl -sSL https://get.haskellstack.org/ | sh
+    ```
 
-For platform-specific instructions and alternative install methods, see the [official Stack installation guide](https://docs.haskellstack.org/en/stable/#how-to-install-stack).
+    For platform-specific instructions and alternative install methods, see the [official Stack installation guide](https://docs.haskellstack.org/en/stable/#how-to-install-stack).
 
-#### Build and install pGenie
-
-1. Clone the repository:
+2. Clone the repository:
 
     ```bash
     git clone https://github.com/pgenie-io/pgenie.git
     cd pgenie
     ```
 
-2. Install the `pgn` executable:
+3. Install the `pgn` executable:
 
     ```bash
     stack install
@@ -103,13 +113,13 @@ For platform-specific instructions and alternative install methods, see the [off
 
     Stack will download the required GHC version automatically if needed, compile pGenie, and install the `pgn` binary into `~/.local/bin/`.
 
-3. Ensure `~/.local/bin` is on your `PATH`. Add the following to your shell profile (`.zshrc`, `.bashrc`, etc.):
+4. Ensure `~/.local/bin` is on your `PATH`. Add the following to your shell profile (`.zshrc`, `.bashrc`, etc.):
 
     ```bash
     export PATH="$HOME/.local/bin:$PATH"
     ```
 
-4. Verify the installation:
+5. Verify the installation:
 
     ```bash
     pgn --help
@@ -119,26 +129,22 @@ For platform-specific instructions and alternative install methods, see the [off
 
 [Cabal](https://www.haskell.org/cabal/) is the standard Haskell build tool. It requires a GHC compiler to be installed separately, which you can obtain via [GHCup](https://www.haskell.org/ghcup/).
 
-#### Prerequisites
+1. Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
 
-Install the Haskell toolchain via [GHCup](https://www.haskell.org/ghcup/):
+    ```bash
+    curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+    ```
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-```
+    Follow the prompts. GHCup will install GHC and Cabal.
 
-Follow the prompts. GHCup will install GHC and Cabal.
-
-#### Build and install pGenie
-
-1. Clone the repository:
+2. Clone the repository:
 
     ```bash
     git clone https://github.com/pgenie-io/pgenie.git
     cd pgenie
     ```
 
-2. Install the `pgn` executable:
+3. Install the `pgn` executable:
 
     ```bash
     cabal install
@@ -146,13 +152,13 @@ Follow the prompts. GHCup will install GHC and Cabal.
 
     Cabal will compile pGenie and install the `pgn` binary into `~/.cabal/bin/`.
 
-3. Ensure `~/.cabal/bin` is on your `PATH`. Add the following to your shell profile (`.zshrc`, `.bashrc`, etc.):
+4. Ensure `~/.cabal/bin` is on your `PATH`. Add the following to your shell profile (`.zshrc`, `.bashrc`, etc.):
 
     ```bash
     export PATH="$HOME/.cabal/bin:$PATH"
     ```
 
-4. Verify the installation:
+5. Verify the installation:
 
     ```bash
     pgn --help
