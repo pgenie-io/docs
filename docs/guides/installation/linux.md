@@ -27,7 +27,20 @@ Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page
     sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
     ```
 
-4. Verify the installation:
+4. Install the `libpq` runtime library. pGenie links dynamically against PostgreSQL's C client library:
+
+    ```bash
+    # Debian / Ubuntu
+    sudo apt install libpq5
+
+    # Fedora / RHEL
+    sudo dnf install libpq
+
+    # Arch Linux
+    sudo pacman -S postgresql-libs
+    ```
+
+5. Verify the installation:
 
     ```bash
     pgn --help
@@ -38,6 +51,21 @@ Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page
 ## Option 2 — From Source
 
 Building from source gives you full control.
+
+### Prerequisites
+
+Install the `libpq` development headers. The build links against PostgreSQL's C client library:
+
+```bash
+# Debian / Ubuntu
+sudo apt install libpq-dev
+
+# Fedora / RHEL
+sudo dnf install libpq-devel
+
+# Arch Linux
+sudo pacman -S postgresql-libs
+```
 
 ### Stack
 
