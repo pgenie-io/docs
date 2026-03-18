@@ -26,7 +26,7 @@ docker info
 
 ## First Run
 
-The very first time you run `pgn generate`, pGenie performs initial setup that can take **2–3 minutes**:
+The very first time you run `pgn generate`, pGenie performs initial setup that can take **up to 3 minutes**:
 
 1. **PostgreSQL Docker image download** — pGenie pulls the PostgreSQL image it needs. This is a one-time download.
 2. **Code generator caching** — Dhall generator programs are downloaded from their URLs and their bytecode is cached locally.

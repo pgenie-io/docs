@@ -181,7 +181,7 @@ pgn generate
 ```
 
 !!! note "First run"
-    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes upto **3 minutes**. Subsequent runs complete in a few seconds.
+    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes up to **3 minutes**. Subsequent runs complete in a few seconds.
 
 What happened:
 

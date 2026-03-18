@@ -115,7 +115,7 @@ docker info
 
 **First run hangs at "Loading"**
 
-The first run downloads the PostgreSQL Docker image and caches Dhall generators. This can take 2–3 minutes. Subsequent runs are fast.
+The first run downloads the PostgreSQL Docker image and caches Dhall generators. This can take up to 3 minutes. Subsequent runs are fast.
 
 **Query analysis error**
 
