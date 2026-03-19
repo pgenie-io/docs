@@ -1,30 +1,50 @@
 # Installing pGenie on Linux
 
-There are two ways to install pGenie on Linux: downloading a pre-built binary or building from source.
+There are three ways to install pGenie on Linux: using Homebrew, downloading a pre-built binary, or building from source.
 
 ---
 
-## Option 1 — Pre-built Binary
+## Option 1 — Homebrew
+
+[Homebrew](https://brew.sh/) is available on Linux and provides the simplest installation path, handling `libpq` as a dependency automatically.
+
+### Install pre-built binary (fastest)
+
+```bash
+brew install pgenie-io/tap/pgn
+```
+
+### Build from source via Homebrew
+
+```bash
+brew install --HEAD pgenie-io/tap/pgn
+```
+
+This builds from the latest `master` branch and can take several minutes during the first build.
+
+---
+
+## Option 2 — Pre-built Binary
 
 Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page](https://github.com/pgenie-io/pgenie/releases). The binary is distributed as a `.tar.gz` archive.
 
 1. Download the latest archive from the releases page:
 
     ```bash
-    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64.tar.gz \
-      -o pgn-linux-x86_64.tar.gz
+    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x64.tar.gz \
+      -o pgn-linux-x64.tar.gz
     ```
 
 2. Extract the binary:
 
     ```bash
-    tar -xzf pgn-linux-x86_64.tar.gz
+    tar -xzf pgn-linux-x64.tar.gz
     ```
 
 3. Move the binary to a directory on your `PATH`:
 
     ```bash
-    sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
+    sudo mv pgn /usr/local/bin/pgn
     ```
 
 4. Install the `libpq` runtime library. pGenie links dynamically against PostgreSQL's C client library:
@@ -48,7 +68,7 @@ Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page
 
 ---
 
-## Option 2 — From Source
+## Option 3 — From Source
 
 Building from source gives you full control.
 
