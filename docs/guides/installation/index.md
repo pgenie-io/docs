@@ -2,8 +2,11 @@
 
 This section explains how to install pGenie on your system. Choose the method that best suits your platform:
 
-- **[Linux](linux.md)** — Pre-built binary or from source
-- **[macOS](macos.md)** — Pre-built binary or from source
+- **[Linux](linux.md)**
+- **[macOS](macos.md)**
+
+!!! note "Windows support is under development"
+    It may be possible to run using WSL. Do report about your experience in [the discussions](https://github.com/pgenie-io/pgenie/discussions) and on [the issue tracker](https://github.com/pgenie-io/pgenie/issues).
 
 ---
 
