@@ -1,6 +1,6 @@
 # Installing pGenie on macOS
 
-There are three ways to install pGenie on macOS: using Homebrew, downloading a pre-built binary manually, or building from source.
+There are two ways to install pGenie on macOS: using Homebrew or building from source.
 
 ---
 
@@ -26,61 +26,7 @@ This builds from the latest `master` branch and can take several minutes during 
 
 ---
 
-## Option 2 — Pre-built Binary (Manual)
-
-Pre-built binaries for macOS (Intel and Apple Silicon) are available on the [pGenie releases page](https://github.com/pgenie-io/pgenie/releases).
-
-1. Download the latest archive for your architecture from the releases page:
-
-    ```bash
-    # Apple Silicon (M1/M2/M3)
-    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-macos-arm64.tar.gz \
-      -o pgn-macos-arm64.tar.gz
-
-    # Intel
-    curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-macos-x86_64.tar.gz \
-      -o pgn-macos-x86_64.tar.gz
-    ```
-
-2. Extract the binary:
-
-    ```bash
-    # Apple Silicon
-    tar -xzf pgn-macos-arm64.tar.gz
-
-    # Intel
-    tar -xzf pgn-macos-x86_64.tar.gz
-    ```
-
-3. Move the binary to a directory on your `PATH`:
-
-    ```bash
-    # Apple Silicon
-    sudo mv pgn-macos-arm64 /usr/local/bin/pgn
-
-    # Intel
-    sudo mv pgn-macos-x86_64 /usr/local/bin/pgn
-    ```
-
-4. Remove the macOS quarantine attribute from the installed binary:
-
-    ```bash
-    xattr -dr com.apple.quarantine /usr/local/bin/pgn
-    ```
-
-    This removes the Gatekeeper quarantine metadata so macOS can execute the binary without blocking it on first run.
-
-    Alternative GUI method: in Finder, right-click (or Control-click) `pgn`, choose **Open**, then confirm.
-
-5. Verify the installation:
-
-    ```bash
-    pgn --help
-    ```
-
----
-
-## Option 3 — From Source
+## Option 2 — From Source
 
 Building from source gives you full control and avoids the Gatekeeper warning.
 
