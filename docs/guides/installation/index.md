@@ -2,8 +2,8 @@
 
 This section explains how to install pGenie on your system. Choose the method that best suits your platform:
 
-- **[macOS](macos.md)** — Pre-built binary or from source
 - **[Linux](linux.md)** — Pre-built binary or from source
+- **[macOS](macos.md)** — Pre-built binary or from source
 
 ---
 
@@ -13,8 +13,8 @@ This section explains how to install pGenie on your system. Choose the method th
 
 pGenie requires Docker to be installed and running. During code generation, it starts a temporary PostgreSQL container to analyze your SQL. Without Docker, pGenie cannot function.
 
-- **macOS**: Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) or use [Colima](https://github.com/abiosoft/colima), a lightweight Docker host for macOS (`brew install colima docker` then `colima start`).
 - **Linux**: Install the [Docker Engine](https://docs.docker.com/engine/install/) for your distribution.
+- **macOS**: Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) or use [Colima](https://github.com/abiosoft/colima), a lightweight Docker host for macOS (`brew install colima docker` then `colima start`).
 
 After installation, verify Docker is running:
 

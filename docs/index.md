@@ -31,11 +31,11 @@ The table below highlights the most important differentiators. "Partial" means t
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
 | SQL is the source of truth | ✅ | ❌ | ❌ | ✅ |
-| Static type safety — no annotations | ✅ | ❌ | ❌ | ❌ |
+| Static type safety | ✅ | ✅ | ✅ | ❌ |
 | Verified against real PostgreSQL | ✅ | ❌ | ❌ | ❌ |
 | Build fails on schema/query mismatch | ✅ | ❌ | ❌ | ❌ |
 | Multi-language output from one project | ✅ | ❌ | ❌ | ❌ |
-| Zero runtime abstraction overhead | ✅ | ❌ | Partial | ✅ |
+| No runtime abstraction overhead | ✅ | ❌ | Partial | ✅ |
 | Automatic index management | ✅ | Partial | ❌ | ❌ |
 
 ### Key differentiators
