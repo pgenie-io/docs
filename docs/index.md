@@ -37,11 +37,10 @@ The table below highlights the most important differentiators. "Partial" means t
 | Multi-language output from one project | ✅ | ❌ | ❌ | ❌ |
 | No runtime abstraction overhead | ✅ | ❌ | Partial | ✅ |
 | Automatic index management | ✅ | Partial | ❌ | ❌ |
-| Multi-database support | ❌ | ✅ | Partial | ✅ |
+| Multi-database support | ❌ | ✅ | Partial | Partial |
 | Dynamic / programmatic query composition | ❌ | ✅ | ✅ | Partial |
 | Schema migrations generated from models | ❌ | ✅ | ❌ | ❌ |
 | No extra build/generation step | ❌ | ✅ | ✅ | ✅ |
-| Low barrier to entry for new developers | ❌ | ✅ | ✅ | Partial |
 
 ### Key differentiators
 
@@ -58,8 +57,8 @@ The table below highlights the most important differentiators. "Partial" means t
 pGenie is a strong fit for PostgreSQL-centric projects where query correctness and type safety across multiple languages or services are top priorities. It is less suited for other scenarios:
 
 - **Multi-database or database-agnostic projects**: ORMs such as SQLAlchemy, Hibernate, or GORM abstract over multiple database engines. If your project needs to support more than PostgreSQL, an ORM is a better choice.
-- **Highly dynamic queries**: If query structure is determined at runtime (e.g. complex filter builders, user-driven reports), query builders such as Knex or jOOQ are better suited. pGenie only handles static, pre-written SQL.
-- **Rapid prototyping or early-stage projects**: ORMs let you iterate on a schema quickly by changing model classes and regenerating migrations, without managing raw SQL files. pGenie's generation step adds friction when the schema is changing rapidly.
+- **Highly dynamic queries**: If query structure is determined at runtime (e.g. complex filter builders, user-driven reports), query builders such as Knex or jOOQ may be better suited. pGenie only handles static, pre-written parameteric SQL, however a lot can be accomplished with it.
+- **Rapid prototyping or early-stage projects**: ORMs let you iterate on a schema quickly by changing model classes and regenerating migrations, without managing raw SQL files. pGenie's generation step may add friction when the schema is changing rapidly and you don't care about the data.
 - **Teams unfamiliar with SQL or new to backend development**: ORMs and query builders provide a gentler learning curve than writing and managing raw SQL, and they do not require an extra generation step in the build pipeline.
 
 ---
