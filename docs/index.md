@@ -26,17 +26,21 @@ pGenie takes a different path: **write plain SQL, get type-safe code**. There is
 
 ## How pGenie Compares
 
-The table below highlights the most important differentiators. "Partial" means the feature exists but comes with significant caveats (e.g. limited type coverage, annotation-heavy setup, or no enforcement at build time).
+This is our biased take on how pGenie stacks up against other approaches to working with databases from application code. Your mileage may vary.
 
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
-| SQL is the source of truth | ✅ | ❌ | ❌ | ✅ |
+| Single source of truth | ✅ (SQL) | ✅ (Code) | ❌ | ❌ |
+| Queries of any complexity | ✅ | ❌ | ❌ | ✅ |
 | Static type safety | ✅ | ✅ | ✅ | ❌ |
-| Verified against real PostgreSQL | ✅ | ❌ | ❌ | ❌ |
 | Build fails on schema/query mismatch | ✅ | ❌ | ❌ | ❌ |
-| Multi-language output from one project | ✅ | ❌ | ❌ | ❌ |
-| No runtime abstraction overhead | ✅ | ❌ | Partial | ✅ |
-| Automatic index management | ✅ | Partial | ❌ | ❌ |
+| Multi-language integration | ✅ | ❌ | ❌ | ❌ |
+| Automatic index management | ✅ | ✅ | ❌ | ❌ |
+| No runtime abstraction overhead | ✅ | ❌ | ❌ | ✅ |
+| Multi-database support | ❌ | ✅ | ✅ | ❌ |
+| Dynamic query construction | ❌ | ✅ | ✅ | ✅ |
+| No extra build/generation step | ❌ | ✅ | ✅ | ✅ |
+| Maturity | ❌ | ✅ | ✅ | ✅ |
 
 ### Key differentiators
 
@@ -47,6 +51,15 @@ The table below highlights the most important differentiators. "Partial" means t
 **Build-time schema drift protection.** Every query is validated against the current schema at generation time. If a migration changes a column type that a query uses, pGenie fails the build and tells you exactly what changed, protecting you from accidentally deploying a schema change that breaks your applications.
 
 **Multi-language from one project.** A single `pgn generate` run can produce typed client libraries for multiple languages simultaneously. Each target language gets idiomatic code from its own [Dhall](https://dhall-lang.org/) generator, and anyone can write a new generator without touching pGenie itself.
+
+### When to consider alternatives
+
+pGenie is a strong fit for PostgreSQL-centric projects where query correctness and type safety across multiple languages or services are top priorities. It is less suited for other scenarios:
+
+- **Multi-database or database-agnostic projects**: ORMs such as SQLAlchemy, Hibernate, or GORM abstract over multiple database engines. If your project needs to support more than PostgreSQL, ORM or a query builder is a better choice.
+- **Highly dynamic queries**: If query structure is determined at runtime (e.g. complex filter builders, user-driven reports), query builders such as Knex or jOOQ may be better suited. pGenie only handles static, pre-written parameteric SQL, however a lot can be accomplished with it.
+- **Rapid prototyping or early-stage projects**: ORMs let you iterate on a schema quickly by changing model classes and regenerating migrations, without managing raw SQL files. pGenie's generation step may add friction when the schema is changing rapidly and you don't care about the data.
+- **Teams unfamiliar with SQL or new to backend development**: ORMs and query builders let you avoid learning SQL at first steps, and they do not require an extra generation step in the build pipeline.
 
 ---
 
