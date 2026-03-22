@@ -149,47 +149,66 @@ Each column entry has the same fields as a parameter (`type`, `not_null`, and op
 
 ## Type Names
 
-The `type` field uses PostgreSQL's internal type names for primitive types:
+The `type` field uses the PostgreSQL type names that pGenie's shared `gen-sdk` input model supports for primitive values. The current supported primitive set is:
 
+- `bit`
 - `bool`
+- `box`
+- `bpchar`
+- `bytea`
 - `char`
-- `int2`
-- `int4`
-- `int8`
+- `cidr`
+- `circle`
+- `citext`
+- `date`
+- `datemultirange`
+- `daterange`
 - `float4`
 - `float8`
-- `numeric`
-- `money`
-- `text`
-- `bytea`
-- `date`
-- `time`
-- `timetz`
-- `timestamp`
-- `timestamptz`
+- `hstore`
+- `inet`
+- `int2`
+- `int4`
+- `int4multirange`
+- `int4range`
+- `int8`
+- `int8multirange`
+- `int8range`
 - `interval`
-- `uuid`
 - `json`
 - `jsonb`
-- `xml`
-- `inet`
-- `cidr`
+- `line`
+- `lseg`
 - `macaddr`
 - `macaddr8`
-- `int4range`
-- `int8range`
-- `numrange`
-- `tsrange`
-- `tstzrange`
-- `daterange`
-- `int4multirange`
-- `int8multirange`
+- `money`
+- `name`
+- `numeric`
 - `nummultirange`
+- `numrange`
+- `oid`
+- `path`
+- `pg_lsn`
+- `pg_snapshot`
+- `point`
+- `polygon`
+- `text`
+- `time`
+- `timestamp`
+- `timestamptz`
+- `timetz`
 - `tsmultirange`
+- `tsquery`
+- `tsrange`
 - `tstzmultirange`
-- `datemultirange`
+- `tstzrange`
+- `tsvector`
+- `uuid`
+- `varbit`
+- `varchar`
+- `xml`
 
-Custom enumerations and composite types use their declared names (e.g. `album_format`, `recording_info`).
+Custom enumerations, composite types, and domains use their declared names (for example, `album_format` or `recording_info`).
 
 For array columns and parameters, `type` holds the element type name (e.g. `text` for a `text[]` column, `track_info` for a `track_info[]` column). The `dims` field records the number of dimensions.
 
