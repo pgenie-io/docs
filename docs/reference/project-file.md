@@ -20,7 +20,7 @@ name: music_catalogue
 # Version for generated artifacts.
 # Must follow SemVer (https://semver.org/).
 # Individual generators may adapt this to their ecosystem's conventions
-# (e.g. the hasql generator prepends "0." to comply with Haskell's PVP).
+# (e.g. the haskell generator prepends "0." to comply with Haskell's PVP).
 version: 1.0.0
 
 # Code generators to run.
@@ -56,7 +56,7 @@ The project name. Used as the second-level namespace and as the library name in 
 
 The version to embed in generated artifacts. Must be a valid [Semantic Version](https://semver.org/) string (e.g. `1.0.0`, `0.3.1`).
 
-Individual generators may transform this version to comply with their ecosystem's conventions. For example, the hasql generator prepends `0.` to produce a PVP-compatible version for Haskell (`1.0.0` → `0.1.0.0`).
+Individual generators may transform this version to comply with their ecosystem's conventions. For example, the haskell generator prepends `0.` to produce a PVP-compatible version for Haskell (`1.0.0` → `0.1.0.0`).
 
 ### `artifacts`
 

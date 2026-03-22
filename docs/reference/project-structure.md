@@ -15,7 +15,9 @@ my-project/
 │   ├── my_query.sig1.pgn.yaml   # Query signature (auto-generated)
 │   └── ...
 └── artifacts/                # Generated client libraries (output)
-    └── hasql/
+    └── haskell/
+        └── ...
+    └── rust/
         └── ...
 ```
 

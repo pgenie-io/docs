@@ -41,7 +41,9 @@ my-project/
 │   ├── select_album_by_name.sql
 │   └── select_album_by_name.sig1.pgn.yaml  ← created on first run (not overwritten)
 └── artifacts/
-    └── hasql/                ← generated Haskell library
+    └── haskell/                ← generated Haskell library
+        └── ...
+    └── rust/                   ← generated Rust library
         └── ...
 ```
 

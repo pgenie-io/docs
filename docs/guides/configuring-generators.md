@@ -17,14 +17,14 @@ artifacts:
   haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
 ```
 
-The key (`hasql` in the example) is the name pGenie uses for the output directory under `artifacts/`. The value is a URL pointing to the generator's entry-point Dhall file.
+The key (`haskell` in the example) is the name pGenie uses for the output directory under `artifacts/`. The value is a URL pointing to the generator's entry-point Dhall file.
 
 You can add multiple generators:
 
 ```yaml
 artifacts:
   haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
-  my-custom-gen: https://example.com/my-gen/Gen.dhall
+  rust: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.0/gen/Gen.dhall
 ```
 
 Each generator produces a separate subdirectory under `artifacts/`.
@@ -38,7 +38,9 @@ Always reference a specific **tagged version** of a generator URL (e.g. `/v0.1.0
 After the first run, pGenie records the content hash of each generator in `freeze1.pgn.yaml`:
 
 ```yaml
-https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
+# Map of generator hashes by url
+https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall: sha256:5bed6d6b5a047e1f908c6432fca54a0e9c66c188257756b1b8a8fcbd7b1eace3
+https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.0/gen/Gen.dhall: sha256:38d40d5d55a60f0fb6a131a30cb7c4fb417e50710c6344df401b2e424b586a66
 ```
 
 Commit `freeze1.pgn.yaml` to version control. On subsequent runs, pGenie verifies that every downloaded generator matches its recorded hash, making generation fully reproducible across machines.

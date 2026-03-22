@@ -189,7 +189,7 @@ What happened:
 2. It applied `migrations/1.sql`, `2.sql`, and `3.sql` in order, building up the schema.
 3. It analyzed each query in `queries/` against the live schema.
 4. It wrote **signature files** recording the resolved types for each query (since none existed yet).
-5. It ran the `hasql` generator and wrote the output to `artifacts/hasql/`.
+5. It ran the `haskell` generator and wrote the output to `artifacts/haskell/`.
 6. It wrote `freeze1.pgn.yaml` recording the generator's content hash for reproducibility.
 
 ---
@@ -216,7 +216,7 @@ music-catalogue/
 │   ├── update_album_released.sql
 │   └── update_album_released.sig1.pgn.yaml   ← new: type signature
 └── artifacts/
-    └── hasql/                                ← new: generated Haskell library
+    └── haskell/                              ← new: generated Haskell library
 ```
 
 ### The signature file

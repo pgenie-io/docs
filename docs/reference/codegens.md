@@ -34,6 +34,26 @@ artifacts:
 
 ---
 
+### `rust.gen`
+
+| | |
+|---|---|
+| **Language** | Rust |
+| **Library** | [tokio-postgres](https://crates.io/crates/tokio-postgres) |
+| **Repository** | [pgenie-io/rust.gen](https://github.com/pgenie-io/rust.gen) |
+
+Generates a Rust crate that exposes each SQL query as a typed statement implementation. Output includes a ready-to-build Cargo package, one module per query, and Rust data types for your custom PostgreSQL enumerations and composite types.
+
+For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [rust.gen repository](https://github.com/pgenie-io/rust.gen).
+
+```yaml
+# project1.pgn.yaml
+artifacts:
+  rust: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.0/gen/Gen.dhall
+```
+
+---
+
 ## Writing Your Own Generator
 
 Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs - no special permissions or registration required. See [Implementing Custom Generators](../guides/implementing-custom-generators.md) for a guide.
