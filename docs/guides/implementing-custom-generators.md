@@ -56,7 +56,7 @@ The `Sdk.ProjectModel` type contains:
 
 ## Example: The hasql Generator
 
-The official [haskell-hasql.gen](https://github.com/pgenie-io/haskell-hasql.gen) generator is a good reference implementation. Its structure:
+The official [haskell.gen](https://github.com/pgenie-io/haskell.gen) generator is a good reference implementation. Its structure:
 
 ```
 gen/
@@ -68,7 +68,7 @@ gen/
 └── Templates/         ← Haskell code templates
 ```
 
-Browse the source at [github.com/pgenie-io/haskell-hasql.gen](https://github.com/pgenie-io/haskell-hasql.gen).
+Browse the source at [github.com/pgenie-io/haskell.gen](https://github.com/pgenie-io/haskell.gen).
 
 ---
 

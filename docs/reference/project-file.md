@@ -28,7 +28,7 @@ version: 1.0.0
 # Each value is a URL pointing to a Dhall generator entry point.
 # If this map is empty, pGenie only validates your schema and queries.
 artifacts:
-  hasql: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
 ```
 
 ---
@@ -69,15 +69,15 @@ A map from output directory names to generator configurations. Each value can be
 
     ```yaml
     artifacts:
-      hasql: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+      haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
     ```
 
 - An **object** with `gen` and `config` fields, for generators that accept configuration (long form):
 
     ```yaml
     artifacts:
-      hasql:
-        gen: https://raw.githubusercontent.com/pgenie-io/haskell-hasql.gen/v0.1.0/gen/Gen.dhall
+      haskell:
+        gen: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
         config:
     ```
 

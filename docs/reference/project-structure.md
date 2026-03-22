@@ -47,6 +47,6 @@ Auto-generated lock file that records the content hash of each generator URL. En
 
 ## `artifacts/`
 
-The output directory. Each configured generator produces a subdirectory here named after its key in `project1.pgn.yaml`. The contents depend on the generator; for `haskell-hasql.gen` this is a Haskell Cabal library.
+The output directory. Each configured generator produces a subdirectory here named after its key in `project1.pgn.yaml`. The contents depend on the generator; for `haskell.gen` this is a Haskell Cabal library.
 
 Whether to commit `artifacts/` is a project choice - see [Generating Code](../guides/generating-code.md).
