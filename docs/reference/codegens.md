@@ -54,6 +54,26 @@ artifacts:
 
 ---
 
+### `java.gen`
+
+| | |
+|---|---|
+| **Language** | Java |
+| **Library** | [pgJDBC](https://jdbc.postgresql.org/) |
+| **Repository** | [pgenie-io/java.gen](https://github.com/pgenie-io/java.gen) |
+
+Generates a Java library that exposes each SQL query as a typed statement implementation. Output includes a ready-to-build Maven project, one class per query, and Java data types for your custom PostgreSQL enumerations and composite types.
+
+For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [java.gen repository](https://github.com/pgenie-io/java.gen).
+
+```yaml
+# project1.pgn.yaml
+artifacts:
+  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.1.0/gen/Gen.dhall
+```
+
+---
+
 ## Writing Your Own Generator
 
 Anyone can write and distribute a pGenie generator. Generators are plain Dhall programs - no special permissions or registration required. See [Implementing Custom Generators](../guides/implementing-custom-generators.md) for a guide.
