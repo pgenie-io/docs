@@ -8,8 +8,8 @@ We'll build a simple **music catalogue** project - the same one used in the [pGe
 
 ## Prerequisites
 
-- pGenie installed (`pgn --help` works)
-- Docker installed and running (`docker info` succeeds)
+- [pGenie installed](../guides/installation/index.md) (`pgn --help` works)
+- [Docker installed](https://docs.docker.com/engine/install/) and running (`docker info` succeeds)
 
 ---
 
