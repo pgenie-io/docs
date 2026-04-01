@@ -14,7 +14,7 @@ Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducibl
 
 ## Available Generators
 
-### `haskell.gen`
+### haskell
 
 | | |
 |---|---|
@@ -34,7 +34,7 @@ artifacts:
 
 ---
 
-### `rust.gen`
+### rust
 
 | | |
 |---|---|
@@ -54,7 +54,7 @@ artifacts:
 
 ---
 
-### `java.gen`
+### java
 
 | | |
 |---|---|
