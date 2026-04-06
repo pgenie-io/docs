@@ -37,7 +37,7 @@ Contains parameterized SQL query files (one query per file). After the first ana
 
 ## `project1.pgn.yaml`
 
-The project configuration file. It specifies the project's namespace, name, version, and the list of code generators to run. See the [Project File](project-file.md) reference for details.
+The project configuration file. It specifies the project's namespace, name, version, PostgreSQL major version for analysis, and the list of code generators to run. See the [Project File](project-file.md) reference for details.
 
 ---
 

@@ -23,6 +23,10 @@ name: music_catalogue
 # (e.g. the haskell generator prepends "0." to comply with Haskell's PVP).
 version: 1.0.0
 
+# Major PostgreSQL version to use for SQL analysis.
+# If omitted, pGenie defaults to 18.
+postgres: 18
+
 # Code generators to run.
 # Each key is the name of the output directory under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
@@ -57,6 +61,16 @@ The project name. Used as the second-level namespace and as the library name in 
 The version to embed in generated artifacts. Must be a valid [Semantic Version](https://semver.org/) string (e.g. `1.0.0`, `0.3.1`).
 
 Individual generators may transform this version to comply with their ecosystem's conventions. For example, the haskell generator prepends `0.` to produce a PVP-compatible version for Haskell (`1.0.0` → `0.1.0.0`).
+
+### `postgres`
+
+**Type:** integer  
+**Required:** no  
+**Default:** `18`
+
+The major PostgreSQL version pGenie uses when it starts the analysis container. Set this to match the server version you want to validate against, for example `16`, `17`, or `18`.
+
+If you omit this field, pGenie analyses your SQL against PostgreSQL 18.
 
 ### `artifacts`
 

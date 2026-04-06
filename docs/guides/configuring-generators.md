@@ -12,12 +12,15 @@ Open your `project1.pgn.yaml` and add an entry under the `artifacts` key:
 space: my_space
 name: music_catalogue
 version: 1.0.0
+postgres: 18
 
 artifacts:
   haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
 ```
 
 The key (`haskell` in the example) is the name pGenie uses for the output directory under `artifacts/`. The value is a URL pointing to the generator's entry-point Dhall file.
+
+The `postgres` field controls which major PostgreSQL version pGenie uses for schema and query analysis. If you omit it, pGenie uses PostgreSQL 18.
 
 You can add multiple generators:
 

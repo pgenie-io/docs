@@ -16,7 +16,7 @@ Queries (SQL)     ──┘
 
 ### 1. Container startup
 
-pGenie uses [Testcontainers](https://testcontainers.com/) to spin up a disposable PostgreSQL container on the fly. This is why Docker must be running before you invoke `pgn generate`. The container is started fresh every time and torn down when generation is complete.
+pGenie uses [Testcontainers](https://testcontainers.com/) to spin up a disposable PostgreSQL container on the fly. This is why Docker must be running before you invoke `pgn generate`. The container runs the major PostgreSQL version configured in `project1.pgn.yaml` (or PostgreSQL 18 if you do not set one). It is started fresh every time and torn down when generation is complete.
 
 ### 2. Schema application
 

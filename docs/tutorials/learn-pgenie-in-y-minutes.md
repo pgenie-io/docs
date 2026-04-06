@@ -36,12 +36,18 @@ name: music_catalogue
 # Version for generated artifacts. SemVer format.
 version: 1.0.0
 
+# Major PostgreSQL version used for analysis.
+# If omitted, pGenie defaults to 18.
+postgres: 18
+
 # Code generators to run.
 # Each key is an output directory name under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:
   haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
 ```
+
+Set `postgres` to the major PostgreSQL version you want pGenie to analyze against. Leaving it out uses PostgreSQL 18.
 
 ---
 
