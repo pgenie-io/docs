@@ -68,6 +68,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - How It Works: how-it-works.md
+  - pGenie vs sqlc: pgenie-vs-sqlc.md
   - Guides:
       - Installation:
           - guides/installation/index.md

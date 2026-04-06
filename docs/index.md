@@ -53,6 +53,8 @@ This is our biased take on how pGenie stacks up against other approaches to work
 
 **Multi-language from one project.** A single `pgn generate` run can produce typed client libraries for multiple languages simultaneously. Each target language gets idiomatic code from its own [Dhall](https://dhall-lang.org/) generator, and anyone can write a new generator without touching pGenie itself.
 
+Looking for the most common head-to-head comparison? See [pGenie vs sqlc](pgenie-vs-sqlc.md).
+
 ### When to consider alternatives
 
 pGenie is a strong fit for PostgreSQL-centric projects where query correctness and type safety across multiple languages or services are top priorities. It is less suited for other scenarios:
