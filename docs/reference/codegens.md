@@ -69,7 +69,7 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.3.0/gen/Gen.dhall
+  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.3.1/gen/Gen.dhall
 ```
 
 ---
