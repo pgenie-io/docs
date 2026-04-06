@@ -4,9 +4,9 @@ pGenie and sqlc both turn SQL into typed application code, but they optimize for
 
 ## Short Answer
 
-Choose **pGenie** if you are all-in on PostgreSQL and you care most about PostgreSQL fidelity, local schema-drift protection via committed query contracts, and automated index guidance.
+Choose **pGenie** if you're set on PostgreSQL and care about fidelity, schema-drift protection, and automated index guidance.
 
-Choose **sqlc** if you need a broader database matrix, a larger ecosystem, and its existing feature set around annotations, macros, linting, and plugins.
+Choose **sqlc** if you need a broader database matrix, a larger ecosystem, and its existing feature set.
 
 ---
 
@@ -26,9 +26,9 @@ Choose **sqlc** if you need a broader database matrix, a larger ecosystem, and i
 
 ## Why pGenie Feels Different
 
-pGenie applies migrations to a fresh PostgreSQL instance and prepares each query against that live server. That makes PostgreSQL the analysis engine, not an approximation of it.
+pGenie applies migrations to a fresh PostgreSQL instance and prepares each query against that live server. That makes PostgreSQL the analysis engine, not an approximation of it, letting you express queries of any complexity and get precise type information.
 
-Each query gets a `.sig1.pgn.yaml` file beside it. That file records the inferred contract in a form that can be reviewed and versioned with the query itself.
+Each query gets a `.sig1.pgn.yaml` file beside it. That file records the inferred contract in a form that can be reviewed and versioned with the query itself. It is also the instrument for tightening constraints such as parameter nullability.
 
 pGenie also treats index analysis as part of the workflow. `pgn manage-indexes` can suggest new indexes and remove stale ones based on the queries already in the project.
 
@@ -36,7 +36,7 @@ pGenie also treats index analysis as part of the workflow. `pgn manage-indexes` 
 
 sqlc is a better fit if you need more than PostgreSQL or if you want a tool with a larger community, more documentation, and more language targets.
 
-It is also a good fit if you want a mostly static SQL workflow with extras such as query annotations, macros, `vet`, and `verify`.
+It is also a good fit if you mostly use simple SQL with extras such as query annotations, macros, `vet`, and `verify`.
 
 ## Bottom Line
 
