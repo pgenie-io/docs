@@ -39,6 +39,7 @@ This is our biased take on how pGenie stacks up against other approaches to work
 | No runtime abstraction overhead | ✅ | ❌ | ❌ | ✅ |
 | Multi-database support | ❌ | ✅ | ✅ | ❌ |
 | Dynamic query construction | ❌ | ✅ | ✅ | ✅ |
+| Query composability | ❌ | ❌ | ✅ | ❌ |
 | No extra build/generation step | ❌ | ✅ | ✅ | ✅ |
 | Maturity | ❌ | ✅ | ✅ | ✅ |
 
