@@ -13,6 +13,7 @@ extra:
 
 theme:
   name: material
+  custom_dir: overrides
   logo: logo-icon.svg
   favicon: logo-icon.svg
   font:
