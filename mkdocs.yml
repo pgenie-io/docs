@@ -71,6 +71,7 @@ nav:
   - How It Works: how-it-works.md
   - Comparisons:
       - pGenie vs sqlc: comparisons/sqlc.md
+      - pGenie vs jOOQ: comparisons/jooq.md
   - Guides:
       - Installation:
           - guides/installation/index.md
