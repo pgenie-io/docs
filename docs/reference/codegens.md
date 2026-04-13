@@ -29,7 +29,7 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.1/gen/Gen.dhall
+  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall
 ```
 
 ---
@@ -49,7 +49,7 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  rust: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.0/gen/Gen.dhall
+  rust: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.1/gen/Gen.dhall
 ```
 
 ---
@@ -69,7 +69,7 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.3.3/gen/Gen.dhall
+  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.4.0/gen/Gen.dhall
 ```
 
 ---
