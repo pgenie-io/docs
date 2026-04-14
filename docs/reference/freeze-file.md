@@ -21,7 +21,7 @@ Without a freeze file, a generator URL such as `https://example.com/gen/Gen.dhal
 Each line maps a generator URL to the SHA-256 hash of the file at that URL at the time it was first fetched. Example:
 
 ```yaml
-https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
+https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.3/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
 ```
 
 ---

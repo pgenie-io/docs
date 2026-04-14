@@ -44,7 +44,7 @@ postgres: 18
 # Each key is an output directory name under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:
-  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall
+  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.3/gen/Gen.dhall
 ```
 
 Set `postgres` to the major PostgreSQL version you want pGenie to analyze against. Leaving it out uses PostgreSQL 18.
@@ -268,7 +268,7 @@ Commit signature files to version control. They make type changes visible in pul
 Open `freeze1.pgn.yaml`:
 
 ```yaml
-https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
+https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.3/gen/Gen.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
 ```
 
 This pins the generator to a specific content hash. Commit this file too - it ensures anyone running `pgn generate` on this project will get identical output. See the [Freeze File](../reference/freeze-file.md) reference for details.
