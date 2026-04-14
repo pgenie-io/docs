@@ -72,20 +72,21 @@ See the [Codegens reference](../reference/codegens.md) for the list and details 
 
 Generators may accept configuration. The configuration schema is defined by the generator itself. Refer to the individual generator's documentation for details.
 
-The short form (a bare URL) is equivalent to the long form with an empty `config`:
+The short form (a bare URL) is equivalent to the long form with a default `config`:
 
 ```yaml
 # Short form (URL only)
 artifacts:
-  haskell: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall
+  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.4.0/gen/Gen.dhall
 ```
 
 ```yaml
 # Equivalent long form
 artifacts:
-  haskell:
-    gen: https://raw.githubusercontent.com/pgenie-io/haskell.gen/v0.2.2/gen/Gen.dhall
+  java:
+    gen: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.4.0/gen/Gen.dhall
     config:
+      useOptional: false # Whether to use Optional for nullable columns (false by default)
 ```
 
-Use the long form when you need to supply additional configuration values that the generator accepts.
+Use the long form when you need to supply additional configuration values that the generator accepts or to be explicit about them.
