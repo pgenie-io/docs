@@ -145,6 +145,10 @@ Describes the query's result. Omitted entirely for queries that produce no resul
 
 Each column entry has the same fields as a parameter (`type`, `not_null`, and optionally `dims` and `element_not_null`).
 
+### `idempotent`
+
+States that executing the query multiple times with the same parameters has the same effect as executing it once. By default this is `false` for all queries. However when you know a query is idempotent, you can set this to `true` and the code generators will be able to generate automatic retry logic for transient errors on such queries without risking unintended side effects.
+
 ---
 
 ## Type Names
@@ -179,6 +183,7 @@ The `type` field uses the PostgreSQL type names that pGenie's shared `gen-sdk` i
 - `jsonb`
 - `line`
 - `lseg`
+- `ltree`
 - `macaddr`
 - `macaddr8`
 - `money`
