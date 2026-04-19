@@ -22,7 +22,7 @@ cd music-catalogue
 
 ---
 
-## Step 2 - Write the Project File
+## Step 2 - Initialize the Project
 
 Create `project1.pgn.yaml`:
 
@@ -40,7 +40,7 @@ version: 1.0.0
 # If omitted, pGenie defaults to 18.
 postgres: 18
 
-# Code generators to run.
+# Optional code generators to run.
 # Each key is an output directory name under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:

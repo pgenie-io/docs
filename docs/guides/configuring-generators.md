@@ -1,12 +1,12 @@
 # Configuring Generators
 
-Generators are configured in your project file (`project1.pgn.yaml`). Each generator is a [Dhall](https://dhall-lang.org/) program referenced by a URL.
+Generators are configured in your project file (`project1.pgn.yaml`). If you are still initializing the project, you can omit the `artifacts` field entirely and come back here when you are ready to generate code. Each generator is a [Dhall](https://dhall-lang.org/) program referenced by a URL.
 
 ---
 
 ## Adding a Generator
 
-Open your `project1.pgn.yaml` and add an entry under the `artifacts` key:
+Open your `project1.pgn.yaml` and add an `artifacts` field with an entry for each generator:
 
 ```yaml
 space: my_space
@@ -21,6 +21,8 @@ artifacts:
 The key (`haskell` in the example) is the name pGenie uses for the output directory under `artifacts/`. The value is a URL pointing to the generator's entry-point Dhall file.
 
 The `postgres` field controls which major PostgreSQL version pGenie uses for schema and query analysis. If you omit it, pGenie uses PostgreSQL 18.
+
+If you only want pGenie to validate schema and queries, skip `artifacts` entirely.
 
 You can add multiple generators:
 

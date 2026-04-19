@@ -77,6 +77,7 @@ nav:
           - guides/installation/index.md
           - Linux: guides/installation/linux.md
           - macOS: guides/installation/macos.md
+      - Initializing Project: guides/initializing-project.md
       - Writing Migrations: guides/writing-migrations.md
       - Writing Queries: guides/writing-queries.md
       - Configuring Generators: guides/configuring-generators.md

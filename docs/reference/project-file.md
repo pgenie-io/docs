@@ -75,9 +75,9 @@ If you omit this field, pGenie analyses your SQL against PostgreSQL 18.
 ### `artifacts`
 
 **Type:** map of string → generator entry  
-**Required:** yes (but may be empty)
+**Required:** no
 
-A map from output directory names to generator configurations. Each value can be:
+A map from output directory names to generator configurations. Add it only when you want pGenie to generate code. Each value can be:
 
 - A **URL string** pointing directly to the generator's entry-point Dhall file (short form):
 
@@ -100,7 +100,7 @@ The short form (bare URL) is equivalent to the long form with an empty `config`.
 - Keys become subdirectory names under `artifacts/`.
 - Generator URLs should reference a specific tagged version (e.g. `.../v0.1.0/gen/Gen.dhall`) to ensure reproducibility.
 
-If the map is empty (`artifacts: {}`), pGenie validates your schema and queries without generating any code.
+If you omit `artifacts` entirely, pGenie validates your schema and queries without generating any code.
 
 ---
 

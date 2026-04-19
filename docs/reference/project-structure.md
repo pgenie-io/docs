@@ -37,13 +37,13 @@ Contains parameterized SQL query files (one query per file). After the first ana
 
 ## `project1.pgn.yaml`
 
-The project configuration file. It specifies the project's namespace, name, version, PostgreSQL major version for analysis, and the list of code generators to run. See the [Project File](project-file.md) reference for details.
+The project configuration file. It specifies the project's namespace, name, version, PostgreSQL major version for analysis, and any configured code generators. See the [Project File](project-file.md) reference for details.
 
 ---
 
 ## `freeze1.pgn.yaml`
 
-Auto-generated lock file that records the content hash of each generator URL. Ensures reproducible code generation. Commit this file to version control. See the [Freeze File](freeze-file.md) reference for details.
+Auto-generated lock file that records the content hash of each configured generator URL. Ensures reproducible code generation. Commit this file to version control. See the [Freeze File](freeze-file.md) reference for details.
 
 ---
 

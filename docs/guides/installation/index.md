@@ -35,3 +35,5 @@ The very first time you run `pgn generate`, pGenie performs initial setup that c
 2. **Code generator caching** — Dhall generator programs are downloaded from their URLs and their bytecode is cached locally.
 
 You may notice pGenie appears to pause at the "Loading" stage during this first run. This is normal. Subsequent runs complete in a few seconds.
+
+Next, create a `project1.pgn.yaml` file in the root of your project. See the [Initializing Project guide](../initializing-project.md) for a minimal example and a short explanation of the required fields.

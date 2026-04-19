@@ -35,7 +35,7 @@ For each `.sql` file in `queries/`, pGenie:
 
 ### 4. Code generation
 
-pGenie loads the code generators configured in your `project1.pgn.yaml`. Each generator is a [Dhall](https://dhall-lang.org/) program referenced by URL (e.g. a raw GitHub URL). The generator receives a structured description of your entire project - schema, queries, type information - and produces a tree of output files.
+pGenie loads the code generators configured in your `project1.pgn.yaml`, if any. Each generator is a [Dhall](https://dhall-lang.org/) program referenced by URL (e.g. a raw GitHub URL). The generator receives a structured description of your entire project - schema, queries, type information - and produces a tree of output files.
 
 Dhall is used for code generators because it is:
 
