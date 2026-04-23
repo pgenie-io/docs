@@ -35,10 +35,10 @@ jobs:
 
       - name: Install pGenie
         run: |
-          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64.tar.gz \
-            -o pgn-linux-x86_64.tar.gz
-          tar -xzf pgn-linux-x86_64.tar.gz
-          sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
+          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x64.tar.gz \
+            -o pgn-linux-x64.tar.gz
+          tar -xzf pgn-linux-x64.tar.gz
+          sudo mv pgn /usr/local/bin/pgn
 
       - name: Analyse schema and queries
         run: pgn analyse
@@ -49,6 +49,46 @@ jobs:
 - Fail if any migration or query contains invalid SQL.
 - Fail if any query's signature file (`*.sig1.pgn.yaml`) does not match the schema resolved from the current migrations.
 - Print sequential-scan warnings for any query that lacks an appropriate index.
+
+### Using a live PostgreSQL service
+
+If your CI environment already provides PostgreSQL, you can run pGenie in live instance mode instead of Docker execution mode:
+
+```yaml
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pGenie
+        run: |
+          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x64.tar.gz \
+            -o pgn-linux-x64.tar.gz
+          tar -xzf pgn-linux-x64.tar.gz
+          sudo mv pgn /usr/local/bin/pgn
+
+      - name: Analyse schema and queries
+        run: pgn --database-url "host=localhost port=5432 user=postgres password=postgres dbname=postgres" analyse
+```
+
+In this setup, set `postgres` in `project1.pgn.yaml` to `17` so it matches the PostgreSQL service version.
 
 ### Fail on sequential scans
 
@@ -91,10 +131,10 @@ jobs:
 
       - name: Install pGenie
         run: |
-          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x86_64.tar.gz \
-            -o pgn-linux-x86_64.tar.gz
-          tar -xzf pgn-linux-x86_64.tar.gz
-          sudo mv pgn-linux-x86_64 /usr/local/bin/pgn
+          curl -fsSL https://github.com/pgenie-io/pgenie/releases/latest/download/pgn-linux-x64.tar.gz \
+            -o pgn-linux-x64.tar.gz
+          tar -xzf pgn-linux-x64.tar.gz
+          sudo mv pgn /usr/local/bin/pgn
 
       - name: Generate code
         run: pgn generate
@@ -129,5 +169,6 @@ Consuming applications can then download the SDK from the release page or via th
 ## Tips
 
 - **Always commit `freeze1.pgn.yaml`** — this ensures that every CI/CD run uses the exact same generator version and produces identical output.
-- **Always commit `*.sig1.pgn.yaml` files** — CI relies on these being present to detect schema drift. A missing sig file means the first CI run after adding a new query will write the sig file but not fail; subsequent runs will validate against it.
+- **Always commit `*.sig1.pgn.yaml` files** — both query signature files and custom-type signature files are part of the reviewed contract that CI validates.
 - **Use `pgn analyse` in PR checks and `pgn generate` in release pipelines** — analysis is fast and does not require generator access, making it ideal for pull request feedback.
+- **Live instance mode is especially useful on Windows runners** — Docker execution mode is not supported there yet.

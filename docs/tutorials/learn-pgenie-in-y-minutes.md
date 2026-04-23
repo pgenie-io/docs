@@ -9,7 +9,10 @@ We'll build a simple **music catalogue** project - the same one used in the [pGe
 ## Prerequisites
 
 - [pGenie installed](../guides/installation/index.md) (`pgn --help` works)
-- [Docker installed](https://docs.docker.com/engine/install/) and running (`docker info` succeeds)
+- Either [Docker installed](https://docs.docker.com/engine/install/) and running (`docker info` succeeds), or a live PostgreSQL server that you can reach with `--database-url`
+
+!!! note
+  The examples below use the default Docker execution mode. In live instance mode, run the same commands with `--database-url "..."`, and make sure the `postgres` field in `project1.pgn.yaml` matches the live server's major version. On Windows, use live instance mode because Docker execution mode is not supported there yet.
 
 ---
 
@@ -48,6 +51,8 @@ artifacts:
 ```
 
 Set `postgres` to the major PostgreSQL version you want pGenie to analyze against. Leaving it out uses PostgreSQL 18.
+
+If you use live instance mode, set `postgres` to the major version of the PostgreSQL server you connect to.
 
 ---
 
@@ -187,7 +192,7 @@ pgn generate
 ```
 
 !!! note "First run"
-    The first time you run `pgn generate`, it pulls a PostgreSQL Docker image and caches the Dhall generators. This takes up to **3 minutes**. Subsequent runs complete in a few seconds.
+    In Docker execution mode, the first time you run `pgn generate`, it pulls a PostgreSQL image and caches the Dhall generators. This takes up to **3 minutes**. In live instance mode, only the generator cache needs to be populated. Subsequent runs complete in a few seconds.
 
 What happened:
 

@@ -120,6 +120,6 @@ brew install libpq
 
 ---
 
-## Docker Requirement
+## Docker Requirement for Docker Execution Mode
 
-Docker must be running before invoking `pgn`. With Docker Desktop, the Docker icon should appear in the macOS menu bar. With Colima, ensure you have run `colima start`.
+Docker must be running before invoking `pgn` in the default Docker execution mode. If you run pGenie with `--database-url`, Docker is not required. With Docker Desktop, the Docker icon should appear in the macOS menu bar. With Colima, ensure you have run `colima start`.

@@ -18,7 +18,7 @@ pGenie takes a different path: **write plain SQL, get type-safe code**. There is
 
 1. **SQL-first**: The database schema and queries are the single source of truth. The generated code always reflects exactly what the database expects.
 2. **Zero runtime overhead**: Generated code is static - no reflection, no dynamic type mapping at runtime.
-3. **Correctness over convenience**: pGenie runs your queries against an actual PostgreSQL server (via Docker) during generation. If a query is wrong, you find out at generation time, not in production.
+3. **Correctness over convenience**: pGenie runs your queries against an actual PostgreSQL server during generation, using Docker by default or a running server via `--database-url`. If a query is wrong, you find out at generation time, not in production.
 4. **Language-idiomatic output**: Each code generator produces code that feels natural in its target language - proper type names, naming conventions, and library idioms.
 5. **Extensibility**: Code generators are plain [Dhall](https://dhall-lang.org/) programs. Anyone can write a generator for a new target language or framework or fork an existing one, tweak it and immediately use it by referencing its URL in the project configuration.
 

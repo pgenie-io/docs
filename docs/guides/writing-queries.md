@@ -92,9 +92,20 @@ where format = $format
 
 Here `$format` is of type `album_format` (a custom enum), and `recording` in the result is of type `recording_info` (a composite type). pGenie resolves these automatically and generates the appropriate data types in each target language.
 
+When queries mention custom enums or composite types, pGenie also writes **custom-type signature files** under `types/<schema>/`. These files record the enum variants or composite fields that generators consume. Domain types do not get a separate custom-type signature file yet.
+
+```text
+types/
+└── public/
+  ├── album_format.sig1.pgn.yaml
+  └── recording_info.sig1.pgn.yaml
+```
+
+See [Type Signature File](../reference/type-signature-file.md) for the format and editing rules.
+
 ---
 
-## Signature Files
+## Query Signature Files
 
 After each successful run, pGenie writes a **signature file** alongside each query file if one doesn't already exist:
 

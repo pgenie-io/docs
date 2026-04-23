@@ -174,9 +174,9 @@ sudo pacman -S postgresql-libs
 
 ---
 
-## Docker Requirement
+## Docker Requirement for Docker Execution Mode
 
-Docker must be running as a daemon before invoking `pgn`:
+Docker must be running as a daemon before invoking `pgn` in the default Docker execution mode. If you run pGenie with `--database-url`, Docker is not required.
 
 ```bash
 systemctl start docker

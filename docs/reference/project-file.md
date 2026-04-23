@@ -24,6 +24,7 @@ name: music_catalogue
 version: 1.0.0
 
 # Major PostgreSQL version to use for SQL analysis.
+# When using --database-url, this must match the live server's major version.
 # If omitted, pGenie defaults to 18.
 postgres: 18
 
@@ -68,7 +69,11 @@ Individual generators may transform this version to comply with their ecosystem'
 **Required:** no  
 **Default:** `18`
 
-The major PostgreSQL version pGenie uses when it starts the analysis container. Set this to match the server version you want to validate against, for example `16`, `17`, or `18`.
+The major PostgreSQL version pGenie uses for SQL analysis.
+
+In the default Docker execution mode, pGenie starts a temporary PostgreSQL instance of this version.
+
+In live instance mode (`--database-url`), the connected PostgreSQL server must already be running at this same **major version**.
 
 If you omit this field, pGenie analyses your SQL against PostgreSQL 18.
 

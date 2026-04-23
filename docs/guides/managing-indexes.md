@@ -12,9 +12,15 @@ From the root of your project, run:
 pgn manage-indexes
 ```
 
+Or, in live instance mode:
+
+```bash
+pgn --database-url "postgresql://user:password@localhost:5432/postgres" manage-indexes
+```
+
 pGenie will:
 
-1. Start a temporary PostgreSQL Docker container.
+1. Prepare a temporary PostgreSQL analysis environment.
 2. Apply all migrations in `migrations/`.
 3. Query the database catalog to read all existing non-primary indexes.
 4. Run `EXPLAIN` on each query in `queries/` to detect sequential scans.
@@ -63,5 +69,6 @@ pGenie will determine the next available migration number (e.g. `5.sql`) and wri
 
 - Index management is heuristic. pGenie reasons from the observed query patterns in your `queries/` directory — it cannot know about queries issued by other clients or future access patterns. Always review the suggested migration before applying it.
 - `pgn manage-indexes` on its own only prints the migration to stdout and does not modify any project files. To persist it either use `--add-migration` or pipe its stdout to a file.
-- The command uses the same ephemeral Docker container approach as `pgn generate`, so Docker must be running.
+- The command uses the same temporary analysis environment as `pgn generate`: Docker by default, or a live PostgreSQL instance when `--database-url` is provided.
+- In live instance mode, the `postgres` field in `project1.pgn.yaml` must match the connected server's major version, and the connected user must be able to create databases.
 - If you want to keep a redundant index for any reason (e.g. it is used by external tools), you can pass `--allow-redundant-indexes` to emit warnings instead of drop statements for those cases.

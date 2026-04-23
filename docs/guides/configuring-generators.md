@@ -20,7 +20,7 @@ artifacts:
 
 The key (`haskell` in the example) is the name pGenie uses for the output directory under `artifacts/`. The value is a URL pointing to the generator's entry-point Dhall file.
 
-The `postgres` field controls which major PostgreSQL version pGenie uses for schema and query analysis. If you omit it, pGenie uses PostgreSQL 18.
+The `postgres` field controls which major PostgreSQL version pGenie uses for schema and query analysis. If you use live instance mode (`--database-url`), this must match the connected server's major version. If you omit it, pGenie uses PostgreSQL 18.
 
 If you only want pGenie to validate schema and queries, skip `artifacts` entirely.
 

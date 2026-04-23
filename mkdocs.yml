@@ -77,10 +77,12 @@ nav:
           - guides/installation/index.md
           - Linux: guides/installation/linux.md
           - macOS: guides/installation/macos.md
+          - Windows: guides/installation/windows.md
       - Initializing Project: guides/initializing-project.md
       - Writing Migrations: guides/writing-migrations.md
       - Writing Queries: guides/writing-queries.md
       - Configuring Generators: guides/configuring-generators.md
+      - Using a Live PostgreSQL Instance: guides/live-instance-mode.md
       - Generating Code: guides/generating-code.md
       - Managing Indexes: guides/managing-indexes.md
       - Using pGenie in CI/CD: guides/cicd.md
@@ -95,6 +97,7 @@ nav:
       - Project Structure: reference/project-structure.md
       - Project File: reference/project-file.md
       - Query Signature File: reference/query-signature-file.md
+      - Type Signature File: reference/type-signature-file.md
       - Freeze File: reference/freeze-file.md
       - Codegens: reference/codegens.md
   - Tutorials:

@@ -14,6 +14,10 @@ my-project/
 │   ├── my_query.sql
 │   ├── my_query.sig1.pgn.yaml   # Query signature (auto-generated)
 │   └── ...
+├── types/                    # Custom type signature files (auto-generated)
+│   └── public/
+│       ├── album_format.sig1.pgn.yaml
+│       └── recording_info.sig1.pgn.yaml
 └── artifacts/                # Generated client libraries (output)
     └── haskell/
         └── ...
@@ -32,6 +36,14 @@ Contains SQL migration files that define your database schema. Files are applied
 ## `queries/`
 
 Contains parameterized SQL query files (one query per file). After the first analysis, pGenie writes a `.sig1.pgn.yaml` signature file alongside each `.sql` file. On subsequent runs pGenie validates the existing signature against the live schema rather than overwriting it. See [Writing Queries](../guides/writing-queries.md) and the [Query Signature File](query-signature-file.md) reference for details.
+
+---
+
+## `types/`
+
+Contains custom-type signature files for PostgreSQL enums and composite types that are referenced by your queries. Files are stored under `types/<schema>/` and use the same `.sig1.pgn.yaml` suffix as query signatures. Domain types do not get a custom-type signature file.
+
+See the [Type Signature File](type-signature-file.md) reference for details.
 
 ---
 
