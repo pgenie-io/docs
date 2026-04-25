@@ -49,7 +49,10 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  rust: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.1.2/gen/Gen.dhall
+  rust:
+    gen: https://raw.githubusercontent.com/pgenie-io/rust.gen/v0.2.0/gen/Gen.dhall
+    config:
+      deadpool: false # Set to true if you want the generated code to be integrated with `deadpool-postgres` for connection pooling and prepared statements caching support.
 ```
 
 ---
@@ -69,7 +72,10 @@ For full documentation — including complete type mappings, generated output ex
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  java: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.4.1/gen/Gen.dhall
+  java:
+    gen: https://raw.githubusercontent.com/pgenie-io/java.gen/v0.4.1/gen/Gen.dhall
+    config:
+      useOptional: false # Set to true if you want the generated code to use `Optional` for nullable fields instead of nullable references to explicitly reflect the nullability in types.
 ```
 
 ---
