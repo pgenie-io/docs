@@ -26,12 +26,6 @@ Generates a Haskell library that exposes each SQL query as a typed [`Statement`]
 
 For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [haskell.gen repository](https://github.com/pgenie-io/haskell.gen).
 
-```yaml
-# project1.pgn.yaml
-artifacts:
-  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
-```
-
 ---
 
 ### rust
@@ -46,15 +40,6 @@ Generates a Rust crate that exposes each SQL query as a typed statement implemen
 
 For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [rust.gen repository](https://github.com/pgenie-io/rust.gen).
 
-```yaml
-# project1.pgn.yaml
-artifacts:
-  rust:
-    gen: https://github.com/pgenie-io/rust.gen/releases/download/v0.3.0/resolved.dhall
-    config:
-      deadpool: false # Set to true if you want the generated code to be integrated with `deadpool-postgres` for connection pooling and prepared statements caching support.
-```
-
 ---
 
 ### java
@@ -68,15 +53,6 @@ artifacts:
 Generates a Java library that exposes each SQL query as a typed statement implementation. Output includes a ready-to-build Maven project, one class per query, and Java data types for your custom PostgreSQL enumerations and composite types.
 
 For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [java.gen repository](https://github.com/pgenie-io/java.gen).
-
-```yaml
-# project1.pgn.yaml
-artifacts:
-  java:
-    gen: https://github.com/pgenie-io/java.gen/releases/download/v0.5.0/resolved.dhall
-    config:
-      useOptional: false # Set to true if you want the generated code to use `Optional` for nullable fields instead of nullable references to explicitly reflect the nullability in types.
-```
 
 ---
 
