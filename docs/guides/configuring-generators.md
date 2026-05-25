@@ -76,6 +76,9 @@ Generators may accept configuration. The configuration schema is defined by the 
 
 The short form (a bare URL) is equivalent to the long form with a default `config`:
 
+> [!NOTE]
+> The version tags used in the examples (e.g. v0.5.0) are illustrative and may not be the latest. Check the generator's README for the reference to the latest release (for example: https://github.com/pgenie-io/java.gen).
+
 ```yaml
 # Short form (URL only)
 artifacts:
