@@ -6,7 +6,7 @@ Code generators are the plugins that turn pGenie's analysis output into idiomati
 
 ## How Generators Work
 
-Each generator is a [Dhall](https://dhall-lang.org/) program hosted at a URL. pGenie downloads the generator, evaluates it with the project model (schema + queries + configuration), and writes the resulting files to `artifacts/<name>/`.
+Each generator is a [Dhall](https://dhall-lang.org/) program hosted at a URL. pGenie downloads the generator, evaluates it with the project model (schema + queries + configuration), and writes the resulting files to `artifacts/<NAME>/`.
 
 Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducible output. See [Configuring Generators](../guides/configuring-generators.md) for setup instructions.
 
@@ -14,71 +14,31 @@ Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducibl
 
 ## Available Generators
 
-### haskell
+| Language | Library | Generator Repo | Generator URL |
+|---|---|---|---|
+| Haskell | [hasql](https://hackage.haskell.org/package/hasql) | [haskell.gen](https://github.com/pgenie-io/haskell.gen) | `https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall` |
+| Java | [pgJDBC](https://jdbc.postgresql.org/) | [java.gen](https://github.com/pgenie-io/java.gen) | `https://github.com/pgenie-io/java.gen/releases/download/v0.6.0/resolved.dhall` |
+| Rust | [tokio-postgres](https://crates.io/crates/tokio-postgres) | [rust.gen](https://github.com/pgenie-io/rust.gen) | `https://github.com/pgenie-io/rust.gen/releases/download/v0.4.0/resolved.dhall` |
 
-| | |
-|---|---|
-| **Language** | Haskell |
-| **Library** | [hasql](https://hackage.haskell.org/package/hasql) |
-| **Repository** | [pgenie-io/haskell.gen](https://github.com/pgenie-io/haskell.gen) |
-
-Generates a Haskell library that exposes each SQL query as a typed [`Statement`](https://hackage.haskell.org/package/hasql/docs/Hasql-Statement.html) value. Output includes a ready-to-use Cabal package, one module per query, and data types for your custom PostgreSQL enumerations and composite types. Nullability is faithfully represented using `Maybe`.
-
-For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [haskell.gen repository](https://github.com/pgenie-io/haskell.gen).
+Use them by specifying the latest generator URL either in the short form:
 
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
+  <NAME>: <GENERATOR_URL>
 ```
 
----
-
-### rust
-
-| | |
-|---|---|
-| **Language** | Rust |
-| **Library** | [tokio-postgres](https://crates.io/crates/tokio-postgres) |
-| **Repository** | [pgenie-io/rust.gen](https://github.com/pgenie-io/rust.gen) |
-
-Generates a Rust crate that exposes each SQL query as a typed statement implementation. Output includes a ready-to-build Cargo package, one module per query, and Rust data types for your custom PostgreSQL enumerations and composite types.
-
-For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [rust.gen repository](https://github.com/pgenie-io/rust.gen).
+Or the long form:
 
 ```yaml
 # project1.pgn.yaml
 artifacts:
-  rust:
-    gen: https://github.com/pgenie-io/rust.gen/releases/download/v0.3.0/resolved.dhall
-    config:
-      deadpool: false # Set to true if you want the generated code to be integrated with `deadpool-postgres` for connection pooling and prepared statements caching support.
+  <NAME>:
+    gen: <GENERATOR_URL>
+    config: <GENERATOR_CONFIG>
 ```
 
----
-
-### java
-
-| | |
-|---|---|
-| **Language** | Java |
-| **Library** | [pgJDBC](https://jdbc.postgresql.org/) |
-| **Repository** | [pgenie-io/java.gen](https://github.com/pgenie-io/java.gen) |
-
-Generates a Java library that exposes each SQL query as a typed statement implementation. Output includes a ready-to-build Maven project, one class per query, and Java data types for your custom PostgreSQL enumerations and composite types.
-
-For full documentation — including complete type mappings, generated output examples, configuration options, and the changelog — visit the [java.gen repository](https://github.com/pgenie-io/java.gen).
-
-```yaml
-# project1.pgn.yaml
-artifacts:
-  java:
-    gen: https://github.com/pgenie-io/java.gen/releases/download/v0.5.0/resolved.dhall
-    config:
-      useOptional: false # Set to true if you want the generated code to use `Optional` for nullable fields instead of nullable references to explicitly reflect the nullability in types.
-```
-
----
+For detailed documentation on each generator, refer to the links in the "Generator Repo" column from the table above.
 
 ## Writing Your Own Generator
 
