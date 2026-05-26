@@ -1,0 +1,125 @@
+name: Update Codegen URLs
+
+on:
+  workflow_dispatch:
+    inputs:
+      codegen_repo:
+        description: "Codegen repository (e.g. haskell.gen or pgenie-io/haskell.gen)"
+        required: true
+      release_tag:
+        description: "Release tag to sync (e.g. v0.4.0)"
+        required: true
+
+  repository_dispatch:
+    types:
+      - codegen-release
+
+permissions:
+  contents: write
+
+jobs:
+  update-codegen-urls:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out docs repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch || 'master' }}
+
+      - name: Resolve event payload
+        id: payload
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          codegen_repo=""
+          release_tag=""
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            codegen_repo="${{ github.event.inputs.codegen_repo }}"
+            release_tag="${{ github.event.inputs.release_tag }}"
+          elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            codegen_repo="${{ github.event.client_payload.codegen_repo }}"
+            release_tag="${{ github.event.client_payload.release_tag }}"
+          fi
+
+          if [[ -z "$codegen_repo" || -z "$release_tag" ]]; then
+            echo "Both codegen_repo and release_tag are required."
+            exit 1
+          fi
+
+          if [[ "$release_tag" != v* ]]; then
+            release_tag="v$release_tag"
+          fi
+
+          if [[ "$codegen_repo" != */* ]]; then
+            codegen_repo="pgenie-io/$codegen_repo"
+          fi
+
+          echo "codegen_repo=$codegen_repo" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+
+      - name: Update URLs in docs markdown
+        shell: bash
+        env:
+          CODEGEN_REPO: ${{ steps.payload.outputs.codegen_repo }}
+          RELEASE_TAG: ${{ steps.payload.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          import os
+          import re
+          from pathlib import Path
+
+          codegen_repo = os.environ["CODEGEN_REPO"]
+          release_tag = os.environ["RELEASE_TAG"]
+
+          replacement = f"https://github.com/{codegen_repo}/releases/download/{release_tag}/resolved.dhall"
+          pattern = re.compile(
+              rf"https://github\.com/{re.escape(codegen_repo)}/releases/download/[^/\s)\]`\"']+/resolved\.dhall"
+          )
+
+          total_replacements = 0
+          touched_files: list[Path] = []
+
+          for path in sorted(Path("docs").rglob("*.md")):
+              text = path.read_text(encoding="utf-8")
+              updated, count = pattern.subn(replacement, text)
+              if count > 0:
+                  path.write_text(updated, encoding="utf-8")
+                  total_replacements += count
+                  touched_files.append(path)
+
+          print(f"Replaced {total_replacements} URL occurrence(s) for {codegen_repo} -> {release_tag}.")
+          if touched_files:
+              print("Updated files:")
+              for file_path in touched_files:
+                  print(f"- {file_path}")
+          PY
+
+      - name: Commit and push changes
+        shell: bash
+        env:
+          CODEGEN_REPO: ${{ steps.payload.outputs.codegen_repo }}
+          RELEASE_TAG: ${{ steps.payload.outputs.release_tag }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'master' }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add docs
+
+          if git diff --cached --quiet; then
+            echo "No URL updates were necessary."
+            exit 0
+          fi
+
+          repo_short="${CODEGEN_REPO#*/}"
+          git commit -m "docs: update ${repo_short} URLs for ${RELEASE_TAG}"
+          git push origin HEAD:"$DEFAULT_BRANCH"
