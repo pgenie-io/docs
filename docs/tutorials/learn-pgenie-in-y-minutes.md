@@ -192,7 +192,7 @@ pgn generate
 ```
 
 !!! note "First run"
-    In Docker execution mode, the first time you run `pgn generate`, it pulls a PostgreSQL image and caches the Dhall generators. This takes up to **3 minutes**. In live instance mode, only the generator cache needs to be populated. Subsequent runs complete in a few seconds.
+    In Docker execution mode, the first time you run `pgn generate`, it pulls a PostgreSQL image and caches the Dhall generators. This takes longer than the subsequent runs. Subsequent runs complete in a few seconds. In live instance mode, only the generator cache needs to be populated.
 
 What happened:
 
