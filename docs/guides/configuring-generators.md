@@ -29,7 +29,7 @@ You can add multiple generators:
 ```yaml
 artifacts:
   haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
-  java: https://github.com/pgenie-io/java.gen/releases/download/v0.6.1/resolved.dhall
+  java: https://github.com/pgenie-io/java.gen/releases/download/v0.6.2/resolved.dhall
   rust: https://github.com/pgenie-io/rust.gen/releases/download/v0.4.1/resolved.dhall
 ```
 
@@ -46,7 +46,7 @@ After the first run, pGenie records the content hash of each generator in `freez
 ```yaml
 # Map of generator hashes by url
 https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall: sha256:5bed6d6b5a047e1f908c6432fca54a0e9c66c188257756b1b8a8fcbd7b1eace3
-https://github.com/pgenie-io/java.gen/releases/download/v0.6.1/resolved.dhall: sha256:97a8309ac0536d17f41ae5cb39a4e365aa4a04845074ff6635e292fe6c1ca8ee
+https://github.com/pgenie-io/java.gen/releases/download/v0.6.2/resolved.dhall: sha256:97a8309ac0536d17f41ae5cb39a4e365aa4a04845074ff6635e292fe6c1ca8ee
 https://github.com/pgenie-io/rust.gen/releases/download/v0.4.1/resolved.dhall: sha256:38d40d5d55a60f0fb6a131a30cb7c4fb417e50710c6344df401b2e424b586a66
 ```
 
@@ -82,14 +82,14 @@ The short form (a bare URL) is equivalent to the long form with a default `confi
 ```yaml
 # Short form (URL only)
 artifacts:
-  java: https://github.com/pgenie-io/java.gen/releases/download/v0.6.1/resolved.dhall
+  java: https://github.com/pgenie-io/java.gen/releases/download/v0.6.2/resolved.dhall
 ```
 
 ```yaml
 # Equivalent long form
 artifacts:
   java:
-    gen: https://github.com/pgenie-io/java.gen/releases/download/v0.6.1/resolved.dhall
+    gen: https://github.com/pgenie-io/java.gen/releases/download/v0.6.2/resolved.dhall
     config:
       useOptional: false # Whether to use Optional for nullable columns (false by default)
 ```
