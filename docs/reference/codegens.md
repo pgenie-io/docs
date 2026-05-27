@@ -14,7 +14,7 @@ Generators are versioned and pinned via `freeze1.pgn.yaml` to ensure reproducibl
 
 ## Available Generators
 
-| Language | Library | Generator Repo | Generator URL |
+| Language | Library | Generator Repo & Docs | Generator URL |
 |---|---|---|---|
 | Haskell | [hasql](https://hackage.haskell.org/package/hasql) | [haskell.gen](https://github.com/pgenie-io/haskell.gen) | `https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall` |
 | Java | [pgJDBC](https://jdbc.postgresql.org/) | [java.gen](https://github.com/pgenie-io/java.gen) | `https://github.com/pgenie-io/java.gen/releases/download/v0.6.0/resolved.dhall` |
