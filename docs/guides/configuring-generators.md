@@ -30,7 +30,7 @@ You can add multiple generators:
 artifacts:
   haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
   java: https://github.com/pgenie-io/java.gen/releases/download/v0.5.0/resolved.dhall
-  rust: https://github.com/pgenie-io/rust.gen/releases/download/v0.3.0/resolved.dhall
+  rust: https://github.com/pgenie-io/rust.gen/releases/download/v0.4.1/resolved.dhall
 ```
 
 Each generator produces a separate subdirectory under `artifacts/`.
@@ -47,7 +47,7 @@ After the first run, pGenie records the content hash of each generator in `freez
 # Map of generator hashes by url
 https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall: sha256:5bed6d6b5a047e1f908c6432fca54a0e9c66c188257756b1b8a8fcbd7b1eace3
 https://github.com/pgenie-io/java.gen/releases/download/v0.5.0/resolved.dhall: sha256:97a8309ac0536d17f41ae5cb39a4e365aa4a04845074ff6635e292fe6c1ca8ee
-https://github.com/pgenie-io/rust.gen/releases/download/v0.3.0/resolved.dhall: sha256:38d40d5d55a60f0fb6a131a30cb7c4fb417e50710c6344df401b2e424b586a66
+https://github.com/pgenie-io/rust.gen/releases/download/v0.4.1/resolved.dhall: sha256:38d40d5d55a60f0fb6a131a30cb7c4fb417e50710c6344df401b2e424b586a66
 ```
 
 Commit `freeze1.pgn.yaml` to version control. On subsequent runs, pGenie verifies that every downloaded generator matches its recorded hash, making generation fully reproducible across machines.
