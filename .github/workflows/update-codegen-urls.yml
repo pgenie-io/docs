@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   update-codegen-urls:
@@ -123,3 +125,7 @@ jobs:
           repo_short="${CODEGEN_REPO#*/}"
           git commit -m "docs: update ${repo_short} URLs for ${RELEASE_TAG}"
           git push origin HEAD:"$DEFAULT_BRANCH"
+
+  publish:
+    needs: update-codegen-urls
+    uses: ./.github/workflows/publish.yml
