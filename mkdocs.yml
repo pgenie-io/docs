@@ -72,6 +72,7 @@ nav:
   - Comparisons:
       - pGenie vs sqlc: comparisons/sqlc.md
       - pGenie vs jOOQ: comparisons/jooq.md
+      - pGenie vs Spring Data JDBC: comparisons/spring-data-jdbc.md
   - Guides:
       - Installation:
           - guides/installation/index.md

@@ -55,6 +55,7 @@ This is our biased take on how pGenie stacks up against other approaches to work
 
 Looking for the most common head-to-head comparison? See [pGenie vs sqlc](comparisons/sqlc.md).
 For the Java DSL angle, see [pGenie vs jOOQ](comparisons/jooq.md).
+For the Spring repository pattern, see [pGenie vs Spring Data JDBC](comparisons/spring-data-jdbc.md).
 
 ### When to consider alternatives
 
