@@ -52,6 +52,18 @@ values ($name, $released, $format, $recording)
 returning id
 ```
 
+As an alternative, psql-style `:param_name` syntax is also accepted, letting you share query files as-is with `psql` and tools like [RegreSQL](https://github.com/dimitri/regresql):
+
+```sql
+-- queries/select_album_by_name.sql
+
+select id, name, released, format, recording
+from album
+where name = :name
+```
+
+A single query file must use one style consistently — mixing `$param_name` and `:param_name` in the same file fails to parse.
+
 - A parameter may be used more than once in the same query.
 - Types and nullability are inferred automatically by pGenie from the database schema, query context and [signature files](../reference/query-signature-file.md).
 - Parameter names are mapped to appropriate types in each generated language.
