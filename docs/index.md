@@ -30,7 +30,7 @@ This is our biased take on how pGenie stacks up against other approaches to work
 
 | | pGenie | ORM | Query builder | Raw SQL |
 |---|---|---|---|---|
-| Single source of truth | ✅ (SQL) | ✅ (Code) | ❌ | ❌ |
+| Single source of truth | ✅ (DB) | ✅ (App) | ❌ | ❌ |
 | Queries of any complexity | ✅ | ❌ | ❌ | ✅ |
 | Static type safety | ✅ | ✅ | ✅ | ❌ |
 | Build fails on schema/query mismatch | ✅ | ❌ | ❌ | ❌ |
