@@ -1,8 +1,8 @@
 # Learn pGenie in Y Minutes
 
-This is a complete walkthrough of pGenie's core features, inspired by the [Learn X in Y minutes](https://learnxinyminutes.com/) series. By the end you'll have set up a project, written migrations and queries, configured a generator, and generated a type-safe client library.
+This is a complete walkthrough of pGenie's core loop, inspired by the [Learn X in Y minutes](https://learnxinyminutes.com/) series. You'll define a schema in plain SQL, write parameterized queries, and generate type-safe client libraries for two languages with one command. Then you'll break the schema on purpose — and watch pGenie fail the build before production can.
 
-We'll build a simple **music catalogue** project - the same one used in the [pGenie demo](https://github.com/pgenie-io/demo).
+We'll build a simple **music catalogue** — the same project used in the [pGenie demo](https://github.com/pgenie-io/demo).
 
 ---
 
@@ -12,20 +12,16 @@ We'll build a simple **music catalogue** project - the same one used in the [pGe
 - Either [Docker installed](https://docs.docker.com/engine/install/) and running (`docker info` succeeds), or a live PostgreSQL server that you can reach with `--database-url`
 
 !!! note
-  The examples below use the default Docker execution mode. In live instance mode, run the same commands with `--database-url "..."`, and make sure the `postgres` field in `project1.pgn.yaml` matches the live server's major version. On Windows, use live instance mode because Docker execution mode is not supported there yet.
+    The examples below use the default Docker execution mode. In live instance mode, run the same commands with `--database-url "..."`, and make sure the `postgres` field in `project1.pgn.yaml` matches the live server's major version. On Windows, use live instance mode because Docker execution mode is not supported there yet.
 
 ---
 
-## Step 1 - Create a Project Directory
+## Step 1 - Set Up the Project
 
 ```bash
 mkdir music-catalogue
 cd music-catalogue
 ```
-
----
-
-## Step 2 - Initialize the Project
 
 Create `project1.pgn.yaml`:
 
@@ -39,26 +35,26 @@ name: music_catalogue
 # Version for generated artifacts. SemVer format.
 version: 1.0.0
 
-# Major PostgreSQL version used for analysis.
-# If omitted, pGenie defaults to 18.
+# Major PostgreSQL version used for analysis. Defaults to 18.
 postgres: 18
 
-# Optional code generators to run.
+# Code generators to run.
 # Each key is an output directory name under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:
-  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
+  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall
+  java: https://github.com/pgenie-io/java.gen/releases/download/v0.7.1/resolved.dhall
 ```
 
-Set `postgres` to the major PostgreSQL version you want pGenie to analyze against. Leaving it out uses PostgreSQL 18.
+Note the two entries under `artifacts`. One project, two target languages — every query you write below becomes a typed function in both libraries. Generators are plain [Dhall](https://dhall-lang.org/) programs referenced by URL; the [Codegens reference](../reference/codegens.md) lists what's available, and you can [write your own](../guides/implementing-custom-generators.md).
 
-If you use live instance mode, set `postgres` to the major version of the PostgreSQL server you connect to.
+If you use live instance mode, set `postgres` to the major version of the server you connect to.
 
 ---
 
-## Step 3 - Write Migrations
+## Step 2 - Write Migrations
 
-Migrations define your PostgreSQL schema. Create the `migrations/` directory and add your first migration:
+Migrations are plain PostgreSQL DDL, applied in natural sort order — `1.sql` before `2.sql`, and `10.sql` after `9.sql`. They are append-only: to change the schema, add a file; don't edit old ones.
 
 ```bash
 mkdir migrations
@@ -129,17 +125,13 @@ alter table album
 create index album_recording_idx on album (recording);
 ```
 
-Key points:
-
-- Files are applied in **natural sort order**, so `1.sql` before `2.sql` before `3.sql` (and `10.sql` after `9.sql`, not before it).
-- You can use any valid PostgreSQL DDL: tables, types, indexes, constraints, etc.
-- Migrations are **append-only**: add new files rather than editing existing ones.
+Any valid PostgreSQL DDL works: tables, types, indexes, constraints.
 
 ---
 
-## Step 4 - Write Queries
+## Step 3 - Write Queries
 
-Queries are parameterized SQL statements. Each query lives in its own file inside `queries/`. The filename (without `.sql`) determines the name in generated code.
+One file per query in `queries/`. The filename becomes the name in generated code; parameters use `$snake_case` syntax. That is the entire authoring surface — no annotations, no model classes, no DSL. Types are inferred from the schema.
 
 ```bash
 mkdir queries
@@ -153,7 +145,7 @@ values ($name, $released, $format, $recording)
 returning id
 ```
 
-**`queries/select_album_by_name.sql`** - Find albums by name (nullable parameter):
+**`queries/select_album_by_name.sql`** - Find albums by name:
 
 ```sql
 select id, name, released, format, recording
@@ -177,37 +169,30 @@ set released = $released
 where id = $id
 ```
 
-Key points:
-
-- **Parameters** use `$snake_case` syntax - types are inferred from the schema.
-- **Filenames** use `snake_case` - these become function/method/class/data-type names in the generated code.
-- Any query type is supported: `SELECT`, `INSERT … RETURNING`, `UPDATE`, `DELETE`, etc.
+Any statement type is supported: `SELECT`, `INSERT … RETURNING`, `UPDATE`, `DELETE`, and so on.
 
 ---
 
-## Step 5 - Generate Code
+## Step 4 - Generate
 
 ```bash
 pgn generate
 ```
 
 !!! note "First run"
-    In Docker execution mode, the first time you run `pgn generate`, it pulls a PostgreSQL image and caches the Dhall generators. This takes longer than the subsequent runs. Subsequent runs complete in a few seconds. In live instance mode, only the generator cache needs to be populated.
+    The first run pulls a PostgreSQL image (in Docker execution mode) and caches the Dhall generators, so it takes a while. Subsequent runs finish in seconds.
 
-What happened:
+In one command, pGenie:
 
-1. pGenie started a temporary PostgreSQL container.
-2. It applied `migrations/1.sql`, `2.sql`, and `3.sql` in order, building up the schema.
-3. It analyzed each query in `queries/` against the live schema.
-4. It wrote **signature files** recording the resolved types for each query (since none existed yet).
-5. It ran the `haskell` generator and wrote the output to `artifacts/haskell/`.
-6. It wrote `freeze1.pgn.yaml` recording the generator's content hash for reproducibility.
+1. Started a temporary PostgreSQL server.
+2. Applied the migrations in order.
+3. Ran every query against the live schema and recorded its resolved types in **signature files**.
+4. Generated the `haskell` and `java` libraries under `artifacts/`.
+5. Wrote `freeze1.pgn.yaml`, pinning each generator to a content hash.
 
----
+No guessing, no SQL parsing heroics — the types come from PostgreSQL itself.
 
-## Step 6 - Inspect the Results
-
-Your project directory now looks like:
+Your project now looks like this:
 
 ```
 music-catalogue/
@@ -219,22 +204,32 @@ music-catalogue/
 │   └── 3.sql
 ├── queries/
 │   ├── insert_album.sql
-│   ├── insert_album.sig1.pgn.yaml            ← new: type signature
+│   ├── insert_album.sig1.pgn.yaml            ← new: query signature
 │   ├── select_album_by_name.sql
-│   ├── select_album_by_name.sig1.pgn.yaml    ← new: type signature
+│   ├── select_album_by_name.sig1.pgn.yaml    ← new
 │   ├── select_album_by_format.sql
-│   ├── select_album_by_format.sig1.pgn.yaml  ← new: type signature
+│   ├── select_album_by_format.sig1.pgn.yaml  ← new
 │   ├── update_album_released.sql
-│   └── update_album_released.sig1.pgn.yaml   ← new: type signature
+│   └── update_album_released.sig1.pgn.yaml   ← new
+├── types/
+│   └── public/                               ← new: custom type signatures
+│       ├── album_format.sig1.pgn.yaml
+│       └── recording_info.sig1.pgn.yaml
 └── artifacts/
-    └── haskell/                              ← new: generated Haskell library
+    ├── haskell/                              ← new: generated Haskell library
+    └── java/                                 ← new: generated Java library
 ```
 
-### The signature file
+The `types/` directory records signatures for your custom enum and composite types — same idea as query signatures, covered in the [Type Signature File](../reference/type-signature-file.md) reference.
+
+You'll also notice sequential-scan warnings in the output. Hold that thought — Step 9 deals with them.
+
+### The query signature
 
 Open `queries/select_album_by_name.sig1.pgn.yaml`:
 
 ```yaml
+idempotent: false
 parameters:
   name:
     type: text
@@ -259,51 +254,48 @@ result:
       not_null: false
 ```
 
-This is the resolved type contract for the query. Notice:
+This is the query's type contract, resolved against the real schema:
 
-- `$name` is nullable (`not_null: false`) because pGenie cannot statically prove the parameter is non-null from the query context alone - there is no `NOT NULL` constraint explicitly applied to the parameter in the SQL.
-- `id` and `name` columns are `not_null: true` because they are defined with `NOT NULL` in the schema.
-- `released`, `format`, and `recording` are nullable because they were defined as `null` columns.
-- `format` has type `album_format` and `recording` has type `recording_info` - the custom types you defined.
+- `id` and `name` are `not_null: true` — they carry `NOT NULL` constraints in the schema.
+- `format` is your custom enum; `recording` is your custom composite type.
+- `$name` is nullable, because nothing in the SQL proves the caller will never pass `NULL`.
 
-Commit signature files to version control. They make type changes visible in pull request reviews.
+Commit signature files to version control — they make type changes visible in pull request review. The [Query Signature File](../reference/query-signature-file.md) reference covers every field, including `idempotent`, which lets generators emit automatic retry logic for queries that are safe to repeat.
 
 ### The freeze file
 
 Open `freeze1.pgn.yaml`:
 
 ```yaml
-https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall: sha256:fcc51fe6ae2f774bcb13684b680aae1a9b827451c3f56c1ae2875f1e64fe78e5
+# Map of generator hashes by url
+https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall: sha256:d25623bc236c7225c35bb39be0e2490b895bfaed9605c2916d6286a073e32a20
+https://github.com/pgenie-io/java.gen/releases/download/v0.7.1/resolved.dhall: sha256:72722fab4cfe21476f7011cf2cc8149a15fbe78d8a3200b0efdf8cac08127008
 ```
 
-This pins the generator to a specific content hash. Commit this file too - it ensures anyone running `pgn generate` on this project will get identical output. See the [Freeze File](../reference/freeze-file.md) reference for details.
+Commit this too. Anyone who runs `pgn generate` on this project gets identical output. See the [Freeze File](../reference/freeze-file.md) reference for details.
 
 ---
 
-## Step 7 - Refine a Query Signature
+## Step 5 - Own a Signature
 
-Open `queries/select_album_by_name.sig1.pgn.yaml` again. Remember that the `$name` parameter was inferred as nullable (`not_null: false`)? pGenie cannot statically prove from the SQL alone that the caller will never pass `NULL` for `name`. However, in practice we always search for a concrete album name — passing `NULL` would be meaningless.
+pGenie writes each signature file once. After that, the file is yours: on every run pGenie re-resolves the signature from the database and validates it against your committed file. It never silently overwrites it.
 
-Edit the file and change `name.not_null` to `true`:
+That means you can tighten the contract. `$name` was inferred as nullable, but searching for a `NULL` album name is meaningless. Edit `queries/select_album_by_name.sig1.pgn.yaml`:
 
 ```yaml
 parameters:
   name:
     type: text
     not_null: true   # ← changed
-result:
-  cardinality: many
-  columns:
-    ...
 ```
 
-Run `pgn generate` again. pGenie will **reuse your edited signature file** and generate a **non-nullable** parameter type for `$name` in the output library.
+(The rest of the file stays as is.)
 
-**Why this matters:** pGenie never silently overwrites a signature file. Once a sig file exists, pGenie always re-resolves the signature from the database and validates it against your committed file. By changing `not_null` to `true`, you are documenting an explicit contract that callers must supply a non-null `name`. Code generators, reviewers, and future maintainers all see this intent clearly in version control.
+Run `pgn generate` again. Both generated libraries now take a non-nullable `name` parameter — and the tightened contract lives in version control, visible to every reviewer and future maintainer.
 
 ---
 
-## Step 8 - Add a Non-Breaking Migration
+## Step 6 - Add a Non-Breaking Migration
 
 Suppose you want to track individual album tracks and disc information:
 
@@ -321,25 +313,15 @@ alter table album
   add column disc   text         null;
 ```
 
-Run `pgn generate` again. pGenie will:
+Run `pgn generate`. Fresh database, all four migrations, every query re-analyzed — and every freshly resolved signature compared against your committed sig files. If they match, generation proceeds; if they differ, the build fails.
 
-- Re-apply all migrations (including the new one) to a fresh container.
-- Re-analyze all queries against the updated schema.
-- **Compare each query's freshly-resolved signature against the existing sig file.** If they match, generation proceeds; if they differ, the build fails.
-- Re-run the generator with the updated schema.
-
-**In this case the build succeeds.** Both new columns are nullable, so adding them doesn't break any existing query — including `insert_album`, which inserts into `album` without mentioning `tracks` or `disc`. Because those columns are nullable, PostgreSQL accepts the insert with `NULL` in those positions. The existing signature files remain valid.
-
-This is the key insight about non-breaking schema changes: **a nullable column can always be added without breaking existing queries**, regardless of whether those queries reference it.
-
-!!! note
-    If you had added a `SELECT *` style query, its signature would need updating whenever new columns are added to the schema, because the result columns would change.
+The build succeeds. Both new columns are nullable, so no existing query breaks — not even `insert_album`, which doesn't mention them; PostgreSQL fills them with `NULL`. A nullable column can always be added without breaking existing queries. (A `SELECT *` query would be the exception — its result columns would change.)
 
 ---
 
-## Step 9 - Detect a Breaking Migration
+## Step 7 - Watch a Breaking Migration Get Caught
 
-Now suppose you want to make the `disc` column mandatory:
+Now make `disc` mandatory:
 
 **`migrations/5.sql`**:
 
@@ -348,66 +330,59 @@ alter table album
   alter column disc set not null;
 ```
 
-Run `pgn generate` again. This time the build **fails** with an error like:
+Run `pgn generate` again. This time the build **fails**:
 
 ```
 Error: null value in column "disc" of relation "album" violates not-null constraint
-Stage: Analysing > Queries > insert_album > Inferring
+Suggestion: Add "disc" to the INSERT column list, or define a DEFAULT value for the column in the schema
+Details:
+  code: 23502
+  sql:
+    insert into album (name, released, format, recording)
+    values ($1, $2, $3, $4)
+    returning id
 ```
 
-**Why this error appears:** When pGenie tries to infer the types of `insert_album`, it attempts to insert a row into `album` and the database rejects it because `disc` is not provided and cannot be `NULL`.
+`insert_album` never mentions `disc`. The migration broke it anyway — and pGenie caught it, because it ran the query against the actual migrated schema. This is schema drift protection: an incompatibility between a migration and any query, however indirect, fails the build instead of failing in production.
 
-This is pGenie's schema drift protection in action. `insert_album` doesn't mention `disc`, yet the new NOT NULL constraint breaks it at the database level. pGenie catches this before you can accidentally deploy a migration that silently breaks your running applications.
+The failure also points at the safe rollout: ship the nullable columns first (migration 4), update the queries and release the regenerated libraries, and only then make the column mandatory. Two phases, zero downtime.
 
-**How to proceed safely:**
+We're not ready for phase two yet, so drop the migration:
 
-The safest deployment strategy for this kind of change is:
-
-1. **Deploy migration `4.sql` now** — adding nullable `tracks` and `disc` columns is non-breaking and is validated by pGenie. Existing app code continues to work without any changes.
-2. **Update your queries** to populate `disc` (and optionally `tracks`) as needed, then run `pgn generate`. Update the affected signature files to reflect the new contracts.
-3. **Release updated SDKs** to all consuming applications and ensure they are deployed.
-4. **Only then deploy migration `5.sql`** — by this point every application has been updated to supply a value for `disc`, so the NOT NULL constraint is safe.
-
-This two-phase approach is the standard pattern for zero-downtime schema migrations. pGenie's build failure is your safety net: it prevents you from generating and releasing SDKs that are silently incompatible with the new schema.
+```bash
+rm migrations/5.sql
+```
 
 ---
 
-## Step 10 - Validate Only (CI Check)
-
-To check your schema and queries without running any generators and without producing any generated code, use the `analyse` command:
+## Step 8 - Validate in CI
 
 ```bash
 pgn analyse
 ```
 
-`pgn analyse` is a lightweight CI check. It spins up the same ephemeral PostgreSQL container, applies all migrations, and validates every query against the live schema - but it stops there and produces no artifacts. This makes it ideal for pull request CI pipelines where you only need to confirm that the schema and queries are consistent.
-
-!!! tip
-    If `pgn analyse` passes, your schema and queries are self-consistent. If it fails, you have a mismatch between a migration, a query, and/or a signature file that must be resolved before the build can proceed.
+Same pipeline — ephemeral PostgreSQL, all migrations, every query validated, every signature checked — but no artifacts. This is the lightweight CI check: if `pgn analyse` passes on a pull request, the schema, queries, and signature files are consistent.
 
 ---
 
-## Step 11 - Manage Indexes
+## Step 9 - Manage Indexes
 
-You may have noticed that both `pgn analyse` and `pgn generate` print warning messages like the following:
+Remember those warnings from `pgn generate`? `pgn analyse` prints them too:
 
 ```
-Warning: Sequential scan detected in query 'update_album_released': table 'album' scanned without index on (id)
+Warning: Sequential scan detected
 Suggestion: Run 'manage-indexes' to generate index migration
 Details:
-  query: update_album_released
+  query: select_album_by_name
   table: album
+  columns: name
 ```
 
-These warnings tell you that one or more queries are performing full-table sequential scans because the relevant columns have no index. pGenie is suggesting you run `manage-indexes` to address this.
-
-Run the index manager now:
+Some queries scan whole tables. Ask pGenie what to do about it:
 
 ```bash
 pgn manage-indexes
 ```
-
-You will see output like:
 
 ```sql
 -- Auto-generated migration to optimize indexes
@@ -422,39 +397,30 @@ CREATE INDEX ON album (format);
 CREATE INDEX ON album (name);
 ```
 
-There are two types of changes here:
+It cuts both ways. `select_album_by_name` and `select_album_by_format` filter on unindexed columns, so pGenie proposes indexes for them. Meanwhile `album_recording_idx` — added in migration 3 "just in case" — serves no query at all, so pGenie proposes dropping it. As your queries evolve, the index set follows.
 
-- **Drop `album_recording_idx`** — This index was created in migration 3 with the idea that queries might filter by recording studio. In practice, none of the queries in `queries/` filter on the `recording` column, so the index is unused overhead. pGenie proposes removing it to keep the schema clean and avoid unnecessary write overhead.
-- **Create indexes on `format` and `name`** — The queries `select_album_by_format` and `select_album_by_name` filter by these columns respectively, triggering the sequential-scan warnings. Adding these indexes will eliminate the sequential scans.
-
-This is the two-sided nature of `pgn manage-indexes`: as the application evolves and query patterns change, it not only suggests new indexes to cover new access patterns but also identifies indexes that have become redundant or unused, helping you keep the database schema clean and performant over time.
-
-To write this migration directly to `migrations/6.sql`, run:
+To write this migration to disk (pGenie picks the next free number — `5.sql` here):
 
 ```bash
 pgn manage-indexes --add-migration
 ```
 
-pGenie determines the next available migration number automatically and writes the file. You can then commit it as part of your normal workflow.
-
 !!! warning "Review before committing"
-    Index management is a complex topic and pGenie's suggestions are heuristic — they are based solely on the query patterns in your `queries/` directory. Always review the generated migration before applying it. You may need to manually adjust or omit suggestions depending on your actual data distribution, write throughput, and access patterns that pGenie cannot observe (for example, queries issued by external tools or administrative scripts).
+    The suggestions are heuristic, based only on the queries pGenie can see. Review them against your actual data and workload before applying.
 
 ---
 
 ## What You've Learned
 
-- A pGenie project has `migrations/`, `queries/`, and `project1.pgn.yaml`.
-- Migrations are plain SQL applied in natural sort order.
-- Queries use `$snake_case` parameter syntax; types are inferred from the schema.
-- `pgn generate` analyzes queries against a real PostgreSQL instance and generates typed client code.
-- Signature files (`.sig1.pgn.yaml`) are **written once** by pGenie and then owned by you. On every subsequent run pGenie re-resolves the signature from the database and validates it against your committed file. Edit them by hand to tighten constraints (e.g. nullability). pGenie never silently overwrites them.
-- If a migration changes a column type that a query references, pGenie will fail the build until you update the signature file, making schema drift impossible.
-- Non-breaking migrations (adding nullable columns) do not invalidate existing signature files and do not break queries that don't mention those columns.
-- Breaking migrations (e.g. adding a NOT NULL column without a default) will fail the build during analysis, giving you a chance to update queries, regenerate SDKs, and deploy safely.
-- The freeze file (`freeze1.pgn.yaml`) pins generator hashes for reproducible builds. Both sig files and the freeze file should be committed to version control.
-- `pgn analyse` validates schema and queries without running generators — useful as a lightweight CI check.
-- `pgn manage-indexes` suggests both new indexes for sequential scans and DROP statements for indexes that are no longer used by any query, keeping the database schema clean as the application evolves.
+You've now touched every core capability:
+
+- **Plain SQL in, typed libraries out.** Migrations and queries are standard PostgreSQL files — no annotations, no model classes, no DSL. One `pgn generate` produced idiomatic Haskell and Java libraries; adding a language is one line in `project1.pgn.yaml`.
+- **Types come from a real PostgreSQL.** Every query is executed against the actual migrated schema at generation time — inference by database, not by parser.
+- **Signatures are contracts you own.** pGenie writes each `.sig1.pgn.yaml` once, then validates against it forever. Tighten them by hand; review type changes in pull requests.
+- **Schema drift fails the build.** A migration that breaks any query — even one that never mentions the changed column — is caught before deployment and steers you toward a two-phase rollout.
+- **Builds are reproducible.** `freeze1.pgn.yaml` pins every generator to a content hash; commit it alongside the sig files.
+- **Indexes stay in sync with queries.** `pgn manage-indexes` proposes missing indexes and drops unused ones as the application evolves.
+- **`pgn analyse` puts all of this in CI** without generating a byte of code.
 
 ---
 
