@@ -1,6 +1,6 @@
 # Implementing Custom Generators
 
-pGenie's code generation is fully open and extensible. Anyone can implement a generator for a new target language, framework, or output format.
+pGenie's code generation is designed to be extensible. You can implement a generator for a new target language, framework, or output format and distribute it simply via a URL. No need for PRs or approval from the pGenie maintainers.
 
 ---
 
