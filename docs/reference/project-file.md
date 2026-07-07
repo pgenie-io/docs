@@ -33,7 +33,7 @@ postgres: 18
 # Each value is a URL pointing to a Dhall generator entry point.
 # If this map is empty, pGenie only validates your schema and queries.
 artifacts:
-  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
+  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall
 ```
 
 ---
@@ -88,7 +88,7 @@ A map from output directory names to generator configurations. Add it only when 
 
     ```yaml
     artifacts:
-      haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
+      haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall
     ```
 
 - An **object** with `gen` and `config` fields, for generators that accept configuration (long form):
@@ -96,7 +96,7 @@ A map from output directory names to generator configurations. Add it only when 
     ```yaml
     artifacts:
       haskell:
-        gen: https://github.com/pgenie-io/haskell.gen/releases/download/v0.3.0/resolved.dhall
+        gen: https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall
         config:
     ```
 

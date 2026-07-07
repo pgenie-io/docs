@@ -42,7 +42,7 @@ postgres: 18
 # Each key is an output directory name under artifacts/.
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:
-  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall
+  haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall
   java: https://github.com/pgenie-io/java.gen/releases/download/v1.0.0/resolved.dhall
 ```
 
@@ -268,7 +268,7 @@ Open `freeze1.pgn.yaml`:
 
 ```yaml
 # Map of generator hashes by url
-https://github.com/pgenie-io/haskell.gen/releases/download/v0.4.0/resolved.dhall: sha256:d25623bc236c7225c35bb39be0e2490b895bfaed9605c2916d6286a073e32a20
+https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall: sha256:d25623bc236c7225c35bb39be0e2490b895bfaed9605c2916d6286a073e32a20
 https://github.com/pgenie-io/java.gen/releases/download/v1.0.0/resolved.dhall: sha256:72722fab4cfe21476f7011cf2cc8149a15fbe78d8a3200b0efdf8cac08127008
 ```
 
