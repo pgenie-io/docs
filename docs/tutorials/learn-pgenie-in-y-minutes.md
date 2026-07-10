@@ -43,7 +43,7 @@ postgres: 18
 # Each value is a URL pointing to a Dhall generator entry point.
 artifacts:
   haskell: https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall
-  java: https://github.com/pgenie-io/java.gen/releases/download/v1.0.0/resolved.dhall
+  java: https://github.com/pgenie-io/java.gen/releases/download/v1.1.0/resolved.dhall
 ```
 
 Note the two entries under `artifacts`. One project, two target languages — every query you write below becomes a typed function in both libraries. Generators are plain [Dhall](https://dhall-lang.org/) programs referenced by URL; the [Codegens reference](../reference/codegens.md) lists what's available, and you can [write your own](../guides/implementing-custom-generators.md).
@@ -269,7 +269,7 @@ Open `freeze1.pgn.yaml`:
 ```yaml
 # Map of generator hashes by url
 https://github.com/pgenie-io/haskell.gen/releases/download/v1.0.0/resolved.dhall: sha256:d25623bc236c7225c35bb39be0e2490b895bfaed9605c2916d6286a073e32a20
-https://github.com/pgenie-io/java.gen/releases/download/v1.0.0/resolved.dhall: sha256:72722fab4cfe21476f7011cf2cc8149a15fbe78d8a3200b0efdf8cac08127008
+https://github.com/pgenie-io/java.gen/releases/download/v1.1.0/resolved.dhall: sha256:72722fab4cfe21476f7011cf2cc8149a15fbe78d8a3200b0efdf8cac08127008
 ```
 
 Commit this too. Anyone who runs `pgn generate` on this project gets identical output. See the [Freeze File](../reference/freeze-file.md) reference for details.
