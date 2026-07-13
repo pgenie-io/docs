@@ -156,7 +156,7 @@ In live instance mode, the connected user must have the PostgreSQL `CREATEDB` pr
 
 **First run hangs at "Loading"**
 
-In Docker execution mode, the first run downloads the PostgreSQL image and caches Dhall generators. In live instance mode, only the generator cache needs to be populated. Subsequent runs are fast.
+In Docker execution mode, the first run downloads the PostgreSQL image and caches Dhall generators. In live instance mode, only the generator cache needs to be populated. Subsequent runs are fast. To also cut out the per-run container startup cost in Docker execution mode, see [Reusing a Docker Container Across Runs](reusing-docker-container.md).
 
 **Query analysis error**
 

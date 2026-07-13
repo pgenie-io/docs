@@ -84,6 +84,7 @@ nav:
       - Writing Queries: guides/writing-queries.md
       - Configuring Generators: guides/configuring-generators.md
       - Using a Live PostgreSQL Instance: guides/live-instance-mode.md
+      - Reusing a Docker Container Across Runs: guides/reusing-docker-container.md
       - Generating Code: guides/generating-code.md
       - Managing Indexes: guides/managing-indexes.md
       - Using pGenie in CI/CD: guides/cicd.md
