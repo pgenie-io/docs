@@ -43,6 +43,16 @@ Accepted file extensions are `.sql` and `.psql`. Files with any other extension 
 
 ---
 
+## Execution Semantics
+
+Each migration file is split into its individual statements client-side and every statement is sent to the database as its own message in autocommit mode — the same semantics `psql -f` uses. This means:
+
+- Non-transactional commands, such as `CREATE INDEX CONCURRENTLY`, work correctly even when combined with other statements in the same file.
+- An explicit `BEGIN` / `COMMIT` pair written in a migration file still wraps the statements between them in a transaction, since those are ordinary session-level commands when sent as separate messages.
+- If a statement fails, the error report identifies only that statement and its location in the file, not the whole file's SQL.
+
+---
+
 ## Execution Order
 
 Migration files are applied to the database in **natural sort order** of their filenames. Natural sorting handles embedded numbers intuitively: `migration-10.sql` is applied *after* `migration-9.sql`, not before it. It is your responsibility to name files so that this order matches the intended execution sequence.
