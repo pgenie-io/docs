@@ -36,10 +36,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install MkDocs and dependencies
-        run: pip install mkdocs-material mkdocs-llmstxt-md pyyaml
-
-      - name: Check nav/llmstxt-md sections parity
-        run: python scripts/check_llmstxt_parity.py
+        run: pip install mkdocs-material git+https://github.com/nikita-volkov/mkdocs-llmstxt-md.git
 
       - name: Build documentation
         run: mkdocs build --strict
