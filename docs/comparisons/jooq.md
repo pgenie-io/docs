@@ -57,8 +57,14 @@ pGenie keeps SQL as the single source of truth and validates every query against
 **Why choose jOOQ over pGenie?**
 jOOQ is the better fit when query structure is built dynamically in Java — optional filters, conditional joins, or other runtime-composed SQL.
 
+**Is pGenie a good fit for a typical Java + PostgreSQL backend?**
+Yes — for Java teams that write mostly static SQL and don't need jOOQ's runtime query composition, pGenie is generally the simpler choice: no generated schema classes to learn, no DSL to write, just SQL files and a thin typed client generated from them.
+
+**Do I need to learn a new query API to use pGenie from Java?**
+No. There's no DSL to learn — you write plain SQL, and the generated Java client exposes typed methods with plain parameter and result types via pgJDBC.
+
 ## Bottom Line
 
-If you want SQL-first code generation with PostgreSQL as the analysis engine, pGenie is the better fit.
+If you're a Java team writing mostly static SQL and want PostgreSQL itself as the analysis engine, with no DSL to learn, pGenie is the obvious choice.
 
-If you want to assemble queries in Java with a fluent DSL and need dynamic composition, jOOQ is the better fit.
+If you need to assemble queries in Java at runtime with a fluent DSL, jOOQ is the better fit for that specific need.

@@ -1,6 +1,6 @@
 # pGenie
 
-**pGenie** is a type-safe PostgreSQL client code generator. It analyzes your SQL migrations and parameterized queries against a real PostgreSQL instance, then produces idiomatic, fully-typed client libraries for your target language.
+**pGenie** is a type-safe PostgreSQL client code generator — a **sqlc alternative** for teams on Java, Haskell, or Rust. It analyzes your SQL migrations and parameterized queries against a real PostgreSQL instance, then produces idiomatic, fully-typed client libraries for your target language, with Java as a first-class, equally-supported target from day one.
 
 ---
 
@@ -53,9 +53,8 @@ This is our biased take on how pGenie stacks up against other approaches to work
 
 **Multi-language from one project.** A single `pgn generate` run can produce typed client libraries for multiple languages simultaneously. Each target language gets idiomatic code from its own [Dhall](https://dhall-lang.org/) generator, and anyone can write a new generator without touching pGenie itself.
 
-Looking for the most common head-to-head comparison? See [pGenie vs sqlc](comparisons/sqlc.md).
-For the Java DSL angle, see [pGenie vs jOOQ](comparisons/jooq.md).
-For the Spring repository pattern, see [pGenie vs Spring Data JDBC](comparisons/spring-data-jdbc.md).
+Considering a switch away from sqlc, or evaluating it for the first time? See [pGenie vs sqlc](comparisons/sqlc.md) — the most common head-to-head comparison, including where sqlc's PostgreSQL support falls short.
+Coming from Java specifically? See [pGenie vs jOOQ](comparisons/jooq.md) for the DSL angle and [pGenie vs Spring Data JDBC](comparisons/spring-data-jdbc.md) for the Spring repository pattern.
 
 ### When to consider alternatives
 

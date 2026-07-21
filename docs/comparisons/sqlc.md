@@ -5,7 +5,7 @@ description: Comparing pGenie and sqlc for type-safe PostgreSQL codegen. pGenie 
 
 # pGenie vs sqlc
 
-pGenie is a **sqlc alternative** for teams working in Java, Haskell, or Rust rather than Go. Both tools turn SQL into typed application code, but they optimize for different priorities.
+pGenie is a **sqlc alternative** for teams working in Java, Haskell, or Rust rather than Go. Both tools turn SQL into typed application code, but they optimize for different priorities. If you landed here because sqlc doesn't support a PostgreSQL type you need, its static analysis got a nullability check wrong, or you'd rather not depend on sqlc Cloud for schema-drift checks, the FAQ below covers those specifics directly.
 
 ## Short Answer
 
@@ -57,8 +57,23 @@ Not as an official generator today. pGenie ships official generators for Java, H
 **Why choose pGenie over sqlc if you're not using Go?**
 sqlc is database-agnostic by design, which limits it to a subset of PostgreSQL's features. pGenie is PostgreSQL-only, so it can support the full depth of PostgreSQL's type system and advanced features (like composites and multiranges), with Java, Haskell, and Rust as equally first-class generator targets.
 
+**Does sqlc support PostgreSQL composite types?**
+No — composite types remain an [open, unresolved feature request](https://github.com/sqlc-dev/sqlc/issues/2760) in sqlc. pGenie validates every query against a live PostgreSQL instance, so composites are supported the same way any other type is — there's no separate "supported types" list to check against.
+
+**Why are `sqlc.embed()` fields wrong or non-nullable after a `LEFT JOIN`?**
+This is one of the highest-reaction [open bug clusters](https://github.com/sqlc-dev/sqlc/issues/2997) in sqlc: `sqlc.embed()` doesn't reliably infer nullability for the outer side of a `LEFT JOIN`, which can surface as a runtime scan failure or silently wrong generated types. pGenie has no embed macro to reach for — nullability for every column, including `LEFT JOIN` results, is inferred by running the query against a real PostgreSQL instance.
+
+**Does sqlc support dynamic query building?**
+Not natively — [it's one of the most requested and longest-open feature gaps](https://github.com/sqlc-dev/sqlc/issues/3414) in the project. Neither tool solves this the way a query builder does: both sqlc and pGenie are built around static, pre-written SQL. If your query structure is assembled at runtime, look at a query builder such as jOOQ instead of either one.
+
+**Is `sqlc verify` free to run locally?**
+No — [`sqlc verify` works by uploading your schema and queries to sqlc Cloud](https://docs.sqlc.dev/en/latest/howto/verify.html), a hosted service that requires an account and auth token. pGenie's equivalent — committed `.sig1.pgn.yaml` signature files, checked on every local run — needs no external service or account.
+
+**Does sqlc's type-override system work the same for Java as it does for Go?**
+No — sqlc's own docs describe its [`db_type`/`column` override mechanism](https://docs.sqlc.dev/en/latest/howto/overrides.html), the escape hatch for types sqlc doesn't natively understand, as only fully supported for Go. pGenie has no such asymmetry: Java, Haskell, and Rust are equally first-class generator targets, and because types come from a live PostgreSQL instance rather than static overrides, there's no override table to keep in sync per language.
+
 ## Bottom Line
 
-If you want a tool that extracts the most out of PostgreSQL, validates against the real server, and keeps explicit query contracts in the repo, pGenie is the better fit.
+If you're building on PostgreSQL and want a tool that extracts the most out of it — validating every query against the real server, catching schema drift at build time, and keeping explicit query contracts in the repo — pGenie is the obvious choice.
 
-If you want the broader and more established tool with multiple databases and a larger ecosystem, sqlc is the safer default.
+If your project spans multiple database engines, or you're already invested in sqlc's larger ecosystem, sqlc remains the safer default there.

@@ -1,6 +1,11 @@
+---
+title: Spring Data JDBC Alternative for SQL-First PostgreSQL Codegen — pGenie vs Spring Data JDBC
+description: Comparing pGenie and Spring Data JDBC for type-safe PostgreSQL access from Java. pGenie generates a typed client from plain SQL validated against a live PostgreSQL instance with no framework dependency, while Spring Data JDBC derives queries from annotated Java entities inside the Spring ecosystem.
+---
+
 # pGenie vs Spring Data JDBC
 
-pGenie and Spring Data JDBC both give you typed access to a relational database from Java, but they do it differently and fit different project contexts.
+pGenie is a **Spring Data JDBC alternative** for Java teams who want SQL files as the source of truth instead of entity-mapped repositories, with no Spring Framework dependency required. Both tools give you typed access to PostgreSQL from Java, but they do it differently and fit different project contexts.
 
 ## Short Answer
 
@@ -54,6 +59,23 @@ Spring Data JDBC fits naturally when:
 Spring Data R2DBC replaces the JDBC driver with R2DBC and returns `Mono<T>` and `Flux<T>` types from Project Reactor. The entity model, repository pattern, and method-name derivation carry over from Spring Data JDBC; the difference is non-blocking I/O and integration with reactive pipelines.
 
 pGenie's Java codegen uses JDBC and produces blocking call signatures. If your application requires reactive or non-blocking database access, Spring Data R2DBC is a better fit. The rest of the Spring Data JDBC comparison — entity annotations, `@Query` strings, framework dependency, and runtime type checking of custom SQL — applies equally to the R2DBC variant.
+
+## FAQ
+
+**Can I use pGenie as a Spring Data JDBC alternative for Java?**
+Yes — pGenie generates a typed Java client (via pgJDBC) from plain SQL files, validated against a live PostgreSQL instance, with no Spring dependency or entity mapping required.
+
+**Do I need Spring to use pGenie?**
+No. pGenie has no framework requirement — the generated client is a thin, dependency-free wrapper you can call from any Java codebase, Spring or not, and the same workflow generates clients for Haskell and Rust too.
+
+**Does pGenie support method-name-derived queries like `findByEmailAndStatus`?**
+No. pGenie generates code from explicit SQL files rather than deriving queries from method names; every query is plain SQL you write and review yourself, with its inferred contract committed alongside it.
+
+**Why choose pGenie over Spring Data JDBC?**
+pGenie validates every query against a real PostgreSQL instance at generation time and commits a signature file recording its exact parameter and result contract, catching schema drift at build time — something Spring Data JDBC's `@Query` strings don't check until runtime.
+
+**Why choose Spring Data JDBC over pGenie?**
+Spring Data JDBC is the better fit if you're already building on Spring, want method-name-derived queries and entity mapping, need to run against more than one database, or need dynamic query construction.
 
 ## Bottom Line
 
