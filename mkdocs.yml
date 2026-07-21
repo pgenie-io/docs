@@ -47,6 +47,49 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
+plugins:
+  - llmstxt-md:
+      sections:
+        "Home":
+          - index.md
+        "How It Works":
+          - how-it-works.md
+        "Comparisons":
+          - comparisons/sqlc.md: pGenie vs sqlc
+          - comparisons/jooq.md: pGenie vs jOOQ
+          - comparisons/spring-data-jdbc.md: pGenie vs Spring Data JDBC
+        "Guides":
+          - guides/installation/index.md
+          - guides/installation/linux.md: Linux installation
+          - guides/installation/macos.md: macOS installation
+          - guides/installation/windows.md: Windows installation
+          - guides/initializing-project.md
+          - guides/writing-migrations.md
+          - guides/writing-queries.md
+          - guides/configuring-generators.md
+          - guides/live-instance-mode.md
+          - guides/reusing-docker-container.md
+          - guides/generating-code.md
+          - guides/managing-indexes.md
+          - guides/cicd.md
+          - guides/using-with-ai.md
+          - guides/implementing-custom-generators.md
+          - guides/migration-tools/index.md
+          - guides/migration-tools/flyway.md: Flyway
+          - guides/migration-tools/liquibase.md: Liquibase
+          - guides/migration-tools/sqitch.md: Sqitch
+        "Reference":
+          - reference/project-structure.md
+          - reference/project-file.md
+          - reference/query-signature-file.md
+          - reference/type-signature-file.md
+          - reference/freeze-file.md
+          - reference/codegens.md
+        "Tutorials":
+          - tutorials/learn-pgenie-in-y-minutes.md
+        "Support":
+          - support.md
+
 markdown_extensions:
   - meta
   - footnotes
