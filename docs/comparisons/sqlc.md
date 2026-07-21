@@ -1,11 +1,11 @@
 ---
-title: sqlc Alternative for Haskell, Rust & Java — pGenie vs sqlc
-description: Comparing pGenie and sqlc for type-safe PostgreSQL codegen. pGenie targets Haskell, Rust, and Java instead of Go, validates queries against a live PostgreSQL instance, and tracks schema drift with committed signature files.
+title: sqlc Alternative for Java, Haskell & Rust — pGenie vs sqlc
+description: Comparing pGenie and sqlc for type-safe PostgreSQL codegen. pGenie targets Java, Haskell, and Rust instead of Go, validates queries against a live PostgreSQL instance, and tracks schema drift with committed signature files.
 ---
 
 # pGenie vs sqlc
 
-pGenie is a **sqlc alternative** for teams working in Haskell, Rust, or Java rather than Go. Both tools turn SQL into typed application code, but they optimize for different priorities.
+pGenie is a **sqlc alternative** for teams working in Java, Haskell, or Rust rather than Go. Both tools turn SQL into typed application code, but they optimize for different priorities.
 
 ## Short Answer
 
@@ -20,7 +20,7 @@ Choose **sqlc** if you need a broader database matrix, a larger ecosystem, and i
 | Question | pGenie | sqlc |
 |---|---|---|
 | Database scope | PostgreSQL only | PostgreSQL, MySQL, SQLite |
-| Language story | Haskell, Rust, Java today — no Go target; new generators via Dhall | Go is the most mature target; Kotlin, Python and TypeScript are documented; more languages via official and community plugins |
+| Language story | Java, Haskell, Rust today — no Go target; new generators via Dhall | Go is the most mature target; Kotlin, Python and TypeScript are documented; more languages via official and community plugins |
 | Query analysis | Always against a live PostgreSQL instance started for the run | Static parsing and analysis by default; optional database-backed checks in `vet`; cross-version schema checks in `verify` |
 | Schema drift protection | Committed `.sig1.pgn.yaml` files are checked on every run | `verify` checks schema changes against previously pushed queries via sqlc Cloud |
 | Type-contract artifact | Per-query signature files live in your repo and show up in diffs | No equivalent committed per-query signature artifact, nullability control is limited |
@@ -52,10 +52,10 @@ Yes — pGenie's Java generator produces typed client code (via pgJDBC) from pla
 Yes — pGenie's Rust generator produces typed client code on top of tokio-postgres.
 
 **Does pGenie support Go?**
-Not as an official generator today. pGenie ships official generators for Haskell, Rust, and Java; anyone can write a new one, including a Go target, as a Dhall program.
+Not as an official generator today. pGenie ships official generators for Java, Haskell, and Rust; anyone can write a new one, including a Go target, as a Dhall program.
 
 **Why choose pGenie over sqlc if you're not using Go?**
-sqlc is database-agnostic by design, which limits it to a subset of PostgreSQL's features. pGenie is PostgreSQL-only, so it can support the full depth of PostgreSQL's type system and advanced features (like composites and multiranges), with Haskell, Rust, and Java as equally first-class generator targets.
+sqlc is database-agnostic by design, which limits it to a subset of PostgreSQL's features. pGenie is PostgreSQL-only, so it can support the full depth of PostgreSQL's type system and advanced features (like composites and multiranges), with Java, Haskell, and Rust as equally first-class generator targets.
 
 ## Bottom Line
 

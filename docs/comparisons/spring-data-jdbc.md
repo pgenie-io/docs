@@ -23,7 +23,7 @@ Choose **Spring Data JDBC** if you are building a Spring application, want metho
 | Framework requirement | None | Spring Framework and its dependency injection container |
 | Method-name-derived queries | Not supported | Yes — `findByEmailAndStatus`, `countByActiveTrue`, `deleteByExpiredBefore`, etc. |
 | Dynamic queries | Not supported | Via Specifications or QueryDSL integration |
-| Multi-language support | Java, Rust, Haskell; extensible via Dhall generators | Java only |
+| Multi-language support | Java, Haskell, Rust; extensible via Dhall generators | Java only |
 | Reactive support | No — blocking JDBC only | Yes — Spring Data R2DBC provides reactive access via Project Reactor |
 | Index management | `pgn manage-indexes` can suggest and generate index migrations | None built-in |
 

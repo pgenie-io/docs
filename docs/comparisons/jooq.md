@@ -26,7 +26,7 @@ Choose **jOOQ** if you want to build queries directly in Java with a fluent DSL 
 | Analysis model | Uses a live PostgreSQL instance to validate queries against your migrations | Generates types from schema metadata and runs the DSL at runtime |
 | Type contract | Per-query signature files live in your repo | Schema-generated types, but query logic stays in Java |
 | Index guidance | `pgn manage-indexes` can suggest and generate index migrations | No equivalent index-management workflow |
-| Target languages | Java, Rust, Haskell today; extensible via Dhall | Java-centric |
+| Target languages | Java, Haskell, Rust today; extensible via Dhall | Java-centric |
 | Best fit | PostgreSQL-first projects that want SQL-first codegen | Java applications that need fluent, dynamic query construction |
 
 ## Why pGenie Feels Different
@@ -52,7 +52,7 @@ Yes — pGenie's Java generator produces typed client code from plain SQL, valid
 No. pGenie generates code from static, pre-written SQL; jOOQ's fluent DSL is the better fit if your query structure is assembled at runtime.
 
 **Why choose pGenie over jOOQ?**
-pGenie keeps SQL as the single source of truth and validates every query against a live PostgreSQL instance, with committed signature files tracking parameter and result types across Haskell, Rust, and Java.
+pGenie keeps SQL as the single source of truth and validates every query against a live PostgreSQL instance, with committed signature files tracking parameter and result types across Java, Haskell, and Rust.
 
 **Why choose jOOQ over pGenie?**
 jOOQ is the better fit when query structure is built dynamically in Java — optional filters, conditional joins, or other runtime-composed SQL.

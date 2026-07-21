@@ -34,7 +34,7 @@ You don't need to learn Dhall or Haskell to write one. The recommended path is t
 
 ### 1. Pick your target
 
-Decide which language, framework, or format you want to generate. Existing pGenie generators include [java.gen](https://github.com/pgenie-io/java.gen), [rust.gen](https://github.com/pgenie-io/rust.gen), and [haskell.gen](https://github.com/pgenie-io/haskell.gen); their design artifacts ([java.gen-design](https://github.com/pgenie-io/java.gen-design), [rust.gen-design](https://github.com/pgenie-io/rust.gen-design), etc.) are good models for how a reference output can look.
+Decide which language, framework, or format you want to generate. Existing pGenie generators include [java.gen](https://github.com/pgenie-io/java.gen), [haskell.gen](https://github.com/pgenie-io/haskell.gen), and [rust.gen](https://github.com/pgenie-io/rust.gen); their design artifacts ([java.gen-design](https://github.com/pgenie-io/java.gen-design), [haskell.gen-design](https://github.com/pgenie-io/haskell.gen-design), etc.) are good models for how a reference output can look.
 
 ### 2. Create the design artifact
 
