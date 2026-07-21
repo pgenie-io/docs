@@ -1,6 +1,11 @@
+---
+title: jOOQ Alternative for SQL-First PostgreSQL Codegen — pGenie vs jOOQ
+description: Comparing pGenie and jOOQ for type-safe PostgreSQL code generation. pGenie keeps queries in plain SQL files validated against a live PostgreSQL instance, while jOOQ builds queries with a Java DSL for dynamic, composable query construction.
+---
+
 # pGenie vs jOOQ
 
-pGenie and jOOQ both help you write type-safe database code, but they optimize for different workflows.
+pGenie is a **jOOQ alternative** for teams who want to keep queries in plain SQL files instead of composing them with a Java DSL. Both tools help you write type-safe database code, but they optimize for different workflows.
 
 ## Short Answer
 
@@ -37,6 +42,20 @@ pGenie also treats index analysis as part of the workflow. If an existing query 
 jOOQ is a better fit when your query structure is determined in Java at runtime. Optional filters, conditional joins, composable fragments, and other dynamic patterns are where a fluent DSL is useful.
 
 It is also a good fit if you want to stay entirely in Java and lean on a long-established ecosystem around the query API itself.
+
+## FAQ
+
+**Can I use pGenie as a jOOQ alternative for Java?**
+Yes — pGenie's Java generator produces typed client code from plain SQL, validated against a live PostgreSQL instance instead of a Java DSL.
+
+**Does pGenie support dynamic, composable queries like jOOQ?**
+No. pGenie generates code from static, pre-written SQL; jOOQ's fluent DSL is the better fit if your query structure is assembled at runtime.
+
+**Why choose pGenie over jOOQ?**
+pGenie keeps SQL as the single source of truth and validates every query against a live PostgreSQL instance, with committed signature files tracking parameter and result types across Haskell, Rust, and Java.
+
+**Why choose jOOQ over pGenie?**
+jOOQ is the better fit when query structure is built dynamically in Java — optional filters, conditional joins, or other runtime-composed SQL.
 
 ## Bottom Line
 
