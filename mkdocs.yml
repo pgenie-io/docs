@@ -48,6 +48,7 @@ extra_css:
   - stylesheets/extra.css
 
 markdown_extensions:
+  - meta
   - footnotes
   - admonition
   - pymdownx.details
