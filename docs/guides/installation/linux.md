@@ -6,7 +6,7 @@ There are three ways to install pGenie on Linux: using Homebrew, downloading a p
 
 ## Option 1 — Homebrew
 
-[Homebrew](https://brew.sh/) is available on Linux and provides the simplest installation path, handling `libpq` as a dependency automatically.
+[Homebrew](https://brew.sh/) is available on Linux and provides the simplest installation path.
 
 ### Install pre-built binary (fastest)
 
@@ -47,20 +47,7 @@ Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page
     sudo mv pgn /usr/local/bin/pgn
     ```
 
-4. Install the `libpq` runtime library. pGenie links dynamically against PostgreSQL's C client library:
-
-    ```bash
-    # Debian / Ubuntu
-    sudo apt install libpq5
-
-    # Fedora / RHEL
-    sudo dnf install libpq
-
-    # Arch Linux
-    sudo pacman -S postgresql-libs
-    ```
-
-5. Verify the installation:
+4. Verify the installation:
 
     ```bash
     pgn --help
@@ -71,21 +58,6 @@ Pre-built binaries for Linux (x86-64) are available on the [pGenie releases page
 ## Option 3 — From Source
 
 Building from source gives you full control.
-
-### Prerequisites
-
-Install the `libpq` development headers. The build links against PostgreSQL's C client library:
-
-```bash
-# Debian / Ubuntu
-sudo apt install libpq-dev
-
-# Fedora / RHEL
-sudo dnf install libpq-devel
-
-# Arch Linux
-sudo pacman -S postgresql-libs
-```
 
 ### Stack
 

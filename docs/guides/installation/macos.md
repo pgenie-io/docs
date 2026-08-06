@@ -30,14 +30,6 @@ This builds from the latest `master` branch and can take several minutes during 
 
 Building from source gives you full control and avoids the Gatekeeper warning.
 
-### Prerequisites
-
-Install the `libpq` library via [Homebrew](https://brew.sh/):
-
-```bash
-brew install libpq
-```
-
 ### Stack
 
 [Stack](https://docs.haskellstack.org/) manages the compiler and dependencies entirely on its own, making it the fastest path to building pGenie from source. No separate toolchain installation is required.
