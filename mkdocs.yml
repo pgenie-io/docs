@@ -53,7 +53,8 @@ extra_css:
   - stylesheets/extra.css
 
 plugins:
-  - llmstxt-md
+  - llmstxt-md:
+      enable_copy_button: false
 
 markdown_extensions:
   - meta
