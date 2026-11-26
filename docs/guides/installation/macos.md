@@ -93,7 +93,7 @@ Building from source gives you full control and avoids the Gatekeeper warning.
 3. Install the `pgn` executable:
 
     ```bash
-    cabal install
+    cabal install --install-method=copy pgn
     ```
 
     Cabal will compile pGenie and install the `pgn` binary into `~/.cabal/bin/`.
